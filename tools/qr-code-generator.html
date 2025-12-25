@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QR Code Generator — SecureTools</title>
+  <meta name="description" content="Generate QR codes for URLs, text, or WiFi details. Fully client-side and private.">
+<script>
+  // Prevent white flash on dark mode
+  (function() {
+    try {
+      const saved = localStorage.getItem("theme");
+      if (saved === "dark") {
+        document.documentElement.classList.add("dark-mode");
+      } else if (saved === "auto") {
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        if (prefersDark) document.documentElement.classList.add("dark-mode");
+      }
+    } catch (e) {}
+  })();
+</script>
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <div class="logo">SecureTools</div>
+
+    <nav class="nav">
+      <a href="../index.html">All Tools</a>
+    </nav>
+
+    <button id="theme-toggle" class="btn ghost" style="margin-left:1rem;">
+      🌙 Dark
+    </button>
+  </div>
+</header>
+<button id="theme-fab" class="theme-fab">🌙</button>
+
+
+  <a href="../index.html" class="back-link">Back to tools</a>
+
+  <main class="container">
+    <div class="tool-wrapper">
+      <h1>QR Code Generator</h1>
+
+      <div class="tool-card">
+
+        <label for="qr-content">Text or URL</label>
+        <textarea id="qr-content" rows="3" placeholder="https://example.com or any text"></textarea>
+
+        <label for="qr-size">Size</label>
+        <select id="qr-size">
+          <option value="128">Small (128px)</option>
+          <option value="192" selected>Medium (192px)</option>
+          <option value="256">Large (256px)</option>
+          <option value="320">Extra large (320px)</option>
+        </select>
+
+        <div class="action-row">
+          <button class="btn primary" id="qr-generate">Generate</button>
+          <button class="btn ghost" id="qr-download">Download PNG</button>
+          <button class="btn ghost" id="qr-share">Share</button>
+        </div>
+
+        <div id="qr-preview-wrapper">
+          <div id="qr-preview"></div>
+          <p class="text-muted" id="qr-hint" style="font-size:0.85rem; margin-top:0.5rem;">
+            Enter text above and click Generate to create a QR code.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">© <span id="year"></span> SecureTools</footer>
+
+  <!-- IMPORTANT: Load QRCode library BEFORE script.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <script src="../assets/js/script.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>

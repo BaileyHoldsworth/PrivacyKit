@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SecureTools — Free Security Utilities</title>
+  <meta name="description" content="A suite of free, privacy‑focused security tools including password generators, passphrase creators, breach checkers, and more.">
+<script>
+  // Prevent white flash on dark mode
+  (function() {
+    try {
+      const saved = localStorage.getItem("theme");
+      if (saved === "dark") {
+        document.documentElement.classList.add("dark-mode");
+      } else if (saved === "auto") {
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        if (prefersDark) document.documentElement.classList.add("dark-mode");
+      }
+    } catch (e) {}
+  })();
+</script>
+
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+  <!-- HEADER -->
+<header class="site-header">
+  <div class="container header-inner">
+    <div class="logo">SecureTools</div>
+
+    <nav class="nav">
+      <a href="../index.html">All Tools</a>
+    </nav>
+
+    <!-- THEME TOGGLE BUTTON -->
+    <button id="theme-toggle" class="btn ghost" style="margin-left:1rem;">
+      🌙 Dark
+    </button>
+  </div>
+</header>
+<button id="theme-fab" class="theme-fab">🌙</button>
+
+
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>SecureTools</h1>
+    <p>A clean, privacy‑first collection of security utilities — no tracking, no ads, no nonsense.</p>
+  </section>
+
+  <!-- TOOL LIST -->
+  <main class="container">
+    <div class="tools-list">
+
+      <!-- PASSWORD GENERATOR -->
+      <a class="tool-row" href="tools/password-generator.html">
+        <div class="tool-info">
+          <h3>Password Generator</h3>
+          <p>Create strong, random passwords instantly.</p>
+        </div>
+        <span>→</span>
+      </a>
+
+      <!-- PASSPHRASE GENERATOR -->
+      <a class="tool-row" href="tools/passphrase-generator.html">
+        <div class="tool-info">
+          <h3>Passphrase Generator</h3>
+          <p>Generate secure, memorable multi‑word passphrases.</p>
+        </div>
+        <span>→</span>
+      </a>
+
+      <!-- USERNAME GENERATOR -->
+      <a class="tool-row" href="tools/username-generator.html">
+        <div class="tool-info">
+          <h3>Username Generator</h3>
+          <p>Create unique usernames for games or social media.</p>
+        </div>
+        <span>→</span>
+      </a>
+
+      <!-- PASSWORD STRENGTH CHECKER -->
+      <a class="tool-row" href="tools/password-strength-checker.html">
+        <div class="tool-info">
+          <h3>Password Strength Checker</h3>
+          <p>Check how strong your password really is.</p>
+        </div>
+        <span>→</span>
+      </a>
+
+      <!-- QR CODE GENERATOR -->
+      <a class="tool-row" href="tools/qr-code-generator.html">
+        <div class="tool-info">
+          <h3>QR Code Generator</h3>
+          <p>Create QR codes for links or text, fully client-side.</p>
+        </div>
+        <span>→</span>
+      </a>
+
+
+      <!-- NEW: SECURE KEY GENERATOR -->
+      <a class="tool-row" href="tools/key-generator.html">
+        <div class="tool-info">
+          <h3>Secure Key Generator</h3>
+          <p>Create cryptographically strong keys and tokens.</p>
+        </div>
+        <span>→</span>
+      </a>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    © <span id="year"></span> SecureTools
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+<script src="assets/js/script.js"></script>
+
+
+</body>
+</html>

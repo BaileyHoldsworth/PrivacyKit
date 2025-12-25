@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Email Breach Checker — SecureTools</title>
+  <meta name="description" content="Check if your email has appeared in known data breaches. Free and secure.">
+<script>
+  // Prevent white flash on dark mode
+  (function() {
+    try {
+      const saved = localStorage.getItem("theme");
+      if (saved === "dark") {
+        document.documentElement.classList.add("dark-mode");
+      } else if (saved === "auto") {
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        if (prefersDark) document.documentElement.classList.add("dark-mode");
+      }
+    } catch (e) {}
+  })();
+</script>
+
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <div class="logo">SecureTools</div>
+
+    <nav class="nav">
+      <a href="../index.html">All Tools</a>
+    </nav>
+
+    <button id="theme-toggle" class="btn ghost" style="margin-left:1rem;">
+      🌙 Dark
+    </button>
+  </div>
+</header>
+<button id="theme-fab" class="theme-fab">🌙</button>
+
+
+  <a href="../index.html" class="back-link">Back to tools</a>
+
+  <main class="container">
+    <div class="tool-wrapper">
+      <h1>Email Breach Checker</h1>
+
+      <div class="tool-card">
+
+        <label for="ebc-email">Email address</label>
+        <input id="ebc-email" type="email" placeholder="example@email.com">
+
+        <div class="action-row">
+          <button class="btn primary" id="ebc-check">Check</button>
+          <button class="btn ghost" id="ebc-share">Share</button>
+        </div>
+
+        <div id="ebc-result" style="margin-top:1rem;"></div>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">© <span id="year"></span> SecureTools</footer>
+
+  <script src="../assets/js/script.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>

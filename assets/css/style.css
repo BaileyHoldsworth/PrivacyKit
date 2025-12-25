@@ -1,0 +1,450 @@
+/* ===========
+   Light Mode (Default)
+   =========== */
+
+:root {
+  --bg: #f5f5f7;
+  --nav-bg: #ffffff;
+  --bg-card: #ffffff;
+  --border: #d1d1d6;
+  --text-main: #1a1a1e;
+  --text-muted: #55555a;
+  --accent: #4f8cff;
+  --accent-hover: #3b6fd6;
+  --accent-light: rgba(79,140,255,0.15);
+  --radius-lg: 14px;
+  --radius-md: 8px;
+  --shadow: 0 4px 14px rgba(0,0,0,0.08);
+  --shadow-hover: 0 6px 20px rgba(0,0,0,0.12);
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+}
+
+/* ===========
+   Dark Mode (applied to <html>)
+   =========== */
+
+html.dark-mode {
+  --bg: #1f1f23;
+  --nav-bg: #242428;
+  --bg-card: #2a2a2f;
+  --border: #3a3a40;
+  --text-main: #f3f4f6;
+  --text-muted: #a1a1aa;
+  --accent: #4f8cff;
+  --accent-hover: #3b6fd6;
+  --accent-light: rgba(79,140,255,0.15);
+  --shadow: 0 4px 14px rgba(0,0,0,0.4);
+  --shadow-hover: 0 6px 20px rgba(0,0,0,0.55);
+}
+
+/* Smooth theme transitions (activated after load) */
+html.theme-ready *,
+html.theme-ready {
+  transition: background-color 0.25s ease,
+              color 0.25s ease,
+              border-color 0.25s ease;
+}
+
+
+/* ===========
+   Reset
+   =========== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
+
+  /* Noise texture */
+  background-image:
+    radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    radial-gradient(rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 3px 3px, 5px 5px;
+  background-position: 0 0, 10px 10px;
+
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+/* ===========
+   Layout
+   =========== */
+
+.container {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ===========
+   Header
+   =========== */
+
+.site-header {
+  background: var(--nav-bg);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  box-shadow: var(--shadow);
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ===========
+   Logo
+   =========== */
+
+.logo {
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: -0.5px;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.logo::before {
+  content: "🔐";
+  font-size: 1.2rem;
+}
+
+/* ===========
+   Navigation
+   =========== */
+
+.nav {
+  display: flex;
+  gap: 1.6rem;
+}
+
+.nav a {
+  text-decoration: none;
+  color: var(--text-main);
+  font-size: 0.95rem;
+  padding: 0.4rem 0.2rem;
+  border-radius: 4px;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.nav a:hover {
+  color: var(--accent);
+  background: var(--accent-light);
+}
+
+/* ===========
+   Hero
+   =========== */
+
+.hero {
+  background: var(--bg-card);
+  color: var(--text-main);
+  padding: 3rem 1rem;
+  text-align: center;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  margin-bottom: 2rem;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.hero h1 {
+  font-size: 2.4rem;
+  margin-bottom: 0.8rem;
+  letter-spacing: -0.3px;
+}
+
+.hero p {
+  max-width: 540px;
+  margin: 0 auto 1.6rem;
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+/* ===========
+   Buttons
+   =========== */
+
+.btn {
+  padding: 0.6rem 1.3rem;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.2s ease, transform 0.1s ease, border-color 0.2s ease;
+}
+
+.btn.primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn.primary:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+.btn.ghost {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text-main);
+}
+
+.btn.ghost:hover {
+  background: var(--accent-light);
+}
+
+/* ===========
+   Tool List
+   =========== */
+
+.tools-list {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.tool-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.2rem 1.4rem;
+  text-decoration: none;
+  color: var(--text-main);
+  box-shadow: var(--shadow);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.tool-row:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+  background: var(--accent-light);
+}
+
+.tool-info h3 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.tool-info p {
+  margin: 0.2rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* ===========
+   Back Link
+   =========== */
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.9rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-main);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: var(--shadow);
+  transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+}
+
+.back-link:hover {
+  background: var(--accent-light);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+
+.back-link::before {
+  content: "←";
+  font-size: 1rem;
+  color: var(--accent);
+}
+
+/* ===========
+   Tool Page Layout
+   =========== */
+
+.tool-wrapper {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.tool-wrapper h1 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+  letter-spacing: -0.3px;
+}
+
+.tool-card {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.6rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+/* ===========
+   Inputs
+   =========== */
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  font-size: 0.95rem;
+  background: var(--bg-card);
+  color: var(--text-main);
+  margin-bottom: 0.9rem;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+/* ===========
+   Action Row
+   =========== */
+
+.action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+/* ===========
+   Username Generator List
+   =========== */
+
+#ug-results {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 1rem;
+}
+
+#ug-results li {
+  padding: 0.35rem 0.5rem;
+  border-radius: var(--radius-md);
+  background: var(--accent-light);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.08s ease;
+}
+
+#ug-results li:hover {
+  background: var(--accent-light);
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+/* ===========
+   Password Strength Bar
+   =========== */
+
+#psc-bar {
+  height: 8px;
+  background: var(--bg-card);
+  border-radius: 999px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+/* ===========
+   QR Preview
+   =========== */
+
+#qr-preview-wrapper {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#qr-preview {
+  padding: 0.75rem;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  min-height: 128px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===========
+   Footer
+   =========== */
+
+.site-footer {
+  margin-top: 3rem;
+  padding: 1.6rem 0;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  border-top: 1px solid var(--border);
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+
+.theme-fab {
+  position: fixed;
+  bottom: 1.4rem;
+  right: 1.4rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  font-size: 1.3rem;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  z-index: 999;
+}
+
+@media (max-width: 720px) {
+  .theme-fab {
+    display: flex;
+  }
+}
+

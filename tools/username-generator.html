@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Username Generator — SecureTools</title>
+  <meta name="description" content="Generate unique usernames for games or social media.">
+<script>
+  // Prevent white flash on dark mode
+  (function() {
+    try {
+      const saved = localStorage.getItem("theme");
+      if (saved === "dark") {
+        document.documentElement.classList.add("dark-mode");
+      } else if (saved === "auto") {
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        if (prefersDark) document.documentElement.classList.add("dark-mode");
+      }
+    } catch (e) {}
+  })();
+</script>
+
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <div class="logo">SecureTools</div>
+
+    <nav class="nav">
+      <a href="../index.html">All Tools</a>
+    </nav>
+
+    <button id="theme-toggle" class="btn ghost" style="margin-left:1rem;">
+      🌙 Dark
+    </button>
+  </div>
+</header>
+<button id="theme-fab" class="theme-fab">🌙</button>
+
+
+  <a href="../index.html" class="back-link">Back to tools</a>
+
+  <main class="container">
+    <div class="tool-wrapper">
+      <h2>Username Generator</h2>
+
+      <label>Keyword (optional)</label>
+      <input id="ug-keyword">
+
+      <label>Style</label>
+      <select id="ug-style">
+        <option value="clean">Clean</option>
+        <option value="gamer">Gamer</option>
+        <option value="aesthetic">Aesthetic</option>
+      </select>
+
+      <label>Count</label>
+      <select id="ug-count">
+        <option>5</option>
+        <option>10</option>
+        <option>15</option>
+      </select>
+
+      <div class="action-row">
+        <button class="btn primary" id="ug-generate">Generate</button>
+        <button class="btn ghost" id="ug-share">Share</button>
+      </div>
+
+      <ul id="ug-results"></ul>
+      <p class="text-muted" style="font-size:0.85rem; margin-top:0.25rem;">
+        Tip: Click a username to copy it.
+      </p>
+    </div>
+  </main>
+
+  <footer class="site-footer">© <span id="year"></span> SecureTools</footer>
+
+  <script src="../assets/js/script.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
