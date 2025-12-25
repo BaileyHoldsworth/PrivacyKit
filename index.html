@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>SecureTools — Free Security Utilities</title>
-  <meta name="description" content="A suite of free, privacy‑focused security tools including password generators, passphrase creators, breach checkers, and more.">
+  <title>PrivacyKit — Privacy‑First Security Tools</title>
+  <meta name="description" content="A suite of privacy‑first security tools including password generators, passphrase creators, QR tools, and more — all fully client‑side with no tracking.">
 <script>
   // Prevent white flash on dark mode
   (function() {
@@ -19,18 +19,31 @@
   })();
 </script>
 
+<!-- Social Preview -->
+<meta property="og:title" content="PrivacyKit — Privacy‑First Security Tools">
+<meta property="og:description" content="A suite of privacy‑first security tools including password generators, passphrase creators, QR tools, and more — all fully client‑side with no tracking.">
+<meta property="og:image" content="/assets/og/preview.png">
+<meta property="og:url" content="https://privacykit.dev">
+<meta property="og:type" content="website">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+
+
+<link rel="icon" type="image/png" href="assets/icons/favicon.png">
+
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
 
-  <!-- HEADER -->
+ <!-- HEADER -->
 <header class="site-header">
   <div class="container header-inner">
-    <div class="logo">SecureTools</div>
+    <div class="logo">PrivacyKit</div>
 
     <nav class="nav">
-      <a href="../index.html">All Tools</a>
+      <a href="/index.html">All Tools</a>
     </nav>
 
     <!-- THEME TOGGLE BUTTON -->
@@ -39,15 +52,14 @@
     </button>
   </div>
 </header>
+
+<!-- FLOATING THEME BUTTON (unchanged) -->
 <button id="theme-fab" class="theme-fab">🌙</button>
 
 
-    </div>
-  </header>
-
   <!-- HERO -->
   <section class="hero">
-    <h1>SecureTools</h1>
+    <h1>PrivacyKit</h1>
     <p>A clean, privacy‑first collection of security utilities — no tracking, no ads, no nonsense.</p>
   </section>
 
@@ -113,10 +125,11 @@
     </div>
   </main>
 
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    © <span id="year"></span> SecureTools
-  </footer>
+<!-- FOOTER -->
+<footer class="site-footer">
+  © <span id="year"></span> PrivacyKit — Privacy‑First Security Tools
+</footer>
+
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
