@@ -1,58 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script>
-  (function() {
-    try {
-      const saved = localStorage.getItem("theme");
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  <script>
+    (function() {
+      try {
+        const saved = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-      const shouldBeDark =
-        saved === "dark" ||
-        (saved === "auto" && prefersDark) ||
-        (!saved && prefersDark);
+        const shouldBeDark =
+          saved === "dark" ||
+          (saved === "auto" && prefersDark) ||
+          (!saved && prefersDark);
 
-      if (shouldBeDark) {
-        document.documentElement.classList.add("dark-mode");
-      }
-    } catch (e) {}
-  })();
-</script>
+        if (shouldBeDark) {
+          document.documentElement.classList.add("dark-mode");
+        }
+      } catch (e) {}
+    })();
+  </script>
 
-<style>
-  /* Prevent white flash */
-  html {
-    background-color: #f5f5f7; /* your real light background */
-  }
-  html.dark-mode {
-    background-color: #1f1f23 !important; /* your real dark background */
-  }
-</style>
+  <style>
+    /* Prevent white flash */
+    html {
+      background-color: #f5f5f7;
+    }
+    html.dark-mode {
+      background-color: #1f1f23 !important;
+    }
+  </style>
 
-<meta charset="UTF-8">
-<title>PrivacyKit — Privacy‑First Security Tools</title>
-<meta name="description" content="A suite of privacy‑first security tools including password generators, passphrase creators, QR tools, and more — all fully client‑side with no tracking.">
-<link rel="canonical" href="https://privacykit.dev/">
+  <meta charset="UTF-8">
+  <title>PrivacyKit — Privacy‑First Security Tools</title>
+  <meta name="description" content="A suite of privacy‑first security tools including password generators, passphrase creators, QR tools, and more — all fully client‑side with no tracking.">
+  <link rel="canonical" href="https://privacykit.dev/">
 
-<!-- Social Preview -->
-<meta property="og:title" content="PrivacyKit — Privacy‑First Security Tools">
-<meta property="og:description" content="A suite of privacy‑first security tools including password generators, passphrase creators, QR tools, and more — all fully client‑side with no tracking.">
-<meta property="og:image" content="/assets/og/preview.png">
-<meta property="og:url" content="https://privacykit.dev">
-<meta property="og:type" content="website">
+  <!-- Social Preview -->
+  <meta property="og:title" content="PrivacyKit — Privacy‑First Security Tools">
+  <meta property="og:description" content="A suite of privacy‑first security tools including password generators, passphrase creators, QR tools, and more — all fully client‑side with no tracking.">
+  <meta property="og:image" content="/assets/og/preview.png">
+  <meta property="og:url" content="https://privacykit.dev">
+  <meta property="og:type" content="website">
 
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
 
-<link rel="icon" type="image/png" href="assets/icons/favicon.png">
-<link rel="stylesheet" href="assets/css/style.css">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5308109286906812"
-        crossorigin="anonymous"></script>
+  <link rel="icon" type="image/png" href="assets/icons/favicon.png">
+  <link rel="stylesheet" href="assets/css/style.css">
 
+  <!-- Single global AdSense loader -->
+  <script async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5308109286906812"
+          crossorigin="anonymous"></script>
 </head>
 
 <body class="home">
-
   <div class="page-wrapper">
 
     <!-- HEADER -->
@@ -71,23 +72,19 @@
       </div>
     </header>
 
-    <!-- FLOATING THEME BUTTON (unchanged) -->
+    <!-- FLOATING THEME BUTTON -->
     <button id="theme-fab" class="theme-fab">🌙</button>
 
-            <!-- HERO -->
-        <section class="hero">
-          <h1>PrivacyKit</h1>
-          <p>A clean, privacy‑first collection of security utilities — no tracking, no ads, no nonsense.</p>
-        </section>
+    <!-- HERO -->
+    <section class="hero">
+      <h1>PrivacyKit</h1>
+      <p>A clean, privacy‑first collection of security utilities — fully client‑side, with no tracking.</p>
+    </section>
 
     <!-- MAIN CONTENT WRAPPED FOR CONSISTENT LAYOUT -->
     <div class="page-content-with-rail">
       <main class="page-main">
-
-
-
-        <!-- TOOL LIST -->
-        <main class="container">
+        <div class="container">
           <div class="tools-list">
 
             <!-- PASSWORD GENERATOR -->
@@ -145,14 +142,12 @@
             </a>
 
           </div>
-        </main>
-
+        </div>
       </main>
     </div>
 
-    <div class="ad-slot">
-      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5308109286906812"
-           crossorigin="anonymous"></script>
+    <!-- FOOTER AD SLOT -->
+    <div class="ad-slot" id="footer-ad-slot">
       <!-- PK_Footer_Top -->
       <ins class="adsbygoogle"
            style="display:block"
@@ -160,31 +155,37 @@
            data-ad-slot="8631434873"
            data-ad-format="auto"
            data-full-width-responsive="true"></ins>
-<script>
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      (adsbygoogle = window.adsbygoogle || []).push({});
-    });
-  });
-</script>
-
-
-
     </div>
 
     <!-- FOOTER -->
     <footer class="site-footer">
-      © <span id="year"></span> PrivacyKit — Privacy‑First Security Tools · 
+      © <span id="year"></span> PrivacyKit — Privacy‑First Security Tools ·
       <a href="/about.html" class="footer-link">About</a>
     </footer>
 
   </div>
 
+  <!-- Year -->
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 
-  <script src="assets/js/script.js"></script>
+  <!-- Safe AdSense init: only push when slot has width -->
+  <script>
+    window.addEventListener("load", function () {
+      var slots = document.querySelectorAll(".adsbygoogle");
+      slots.forEach(function (slot) {
+        try {
+          if (slot.offsetWidth > 0) {
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          }
+        } catch (e) {
+          // Swallow errors to avoid breaking the page
+        }
+      });
+    });
+  </script>
 
+  <script src="assets/js/script.js"></script>
 </body>
 </html>
