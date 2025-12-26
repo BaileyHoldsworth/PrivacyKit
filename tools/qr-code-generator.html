@@ -1,117 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-<title>QR Code Generator — Create High‑Quality QR Codes | PrivacyKit</title>
-<meta name="description" content="Generate high‑quality QR codes instantly. Choose size, download as PNG, and preview in real time. 100% client‑side with no tracking or data collection.">
-<link rel="canonical" href="https://privacykit.dev/tools/qr-code-generator.html">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "QR Code Generator",
-  "url": "https://privacykit.dev/tools/qr-code-generator.html",
-  "description": "Generate high-quality QR codes instantly. Choose size, download as PNG, and preview in real time.",
-  "applicationCategory": "UtilityApplication",
-  "operatingSystem": "Any",
-  "publisher": {
-    "@type": "Organization",
-    "name": "PrivacyKit",
-    "url": "https://privacykit.dev"
-  }
-}
-</script>
 
-<script>
-  // Prevent white flash on dark mode
+  <script>
   (function() {
     try {
       const saved = localStorage.getItem("theme");
-      if (saved === "dark") {
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+      const shouldBeDark =
+        saved === "dark" ||
+        (saved === "auto" && prefersDark) ||
+        (!saved && prefersDark);
+
+      if (shouldBeDark) {
         document.documentElement.classList.add("dark-mode");
-      } else if (saved === "auto") {
-        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        if (prefersDark) document.documentElement.classList.add("dark-mode");
       }
     } catch (e) {}
   })();
-</script>
+  </script>
 
-<!-- Social Preview -->
-<meta property="og:title" content="PrivacyKit — Privacy‑First Security Tools">
-<meta property="og:description" content="A suite of privacy‑first security tools including password generators, passphrase creators, QR tools, and more — all fully client‑side with no tracking.">
-<meta property="og:image" content="/assets/og/preview.png">
-<meta property="og:url" content="https://privacykit.dev">
-<meta property="og:type" content="website">
+  <style>
+    html.dark-mode {
+      background-color: #0d0d0d !important;
+    }
+    html {
+      background-color: #ffffff;
+    }
+  </style>
 
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
+  <meta charset="UTF-8">
+  <title>QR Code Generator — Create High‑Quality QR Codes | PrivacyKit</title>
+  <meta name="description" content="Generate high‑quality QR codes instantly. Choose size, download as PNG, and preview in real time. 100% client‑side with no tracking or data collection.">
+  <link rel="canonical" href="https://privacykit.dev/tools/qr-code-generator.html">
 
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "QR Code Generator",
+    "url": "https://privacykit.dev/tools/qr-code-generator.html",
+    "description": "Generate high-quality QR codes instantly. Choose size, download as PNG, and preview in real time.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "publisher": {
+      "@type": "Organization",
+      "name": "PrivacyKit",
+      "url": "https://privacykit.dev"
+    }
+  }
+  </script>
 
-<link rel="icon" type="image/png" href="../assets/icons/favicon.png">
+  <!-- Social Preview -->
+  <meta property="og:title" content="PrivacyKit — Privacy‑First Security Tools">
+  <meta property="og:description" content="A suite of privacy‑first security tools including password generators, passphrase creators, QR tools, and more — all fully client‑side with no tracking.">
+  <meta property="og:image" content="/assets/og/preview.png">
+  <meta property="og:url" content="https://privacykit.dev">
+  <meta property="og:type" content="website">
 
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/png" href="../assets/icons/favicon.png">
   <link rel="stylesheet" href="../assets/css/style.css">
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5308109286906812"
+        crossorigin="anonymous"></script>
+
 </head>
 
 <body>
-<header class="site-header">
-  <div class="container header-inner">
-    <div class="logo">PrivacyKit</div>
+  <div class="page-wrapper">
 
-    <nav class="nav">
-      <a href="../index.html">All Tools</a>
-    </nav>
+    <header class="site-header">
+      <div class="container header-inner">
+        <div class="logo">PrivacyKit</div>
 
-    <button id="theme-toggle" class="btn ghost" style="margin-left:1rem;">
-      🌙 Dark
-    </button>
-  </div>
-</header>
+        <nav class="nav">
+          <a href="../index.html">Home</a>
+        </nav>
 
-<button id="theme-fab" class="theme-fab">🌙</button>
-
-
-  <a href="../index.html" class="back-link">Back to tools</a>
-
-  <main class="container">
-    <div class="tool-wrapper">
-      <h1>QR Code Generator</h1>
-
-      <div class="tool-card">
-
-        <label for="qr-content">Text or URL</label>
-        <textarea id="qr-content" rows="3" placeholder="https://example.com or any text"></textarea>
-
-        <label for="qr-size">Size</label>
-        <select id="qr-size">
-          <option value="128">Small (128px)</option>
-          <option value="192" selected>Medium (192px)</option>
-          <option value="256">Large (256px)</option>
-          <option value="320">Extra large (320px)</option>
-        </select>
-
-        <div class="action-row">
-          <button class="btn primary" id="qr-generate">Generate</button>
-          <button class="btn ghost" id="qr-download">Download PNG</button>
-          <button class="btn ghost" id="qr-share">Share</button>
-        </div>
-
-        <div id="qr-preview-wrapper">
-          <div id="qr-preview"></div>
-          <p class="text-muted" id="qr-hint" style="font-size:0.85rem; margin-top:0.5rem;">
-            Enter text above and click Generate to create a QR code.
-          </p>
-        </div>
-
+        <button id="theme-toggle" class="btn ghost" style="margin-left:1rem;">
+          🌙 Dark
+        </button>
       </div>
+    </header>
+
+    <button id="theme-fab" class="theme-fab">🌙</button>
+
+    <div class="page-content-with-rail">
+
+      <main class="page-main">
+
+        <!-- ORIGINAL TOOL LAYOUT PRESERVED -->
+        <a href="../index.html" class="back-link">Back to tools</a>
+
+        <main class="container">
+          <div class="tool-wrapper">
+            <h1>QR Code Generator</h1>
+
+            <div class="tool-card">
+
+              <label for="qr-content">Text or URL</label>
+              <textarea id="qr-content" rows="3" placeholder="https://example.com or any text"></textarea>
+
+              <label for="qr-size">Size</label>
+              <select id="qr-size">
+                <option value="128">Small (128px)</option>
+                <option value="192" selected>Medium (192px)</option>
+                <option value="256">Large (256px)</option>
+                <option value="320">Extra large (320px)</option>
+              </select>
+
+              <div class="action-row">
+                <button class="btn primary" id="qr-generate">Generate</button>
+                <button class="btn ghost" id="qr-download">Download PNG</button>
+                <button class="btn ghost" id="qr-share">Share</button>
+              </div>
+
+              <div id="qr-preview-wrapper">
+                <div id="qr-preview"></div>
+                <p class="text-muted" id="qr-hint" style="font-size:0.85rem; margin-top:0.5rem;">
+                  Enter text above and click Generate to create a QR code.
+                </p>
+              </div>
+
+            </div>
+          </div>
+        </main>
+
+      </main>
+
+      <!-- NEW RIGHT-SIDE RAIL (replaces old vertical-ad-container) -->
+      <aside class="right-rail">
+        <div class="vertical-ad">
+          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5308109286906812"
+               crossorigin="anonymous"></script>
+          <!-- PK_Tool_BelowCard_Vertical -->
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-5308109286906812"
+               data-ad-slot="4392806965"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
+          <script>
+               (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+      </aside>
+
     </div>
-  </main>
 
-<!-- FOOTER -->
-<footer class="site-footer">
-  © <span id="year"></span> PrivacyKit — Privacy‑First Security Tools
-</footer>
+    <!-- FOOTER AD -->
+    <div class="ad-slot">
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5308109286906812"
+           crossorigin="anonymous"></script>
+      <!-- PK_Footer_Top -->
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-5308109286906812"
+           data-ad-slot="8631434873"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>
+           (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
 
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      © <span id="year"></span> PrivacyKit — Privacy‑First Security Tools · 
+      <a href="/about.html" class="footer-link">About</a>
+    </footer>
+
+  </div>
 
   <!-- IMPORTANT: Load QRCode library BEFORE script.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -121,7 +183,7 @@
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 
-<div id="toast"></div>
+  <div id="toast"></div>
 
 </body>
 </html>

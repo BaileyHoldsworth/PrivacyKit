@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  (function() {
+    try {
+      const saved = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+      const shouldBeDark =
+        saved === "dark" ||
+        (saved === "auto" && prefersDark) ||
+        (!saved && prefersDark);
+
+      if (shouldBeDark) {
+        document.documentElement.classList.add("dark-mode");
+      }
+    } catch (e) {}
+  })();
+</script>
+
+<style>
+  html.dark-mode {
+    background-color: #0d0d0d !important;
+  }
+  html {
+    background-color: #ffffff;
+  }
+</style>
+
+<meta charset="UTF-8">
+<title>About PrivacyKit — Privacy‑First Security Tools</title>
+<meta name="description" content="Learn more about PrivacyKit.dev — a privacy‑first collection of simple, fast, trustworthy security tools.">
+<link rel="canonical" href="https://privacykit.dev/about">
+
+<!-- Social Preview -->
+<meta property="og:title" content="About PrivacyKit — Privacy‑First Security Tools">
+<meta property="og:description" content="PrivacyKit.dev is a privacy‑first collection of security tools built to keep your data in your control.">
+<meta property="og:image" content="/assets/og/preview.png">
+<meta property="og:url" content="https://privacykit.dev/about">
+<meta property="og:type" content="website">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" type="image/png" href="assets/icons/favicon.png">
+<link rel="stylesheet" href="assets/css/style.css">
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5308109286906812"
+        crossorigin="anonymous"></script>
+
+</head>
+
+<body class="about">
+
+  <div class="page-wrapper">
+
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <div class="logo">PrivacyKit</div>
+
+        <nav class="nav">
+          <a href="/index.html">Home</a>
+        </nav>
+
+        <button id="theme-toggle" class="btn ghost" style="margin-left:1rem;">
+          🌙 Dark
+        </button>
+      </div>
+    </header>
+
+    <!-- FLOATING THEME BUTTON -->
+    <button id="theme-fab" class="theme-fab">🌙</button>
+
+    <!-- HERO (full width, outside page-main) -->
+    <section class="hero">
+      <h1>About PrivacyKit</h1>
+      <p>Learn more about the mission and vision behind PrivacyKit.dev.</p>
+    </section>
+
+    <!-- MAIN CONTENT WRAPPED FOR CONSISTENT FOOTER BEHAVIOR -->
+    <div class="page-content-with-rail">
+      <main class="page-main">
+
+        <main class="container page-content">
+
+          <p>
+            PrivacyKit.dev is a collection of simple, fast, and trustworthy tools designed to help people protect their digital lives. No accounts, no unnecessary data collection — just clean, privacy‑first utilities that work instantly in your browser.
+          </p>
+
+          <p>
+            I built PrivacyKit because everyday users deserve access to tools that respect them. The internet has become noisy, bloated, and increasingly invasive. PrivacyKit is my response: a quiet corner of the web where utility comes first and your information stays yours.
+          </p>
+
+          <h2>Our Mission</h2>
+          <p>
+            To make privacy accessible, practical, and effortless for everyone.
+          </p>
+          <p>
+            Privacy shouldn’t require technical expertise or complicated software. It should be built into the tools you use every day. PrivacyKit focuses on creating lightweight, transparent utilities that empower people to stay safe online without sacrificing simplicity.
+          </p>
+
+          <h2>What Makes PrivacyKit Different</h2>
+          <ul>
+            <li><strong>Minimal data collection</strong> — tools are designed to run locally whenever possible.</li>
+            <li><strong>Transparent design</strong> — no dark patterns or hidden behavior.</li>
+            <li><strong>Fast, lightweight performance</strong> — optimized for speed and clarity.</li>
+            <li><strong>Privacy‑first philosophy</strong> — built with user trust at the core.</li>
+          </ul>
+
+          <h2>Who’s Behind PrivacyKit</h2>
+          <p>
+            PrivacyKit.dev is built and maintained by <strong>Bailey Holdsworth</strong>, a web developer and designer focused on creating practical, user‑centric tools with a strong emphasis on privacy, clarity, and performance.
+          </p>
+
+          <h2>The Vision</h2>
+          <p>
+            PrivacyKit is just getting started. Over time, the goal is to expand into a full suite of privacy‑focused utilities, educational resources, and tools that help people stay safe online without needing to understand the technical details.
+          </p>
+          <p>
+            The mission is simple: <strong>Give people control over their digital privacy — one tool at a time.</strong>
+          </p>
+
+        </main>
+
+      </main>
+    </div>
+
+    <!-- FOOTER AD -->
+    <div class="ad-slot">
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5308109286906812"
+           crossorigin="anonymous"></script>
+      <!-- PK_Footer_Top -->
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-5308109286906812"
+           data-ad-slot="8631434873"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>
+           (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      © <span id="year"></span> PrivacyKit — Privacy‑First Security Tools · 
+      <a href="/about.html" class="footer-link">About</a>
+    </footer>
+
+  </div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+  <script src="assets/js/script.js"></script>
+
+</body>
+</html>
