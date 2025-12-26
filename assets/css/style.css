@@ -947,3 +947,23 @@ body.about ul {
 .page-wrapper {
   flex: 1 0 auto;
 }
+
+/* Hide any ad slot until Google actually injects an ad */
+.ad-slot:empty,
+.adsbygoogle:empty {
+  display: none !important;
+}
+
+.right-rail .ad-slot {
+  min-width: 160px;
+  min-height: 300px;
+  display: block;
+}
+
+.ad-slot {
+  width: 100%;
+  display: block;
+  height: auto !important;
+  min-height: 0 !important;
+  flex-shrink: 0;
+}
