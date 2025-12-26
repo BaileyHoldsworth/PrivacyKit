@@ -1,75 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script>
-  (function() {
-    try {
-      const saved = localStorage.getItem("theme");
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-      const shouldBeDark =
-        saved === "dark" ||
-        (saved === "auto" && prefersDark) ||
-        (!saved && prefersDark);
+  <!-- Theme preload -->
+  <script>
+    (function() {
+      try {
+        const saved = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-      if (shouldBeDark) {
-        document.documentElement.classList.add("dark-mode");
-      }
-    } catch (e) {}
-  })();
-</script>
+        const shouldBeDark =
+          saved === "dark" ||
+          (saved === "auto" && prefersDark) ||
+          (!saved && prefersDark);
 
-<style>
-  html.dark-mode {
-    background-color: #0d0d0d !important;
+        if (shouldBeDark) {
+          document.documentElement.classList.add("dark-mode");
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <style>
+    html.dark-mode { background-color: #0d0d0d !important; }
+    html { background-color: #ffffff; }
+  </style>
+
+  <meta charset="UTF-8">
+  <title>Passphrase Generator — Create Strong, Memorable Passphrases | PrivacyKit</title>
+  <meta name="description" content="Generate secure, memorable passphrases using curated word lists. Choose word count, separators, and formatting. Fully private — nothing is sent to servers.">
+  <link rel="canonical" href="https://privacykit.dev/tools/passphrase-generator.html">
+
+  <!-- Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Passphrase Generator",
+    "url": "https://privacykit.dev/tools/passphrase-generator.html",
+    "description": "Generate secure, memorable passphrases using curated word lists. Fully private and client-side.",
+    "applicationCategory": "SecurityApplication",
+    "operatingSystem": "Any",
+    "publisher": {
+      "@type": "Organization",
+      "name": "PrivacyKit",
+      "url": "https://privacykit.dev"
+    }
   }
-  html {
-    background-color: #ffffff;
-  }
-</style>
+  </script>
 
-<meta charset="UTF-8">
-<title>Passphrase Generator — Create Strong, Memorable Passphrases | PrivacyKit</title>
-<meta name="description" content="Generate secure, memorable passphrases using curated word lists. Choose word count, separators, and formatting. Fully private — nothing is sent to servers.">
-<link rel="canonical" href="https://privacykit.dev/tools/passphrase-generator.html">
+  <!-- Social -->
+  <meta property="og:title" content="PrivacyKit — Privacy‑First Security Tools">
+  <meta property="og:description" content="A suite of privacy‑first security tools including password generators, passphrase creators, QR tools, and more — all fully client‑side with no tracking.">
+  <meta property="og:image" content="/assets/og/preview.png">
+  <meta property="og:url" content="https://privacykit.dev">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Passphrase Generator",
-  "url": "https://privacykit.dev/tools/passphrase-generator.html",
-  "description": "Generate secure, memorable passphrases using curated word lists. Fully private and client-side.",
-  "applicationCategory": "SecurityApplication",
-  "operatingSystem": "Any",
-  "publisher": {
-    "@type": "Organization",
-    "name": "PrivacyKit",
-    "url": "https://privacykit.dev"
-  }
-}
-</script>
+  <link rel="icon" type="image/png" href="../assets/icons/favicon.png">
+  <link rel="stylesheet" href="../assets/css/style.css">
 
-<!-- Social Preview -->
-<meta property="og:title" content="PrivacyKit — Privacy‑First Security Tools">
-<meta property="og:description" content="A suite of privacy‑first security tools including password generators, passphrase creators, QR tools, and more — all fully client‑side with no tracking.">
-<meta property="og:image" content="/assets/og/preview.png">
-<meta property="og:url" content="https://privacykit.dev">
-<meta property="og:type" content="website">
-
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-
-<link rel="icon" type="image/png" href="../assets/icons/favicon.png">
-<link rel="stylesheet" href="../assets/css/style.css">
-
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5308109286906812"
-        crossorigin="anonymous"></script>
+  <!-- Single global AdSense loader -->
+  <script async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5308109286906812"
+          crossorigin="anonymous"></script>
 
 </head>
 <body>
+
   <div class="page-wrapper">
 
+    <!-- HEADER -->
     <header class="site-header">
       <div class="container header-inner">
         <div class="logo">PrivacyKit</div>
@@ -86,14 +87,14 @@
 
     <button id="theme-fab" class="theme-fab">🌙</button>
 
+    <!-- PAGE LAYOUT -->
     <div class="page-content-with-rail">
 
+      <!-- MAIN CONTENT -->
       <main class="page-main">
-
-        <!-- ORIGINAL TOOL LAYOUT PRESERVED -->
         <a href="../index.html" class="back-link">Back to tools</a>
 
-        <main class="container">
+        <div class="container">
           <div class="tool-wrapper">
             <h1>Passphrase Generator</h1>
 
@@ -121,15 +122,12 @@
               <input id="pp-output" readonly style="margin-top:1rem;">
             </div>
           </div>
-        </main>
-
+        </div>
       </main>
 
-      <!-- NEW RIGHT-SIDE RAIL (replaces old vertical-ad-container) -->
+      <!-- RIGHT RAIL -->
       <aside class="right-rail">
-        <div class="vertical-ad">
-          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5308109286906812"
-               crossorigin="anonymous"></script>
+        <div class="vertical-ad" id="rail-ad-slot">
           <!-- PK_Tool_BelowCard_Vertical -->
           <ins class="adsbygoogle"
                style="display:block"
@@ -137,52 +135,60 @@
                data-ad-slot="4392806965"
                data-ad-format="auto"
                data-full-width-responsive="true"></ins>
-<script>
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      (adsbygoogle = window.adsbygoogle || []).push({});
-    });
-  });
-</script>
-
-
         </div>
       </aside>
 
-    </div>
+    </div> <!-- end page-content-with-rail -->
 
-    <div class="ad-slot">
-      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5308109286906812"
-           crossorigin="anonymous"></script>
-      <!-- PK_Footer_Top -->
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-5308109286906812"
-           data-ad-slot="8631434873"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-<script>
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      (adsbygoogle = window.adsbygoogle || []).push({});
-    });
-  });
-</script>
+  </div> <!-- end page-wrapper -->
 
-
-    </div>
-
-    <!-- FOOTER -->
-    <footer class="site-footer">
-      © <span id="year"></span> PrivacyKit — Privacy‑First Security Tools · 
-      <a href="/about.html" class="footer-link">About</a>
-    </footer>
-
+  <!-- FOOTER AD -->
+  <div class="ad-slot" id="footer-ad-slot">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-5308109286906812"
+         data-ad-slot="8631434873"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
   </div>
 
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    © <span id="year"></span> PrivacyKit — Privacy‑First Security Tools · 
+    <a href="/about.html" class="footer-link">About</a>
+  </footer>
+
   <script src="../assets/js/script.js"></script>
+
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+  <!-- SAFE ADSENSE INITIALIZER -->
+  <script>
+    window.addEventListener("load", function () {
+
+      function initAd(slot) {
+        if (!slot) return;
+
+        function tryInit() {
+          const w = slot.offsetWidth;
+          if (w > 0) {
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          } else {
+            requestAnimationFrame(tryInit);
+          }
+        }
+
+        tryInit();
+      }
+
+      // Footer ad
+      initAd(document.querySelector("#footer-ad-slot ins.adsbygoogle"));
+
+      // Right rail ad
+      initAd(document.querySelector("#rail-ad-slot ins.adsbygoogle"));
+    });
   </script>
 
   <div id="toast"></div>

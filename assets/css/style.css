@@ -1019,3 +1019,22 @@ body.about ul {
     display: block;
   }
 }
+
+/* Hide ad containers by default */
+.vertical-ad,
+.ad-slot {
+  display: none;
+}
+
+/* Show only when the <ins> has a real height */
+.vertical-ad:has(.adsbygoogle[style*="height:"]:not([style*="height: 0px"])),
+.ad-slot:has(.adsbygoogle[style*="height:"]:not([style*="height: 0px"])) {
+  display: block;
+}
+
+/* Make header nav links slightly larger */
+.site-header .nav a {
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: 0.4rem 0.6rem;
+}
