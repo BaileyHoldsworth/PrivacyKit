@@ -192,6 +192,14 @@ function initUsernameGenerator() {
       const name = generateUsername(keyword, style);
       const li = document.createElement("li");
       li.textContent = name;
+
+      // NEW: click-to-copy with toast feedback
+      li.addEventListener("click", () => {
+        navigator.clipboard.writeText(name).then(() => {
+          showToast("Copied!");
+        });
+      });
+
       resultsList.appendChild(li);
     }
   }
@@ -199,12 +207,12 @@ function initUsernameGenerator() {
   generateBtn.addEventListener("click", generate);
   generate();
 
-  resultsList.addEventListener("click", (e) => {
-    if (e.target.tagName === "LI") copyToClipboard(e.target.textContent);
-  });
+  // (No longer needed because each LI has its own handler)
+  // resultsList.addEventListener("click", ...)
 
   if (shareBtn) shareBtn.addEventListener("click", shareCurrentTool);
 }
+
 
 /* ============================================================
    PASSPHRASE GENERATOR
