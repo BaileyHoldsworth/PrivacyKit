@@ -967,3 +967,38 @@ body.about ul {
   min-height: 0 !important;
   flex-shrink: 0;
 }
+
+
+.ad-slot {
+  display: none;
+}
+
+.ad-slot .adsbygoogle {
+  display: block;
+}
+
+/* When Google injects a real ad (height > 0), show the slot */
+.ad-slot .adsbygoogle:not([style*="height: 0px"]) {
+  display: block;
+}
+
+.ad-slot .adsbygoogle[style*="height:"] {
+  display: block;
+}
+
+.ad-slot .adsbygoogle[style*="height:"]:not([style*="height: 0px"]) {
+  display: block;
+}
+
+.ad-slot .adsbygoogle[style*="height:"]:not([style*="height: 0px"]) {
+  display: block;
+}
+
+.ad-slot .adsbygoogle[style*="height:"]:not([style*="height: 0px"]) {
+  display: block;
+}
+
+/* Show the ad-slot only when the ins has a non-zero height */
+.ad-slot:has(.adsbygoogle[style*="height:"]:not([style*="height: 0px"])) {
+  display: block;
+}
