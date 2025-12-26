@@ -919,18 +919,15 @@ body.about ul {
   width: 100%;
 }
 
+
 .ad-slot {
+  display: block;
+  width: 100%;
   min-width: 100%;
+  /* remove min-height */
 }
 
 .right-rail .ad-slot {
-  min-width: 160px; /* or whatever your vertical ad width is */
-}
-
-.ad-slot {
-  min-height: 50px;
-}
-
-.right-rail .ad-slot {
+  min-width: 160px;
   min-height: 300px;
 }
