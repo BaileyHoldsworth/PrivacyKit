@@ -1002,3 +1002,20 @@ body.about ul {
 .ad-slot:has(.adsbygoogle[style*="height:"]:not([style*="height: 0px"])) {
   display: block;
 }
+
+/* Ensure right rail always has a measurable width on desktop */
+@media (min-width: 900px) {
+  .right-rail {
+    width: 160px;
+    min-width: 160px;
+    flex-shrink: 0;
+    display: block;
+  }
+
+  .right-rail .ad-slot {
+    width: 160px;
+    min-width: 160px;
+    min-height: 300px;
+    display: block;
+  }
+}
