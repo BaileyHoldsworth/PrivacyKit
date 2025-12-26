@@ -438,6 +438,28 @@ function initThemeToggle() {
   }, 50);
 }
 
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 1800);
+}
+
+// Universal copy feedback
+document.querySelectorAll("[id$='-copy']").forEach(btn => {
+  btn.addEventListener("click", () => showToast("Copied!"));
+});
+
+// Universal share feedback
+document.querySelectorAll("[id$='-share']").forEach(btn => {
+  btn.addEventListener("click", () => showToast("Link ready to share!"));
+});
+
+
+
 /* ============================================================
    OTHER TOOL INITIALIZERS (unchanged)
    ============================================================ */
