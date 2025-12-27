@@ -7,6 +7,11 @@
     </url>
     
     <url>
+        <loc>https://privacykit.dev/about.html</loc>
+        <priority>0.7</priority>
+    </url>
+    
+    <url>
         <loc>https://privacykit.dev/tools/password-generator.html</loc>
         <priority>0.9</priority>
     </url>
