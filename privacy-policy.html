@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Theme preload -->
+  <script>
+    (function() {
+      try {
+        const saved = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+        const shouldBeDark =
+          saved === "dark" ||
+          (saved === "auto" && prefersDark) ||
+          (!saved && prefersDark);
+
+        if (shouldBeDark) {
+          document.documentElement.classList.add("dark-mode");
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+
+
+  <meta charset="UTF-8">
+  <title>Privacy Policy - PrivacyKit</title>
+  <meta name="description" content="PrivacyKit's privacy policy explains how we protect your data. All tools run client-side in your browser with zero server tracking.">
+  <link rel="canonical" href="https://privacykit.dev/privacy-policy.html">
+
+  <!-- Social -->
+  <meta property="og:title" content="Privacy Policy - PrivacyKit">
+  <meta property="og:description" content="Learn how PrivacyKit protects your privacy and data.">
+  <meta property="og:image" content="/assets/og/preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://privacykit.dev/privacy-policy.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/png" href="assets/icons/favicon.png">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- Single global AdSense loader -->
+  <script async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5308109286906812"
+          crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+  <div class="page-wrapper">
+
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <div class="logo">PrivacyKit</div>
+
+        <nav class="nav">
+          <a href="index.html">Home</a>
+        </nav>
+
+        <button id="theme-toggle" class="btn ghost" style="margin-left:1rem;">
+          🌙 Dark
+        </button>
+      </div>
+    </header>
+
+    <!-- HEADER AD SLOT -->
+    <div class="header-ad-slot">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-5308109286906812"
+           data-ad-slot="3281546401"
+           data-ad-format="horizontal"
+           data-full-width-responsive="true"></ins>
+    </div>
+
+    <!-- FLOATING THEME BUTTON -->
+    <button id="theme-fab" class="theme-fab">🌙</button>
+
+    <!-- HERO -->
+    <section class="hero">
+      <h1>Privacy Policy</h1>
+      <p>How PrivacyKit protects your data and respects your privacy.</p>
+    </section>
+
+    <!-- PAGE LAYOUT -->
+    <div class="page-content-with-rail">
+      <main class="page-main">
+
+        <div class="container page-content">
+
+          <p><strong>Last updated: January 28, 2026</strong></p>
+
+          <h2>Overview</h2>
+          <p>
+            PrivacyKit.dev is committed to protecting your privacy. This policy explains how we handle information when you use our tools. Our core principle is simple: your data belongs to you, not us.
+          </p>
+
+          <h2>Data Collection</h2>
+
+          <h3>Tools Usage</h3>
+          <p>
+            All PrivacyKit security tools (password generator, QR code generator, username generator, passphrase generator, password strength checker, key generator, and email breach checker) run entirely in your browser using client-side JavaScript. We do not collect, store, transmit, or log any data you enter into our tools. Your generated passwords, QR codes, usernames, and any other data you create remain exclusively on your device.
+          </p>
+
+          <h3>Analytics</h3>
+          <p>
+            We use minimal analytics to understand how visitors use our site, including information about pages visited and general traffic patterns. This data is aggregated and does not identify you personally. No behavioral tracking follows you across other websites.
+          </p>
+
+          <h3>Cookies</h3>
+          <p>
+            We use minimal cookies for essential functions only:
+          </p>
+          <ul>
+            <li><strong>Theme preference:</strong> We store your dark/light mode selection locally so your preference persists across visits.</li>
+            <li><strong>No advertising cookies:</strong> We do not use cookies to track your behavior for advertising purposes beyond what Google AdSense requires.</li>
+          </ul>
+
+          <h2>Third-Party Services</h2>
+
+          <h3>Google AdSense</h3>
+          <p>
+            We display advertisements through Google AdSense to support site operations. Google may use cookies to serve personalized ads based on your browsing history. You can opt out of personalized ads in your Google settings or by visiting the Google Ads Settings page.
+          </p>
+
+          <h3>External Libraries</h3>
+          <p>
+            Some tools use external JavaScript libraries (such as QRCode.js) loaded from content delivery networks (CDNs). These are industry-standard, privacy-respecting libraries that don't track users or collect personal data.
+          </p>
+
+          <h2>Your Data Rights</h2>
+          <p>You have the right to:</p>
+          <ul>
+            <li>Browse our site without creating an account or providing personal information</li>
+            <li>Use all our tools without data collection or tracking</li>
+            <li>Clear cookies and local storage from your browser at any time</li>
+            <li>Request information about any data we process</li>
+            <li>Opt out of Google AdSense personalized ads</li>
+          </ul>
+
+          <h2>Security</h2>
+          <p>
+            Your security is our priority. All PrivacyKit tools operate client-side, meaning your sensitive data never leaves your device. We use HTTPS encryption for all connections to protect data in transit. Our site does not use any server-side processing that could compromise your privacy.
+          </p>
+
+          <h2>Children's Privacy</h2>
+          <p>
+            Our services are not directed to children under 13, and we do not knowingly collect information from children under 13. If you believe we have collected information from a child under 13, please contact us immediately.
+          </p>
+
+          <h2>Third-Party Links</h2>
+          <p>
+            PrivacyKit may contain links to third-party websites. We are not responsible for the privacy practices of external sites. We encourage you to review their privacy policies before providing personal information.
+          </p>
+
+          <h2>Changes to This Privacy Policy</h2>
+          <p>
+            We may update this privacy policy to reflect changes in our practices or legal requirements. We will post changes on this page with an updated revision date. Your continued use of PrivacyKit following any changes constitutes your acceptance of the new privacy policy.
+          </p>
+
+          <h2>Contact Us</h2>
+          <p>
+            If you have questions about this privacy policy, how we handle your data, or concerns about your privacy, please contact us at <strong>privacykitwebsite@gmail.com</strong>.
+          </p>
+
+          <p>
+            <strong>Privacy concerns?</strong> See our <a href="contact.html">Contact page</a> for additional ways to reach us.
+          </p>
+
+        </div>
+
+      </main>
+    </div>
+
+    <!-- FOOTER AD SLOT -->
+    <div class="footer-ad-slot">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-5308109286906812"
+           data-ad-slot="5563384374"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      © <span id="year"></span> PrivacyKit — Privacy-First Security Tools · 
+      <a href="about.html" class="footer-link">About</a> ·
+      <a href="privacy-policy.html" class="footer-link">Privacy Policy</a> ·
+      <a href="terms.html" class="footer-link">Terms of Service</a> ·
+      <a href="contact.html" class="footer-link">Contact</a>
+    </footer>
+
+  </div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+  <script src="assets/js/script.js"></script>
+</body>
+</html>

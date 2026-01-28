@@ -21,10 +21,7 @@
     })();
   </script>
 
-  <style>
-    html.dark-mode { background-color: #0d0d0d !important; }
-    html { background-color: #ffffff; }
-  </style>
+
 
   <meta charset="UTF-8">
   <title>QR Code Generator — Create High‑Quality QR Codes | PrivacyKit</title>
@@ -50,10 +47,12 @@
   </script>
 
   <!-- Social -->
-  <meta property="og:title" content="PrivacyKit — Privacy‑First Security Tools">
-  <meta property="og:description" content="A suite of privacy‑first security tools including password generators, passphrase creators, QR tools, and more — all fully client‑side with no tracking.">
+  <meta property="og:title" content="Free QR Code Generator - PrivacyKit">
+  <meta property="og:description" content="Create custom QR codes instantly from URLs, text, or contact information. Download as PNG or SVG. Fully private - nothing stored or sent.">
   <meta property="og:image" content="/assets/og/preview.png">
-  <meta property="og:url" content="https://privacykit.dev">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://privacykit.dev/tools/qr-code-generator.html">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
 
@@ -84,6 +83,16 @@
         </button>
       </div>
     </header>
+
+    <!-- HEADER AD SLOT -->
+    <div class="header-ad-slot">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-5308109286906812"
+           data-ad-slot="3281546401"
+           data-ad-format="horizontal"
+           data-full-width-responsive="true"></ins>
+    </div>
 
     <button id="theme-fab" class="theme-fab">🌙</button>
 
@@ -126,6 +135,31 @@
 
             </div>
           </div>
+
+          <!-- Educational Content Sections -->
+          <section class="content-section">
+            <h3>How to Use QR Code Generator</h3>
+            <p>Our QR Code Generator makes creating custom QR codes fast and easy. Simply enter the text, URL, or link you want to encode into the input field. You can paste a website URL, type a phone number, email address, or even plain text—the tool accepts almost any content. Next, select your preferred QR code size from the dropdown menu, which ranges from small (128px) suitable for printed materials to extra-large (320px) ideal for large displays or posters. Click the "Generate" button and your QR code will instantly appear in the preview area. You can then download the QR code as a PNG image file to use in documents, websites, or print materials. The "Share" button allows you to quickly share the QR code link with others. Test your generated QR code with a smartphone or QR code reader app to ensure it scans properly and directs to the correct destination before deploying it in production.</p>
+          </section>
+
+          <section class="content-section">
+            <h3>Why QR Codes Matter</h3>
+            <p>QR codes have become an essential tool in modern digital and physical marketing strategies. They bridge the gap between offline and online content, allowing customers to instantly access information by simply scanning with their smartphone camera. QR codes enable businesses to track engagement, drive traffic to websites or landing pages, and provide seamless contactless experiences—especially important in post-pandemic environments. They're invaluable for event management, product packaging, restaurant menus, and promotional materials. QR codes also serve practical functions like WiFi sharing, vCard contact distribution, and payment processing. Unlike traditional URLs or links, QR codes are compact, visually distinctive, and can encode substantially more information in a smaller space. Their flexibility and ubiquity mean that nearly any smartphone user can instantly decode and interact with QR code content, making them an effective bridge between printed materials and digital experiences.</p>
+          </section>
+
+          <section class="content-section">
+            <h3>QR Code Generator Best Practices</h3>
+            <p>To maximize the effectiveness of your QR codes, follow these proven practices. Always test your generated QR code thoroughly with multiple devices and QR code readers before deploying it in real-world scenarios. Ensure sufficient contrast by avoiding light colored backgrounds or light text on light backgrounds—QR codes require clear distinction between dark and light areas to scan reliably. For printed materials, make your QR code large enough to be scanned from a reasonable distance (minimum 1cm x 1cm). Use higher error correction levels when printing on textured surfaces or in conditions where the code might be partially obscured. Consider adding a call-to-action text near your QR code explaining what users will experience when they scan it, improving engagement rates. Track your QR code performance using analytics when possible, and update the destination URL periodically to keep content current. For sensitive applications, avoid encoding sensitive personal information directly in the QR code—instead, use it to link to a secure resource.</p>
+          </section>
+
+          <section class="content-section">
+            <h3>Frequently Asked Questions</h3>
+            <p><strong>How much data can a QR code hold?</strong> Standard QR codes can store up to 4,296 alphanumeric characters or 2,953 bytes of binary data. This is more than sufficient for most URLs, contact information, and text content. Longer content will result in higher density codes that may require closer scanning distances.</p>
+            <p><strong>Can I customize the appearance of my QR code?</strong> Our generator creates standard black and white QR codes for maximum compatibility and scannability. While some advanced tools allow color customization, we recommend sticking with traditional black-on-white QR codes to ensure they scan reliably across all devices.</p>
+            <p><strong>Is there any privacy risk in using QR codes?</strong> QR codes themselves don't pose inherent privacy risks, but what they link to matters. Only scan QR codes from trusted sources, as they could redirect you to malicious websites. Similarly, be transparent about where your QR codes lead when you distribute them.</p>
+            <p><strong>What's the difference between QR code sizes?</strong> Larger sizes (measured in pixels) make the code easier to scan from a distance and on small devices. Smaller sizes work well for items where space is limited, but require closer proximity to scan successfully. Choose based on your use case and expected scanning distance.</p>
+            <p><strong>Will the QR code work permanently?</strong> QR codes themselves don't expire, but the content they link to might change. If you link to a temporary URL that later gets removed, the QR code will point to a broken link. Use permanent URLs and consider URL shortening services with long-term stability.</p>
+          </section>
         </div>
       </main>
 
@@ -146,12 +180,12 @@
 
   </div> <!-- end page-wrapper -->
 
-  <!-- FOOTER AD -->
-  <div class="ad-slot" id="footer-ad-slot">
+  <!-- FOOTER AD SLOT -->
+  <div class="footer-ad-slot">
     <ins class="adsbygoogle"
          style="display:block"
          data-ad-client="ca-pub-5308109286906812"
-         data-ad-slot="8631434873"
+         data-ad-slot="5563384374"
          data-ad-format="auto"
          data-full-width-responsive="true"></ins>
   </div>
@@ -159,7 +193,7 @@
   <!-- FOOTER -->
   <footer class="site-footer">
     © <span id="year"></span> PrivacyKit — Privacy‑First Security Tools · 
-    <a href="/about.html" class="footer-link">About</a>
+    <a href="../about.html" class="footer-link">About</a> · <a href="../privacy-policy.html" class="footer-link">Privacy Policy</a> · <a href="../terms.html" class="footer-link">Terms of Service</a> · <a href="../contact.html" class="footer-link">Contact</a>
   </footer>
 
   <!-- QR Code Library -->
@@ -174,27 +208,16 @@
   <!-- SAFE ADSENSE INITIALIZER -->
   <script>
     window.addEventListener("load", function () {
-
-      function initAd(slot) {
-        if (!slot) return;
-
-        function tryInit() {
-          const w = slot.offsetWidth;
-          if (w > 0) {
+      var slots = document.querySelectorAll(".adsbygoogle");
+      slots.forEach(function (slot) {
+        try {
+          if (slot.offsetWidth > 0) {
             (adsbygoogle = window.adsbygoogle || []).push({});
-          } else {
-            requestAnimationFrame(tryInit);
           }
+        } catch (e) {
+          // Swallow errors to avoid breaking the page
         }
-
-        tryInit();
-      }
-
-      // Footer ad
-      initAd(document.querySelector("#footer-ad-slot ins.adsbygoogle"));
-
-      // Right rail ad
-      initAd(document.querySelector("#rail-ad-slot ins.adsbygoogle"));
+      });
     });
   </script>
 

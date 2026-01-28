@@ -21,10 +21,7 @@
     })();
   </script>
 
-  <style>
-    html.dark-mode { background-color: #0d0d0d !important; }
-    html { background-color: #ffffff; }
-  </style>
+
 
   <meta charset="UTF-8">
   <title>Key Generator — Create Hex, Base64 & Alphanumeric Keys | PrivacyKit</title>
@@ -50,10 +47,12 @@
   </script>
 
   <!-- Social -->
-  <meta property="og:title" content="PrivacyKit — Privacy‑First Security Tools">
-  <meta property="og:description" content="A suite of privacy‑first security tools including password generators, passphrase creators, QR tools, and more — all fully client‑side with no tracking.">
+  <meta property="og:title" content="Free API Key & Token Generator - PrivacyKit">
+  <meta property="og:description" content="Generate secure API keys, tokens, and cryptographic keys for your applications. Create random, unique keys with custom length and encoding.">
   <meta property="og:image" content="/assets/og/preview.png">
-  <meta property="og:url" content="https://privacykit.dev">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://privacykit.dev/tools/key-generator.html">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
 
@@ -84,6 +83,16 @@
         </button>
       </div>
     </header>
+
+    <!-- HEADER AD SLOT -->
+    <div class="header-ad-slot">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-5308109286906812"
+           data-ad-slot="3281546401"
+           data-ad-format="horizontal"
+           data-full-width-responsive="true"></ins>
+    </div>
 
     <button id="theme-fab" class="theme-fab">🌙</button>
 
@@ -127,6 +136,31 @@
 
             </div>
           </div>
+
+          <!-- Educational Content Sections -->
+          <section class="content-section">
+            <h3>How to Use Secure Key Generator</h3>
+            <p>Our Secure Key Generator creates cryptographically strong random keys for protecting APIs, applications, and sensitive systems. Begin by selecting your desired format from the dropdown menu: Hex format is recommended for most applications and provides hexadecimal characters; Base64 offers compact encoding useful for databases and APIs; and Alphanumeric provides readable characters without special symbols. Next, choose your desired key length from preset options (32, 64, or 128 characters) or select "Custom" to specify any length between 8 and 512 characters. Click "Generate" to create a new random key displayed in the output field. The generated key uses cryptographically secure randomness to ensure it cannot be predicted or reproduced. You can copy the key to your clipboard with the "Copy" button for easy pasting into configuration files or systems. Generate new keys as needed for different purposes—never reuse the same key across different services.</p>
+          </section>
+
+          <section class="content-section">
+            <h3>Why Cryptographic Keys are Critical</h3>
+            <p>Cryptographic keys are the foundation of modern security infrastructure, controlling access to APIs, databases, and sensitive applications. A weak or predictable key can be cracked or guessed, giving attackers complete access to protected systems and potentially compromising thousands of users' data. Keys generated through proper cryptographic randomness are virtually impossible to predict or reverse-engineer, making them the only reliable way to secure API access and authentication tokens. Keys protect against unauthorized access, verify identity, encrypt sensitive communications, and enable secure digital signatures. The quality of your key generation directly impacts the security of every system depending on it—using weak or simple keys like "password123" or sequential numbers is equivalent to having no security at all. Professional-grade systems demand proper key generation because a single compromised key can lead to massive breaches, financial loss, and severe reputational damage. Conversely, properly generated and managed keys provide robust protection against the vast majority of cyber attacks.</p>
+          </section>
+
+          <section class="content-section">
+            <h3>Secure Key Generator Best Practices</h3>
+            <p>Generating secure keys is only the first step—how you manage them is equally important for maintaining security. Store generated keys in secure, encrypted locations like password managers, environment variable systems, or hardware security modules (HSMs). Never hardcode keys directly into application source code or commit them to version control repositories where they might be exposed. Use environment variables or configuration management tools to inject keys at runtime rather than storing them with your code. Implement key rotation policies that require periodic key updates, with older keys being decommissioned and new ones generated. For highly sensitive systems, consider using different keys for different environments (development, staging, production) and rotate production keys more frequently. Monitor and log all key access attempts to detect suspicious activity. When a key is potentially compromised, immediately revoke it and generate a new replacement. Document your key management procedures and ensure all team members understand the importance of protecting generated keys. Follow the principle of least privilege—keys should only have the minimum permissions necessary for their intended function.</p>
+          </section>
+
+          <section class="content-section">
+            <h3>Frequently Asked Questions</h3>
+            <p><strong>What's the difference between Hex, Base64, and Alphanumeric formats?</strong> Hex format uses digits 0-9 and letters A-F, ideal for most security applications and databases. Base64 uses a wider character set and is more compact, useful for URLs or configuration files. Alphanumeric uses letters and numbers only, excluding special characters, helpful when systems don't accept symbols.</p>
+            <p><strong>How secure is a generated key?</strong> Our keys use cryptographically secure random number generation, making them virtually impossible to predict. A properly generated 64-character key has enough entropy to withstand brute force attacks for millennia—far exceeding modern security requirements.</p>
+            <p><strong>Where should I store my generated keys?</strong> Never store keys in plain text in code repositories or configuration files visible in version control. Use password managers, encrypted configuration services, environment variables, or hardware security modules (HSMs) for production systems.</p>
+            <p><strong>How often should I regenerate keys?</strong> Rotate keys regularly—annually for development environments, quarterly for staging, and every 6-12 months for production systems. Regenerate immediately if you suspect compromise, if the key has been visible to unauthorized parties, or if someone with key access leaves your organization.</p>
+            <p><strong>Can I use generated keys for multiple purposes?</strong> Best practice is to use unique keys for each distinct purpose and system. Using one key across multiple systems means a single compromised key affects everything. Compartmentalization with separate keys for each service significantly improves your overall security posture.</p>
+          </section>
         </div>
       </main>
 
@@ -147,12 +181,12 @@
 
   </div> <!-- end page-wrapper -->
 
-  <!-- FOOTER AD -->
-  <div class="ad-slot" id="footer-ad-slot">
+  <!-- FOOTER AD SLOT -->
+  <div class="footer-ad-slot">
     <ins class="adsbygoogle"
          style="display:block"
          data-ad-client="ca-pub-5308109286906812"
-         data-ad-slot="8631434873"
+         data-ad-slot="5563384374"
          data-ad-format="auto"
          data-full-width-responsive="true"></ins>
   </div>
@@ -160,7 +194,7 @@
   <!-- FOOTER -->
   <footer class="site-footer">
     © <span id="year"></span> PrivacyKit — Privacy‑First Security Tools · 
-    <a href="/about.html" class="footer-link">About</a>
+    <a href="../about.html" class="footer-link">About</a> · <a href="../privacy-policy.html" class="footer-link">Privacy Policy</a> · <a href="../terms.html" class="footer-link">Terms of Service</a> · <a href="../contact.html" class="footer-link">Contact</a>
   </footer>
 
   <script src="../assets/js/script.js"></script>
@@ -172,27 +206,16 @@
   <!-- SAFE ADSENSE INITIALIZER -->
   <script>
     window.addEventListener("load", function () {
-
-      function initAd(slot) {
-        if (!slot) return;
-
-        function tryInit() {
-          const w = slot.offsetWidth;
-          if (w > 0) {
+      var slots = document.querySelectorAll(".adsbygoogle");
+      slots.forEach(function (slot) {
+        try {
+          if (slot.offsetWidth > 0) {
             (adsbygoogle = window.adsbygoogle || []).push({});
-          } else {
-            requestAnimationFrame(tryInit);
           }
+        } catch (e) {
+          // Swallow errors to avoid breaking the page
         }
-
-        tryInit();
-      }
-
-      // Footer ad
-      initAd(document.querySelector("#footer-ad-slot ins.adsbygoogle"));
-
-      // Right rail ad
-      initAd(document.querySelector("#rail-ad-slot ins.adsbygoogle"));
+      });
     });
   </script>
 

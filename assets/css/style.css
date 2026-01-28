@@ -58,31 +58,64 @@ html.theme-ready {
   box-sizing: border-box;
 }
 
-body {
-  margin: 0;
-  font-family: var(--font-sans);
+html {
   background: var(--bg);
   color: var(--text-main);
-  -webkit-font-smoothing: antialiased;
-
-  /* Noise texture */
+  
+  /* Noise texture - fixed to viewport */
   background-image:
     radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
     radial-gradient(rgba(255,255,255,0.02) 1px, transparent 1px);
   background-size: 3px 3px, 5px 5px;
   background-position: 0 0, 10px 10px;
-
-  transition: background 0.25s ease, color 0.25s ease;
+  background-attachment: fixed;
 }
 
-html, body {
-  height: 100%;
+html.dark-mode {
+  background: var(--bg);
+  background-image:
+    radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 3px 3px, 5px 5px;
+  background-position: 0 0, 10px 10px;
+  background-attachment: fixed;
 }
 
 body {
   margin: 0;
+  font-family: var(--font-sans);
+  background: transparent;
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
+
+  transition: color 0.25s ease;
+  
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Global link styling */
+a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+  font-weight: 600;
+  transition: opacity 0.2s ease;
+}
+
+a:hover {
+  opacity: 0.8;
+}
+
+a:visited {
+  color: var(--accent);
 }
 
 /* This is the main vertical stack: header, content, footer ad, footer */
@@ -99,7 +132,17 @@ body {
 
 /* Footer stays at the bottom of the wrapper column */
 .site-footer {
-  margin-top: 0; /* remove big top margins if any */
+  margin-top: auto;
+  margin: 0;
+  padding: 2rem 0;
+  width: 100%;
+  flex-shrink: 0;
+  background: var(--bg);
+  color: var(--text-main);
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 0.875rem;
+  transition: background 0.25s ease, color 0.25s ease;
 }
 
 
@@ -133,6 +176,75 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+/* ===========
+   Ad Slots
+   =========== */
+
+/* Header ad slot - responsive horizontal */
+.header-ad-slot {
+  width: 100%;
+  text-align: center;
+  padding: 0.75rem 0;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 120px;
+}
+
+.header-ad-slot .adsbygoogle {
+  display: block;
+}
+
+/* Mid-content ad slot - medium rectangle */
+.mid-content-ad-slot {
+  width: 100%;
+  text-align: center;
+  padding: 1.5rem 0;
+  margin: 2rem 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 280px;
+}
+
+.mid-content-ad-slot .adsbygoogle {
+  display: block;
+}
+
+/* Footer ad slot */
+.footer-ad-slot {
+  width: 100%;
+  text-align: center;
+  padding: 1.5rem 0;
+  margin-top: 3rem;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 280px;
+  flex-shrink: 0;
+}
+
+.footer-ad-slot .adsbygoogle {
+  display: block;
+}
+
+/* Hide ad slots until ads are actually loaded */
+.header-ad-slot:empty,
+.mid-content-ad-slot:empty,
+.footer-ad-slot:empty,
+.header-ad-slot .adsbygoogle:empty,
+.mid-content-ad-slot .adsbygoogle:empty,
+.footer-ad-slot .adsbygoogle:empty {
+  display: none !important;
 }
 
 /* ===========
@@ -263,10 +375,30 @@ body {
   transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
 }
 
-.tool-row:hover {
+/* Reset link styling for tool buttons */
+a.tool-row {
+  text-decoration: none;
+  font-weight: 500;
+  color: var(--text-main);
+}
+
+a.tool-row h3,
+a.tool-row span {
+  color: var(--text-main);
+  text-decoration: none;
+}
+
+a.tool-row:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-hover);
   background: var(--accent-light);
+  text-decoration: none;
+  color: var(--text-main);
+}
+
+a.tool-row:hover h3,
+a.tool-row:hover span {
+  color: var(--text-main);
 }
 
 .tool-info h3 {
@@ -284,7 +416,7 @@ body {
    Back Link
    =========== */
 
-.back-link {
+a.back-link {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -300,13 +432,15 @@ body {
   transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
 }
 
-.back-link:hover {
+a.back-link:hover {
   background: var(--accent-light);
   box-shadow: var(--shadow-hover);
   transform: translateY(-2px);
+  text-decoration: none;
+  color: var(--text-main);
 }
 
-.back-link::before {
+a.back-link::before {
   content: "←";
   font-size: 1rem;
   color: var(--accent);
@@ -591,13 +725,8 @@ label[for="pg-length"] {
 
 .ad-slot {
   width: 100%;
-  max-width: 1080px;
-  margin: 2.5rem auto 0;
-  padding: 1.2rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow);
+  padding: 2.5rem 1.5rem;
+  background: var(--bg);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -823,12 +952,6 @@ body {
   flex: 1 0 auto;
 }
 
-body {
-  min-height: 100vh;
-}
-
-
-
 /* Index page layout fix */
 body.home .page-main {
   padding-top: 0 !important;
@@ -843,14 +966,8 @@ body.about .page-main {
   padding-top: 0 !important;
   padding-bottom: 0 !important;
 }
-.site-footer {
-  background: #ffffff;
-}
 
-html.dark-mode .site-footer {
-  background: #1f1f23;
-}
-
+/* Footer already has proper styling defined earlier */
 /* Reduce spacing on About page */
 body.about .hero {
   margin-bottom: 0.75rem !important;
@@ -966,6 +1083,12 @@ body.about ul {
   height: auto !important;
   min-height: 0 !important;
   flex-shrink: 0;
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    radial-gradient(rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 3px 3px, 5px 5px;
+  background-position: 0 0, 10px 10px;
 }
 
 
@@ -1001,6 +1124,15 @@ body.about ul {
 /* Show the ad-slot only when the ins has a non-zero height */
 .ad-slot:has(.adsbygoogle[style*="height:"]:not([style*="height: 0px"])) {
   display: block;
+}
+
+/* Enhanced texture for ad-slot in dark mode */
+html.dark-mode .ad-slot {
+  background-image:
+    radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 3px 3px, 5px 5px;
+  background-position: 0 0, 10px 10px;
 }
 
 /* Ensure right rail always has a measurable width on desktop */
