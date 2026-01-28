@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Theme preload -->
+  <script>
+    (function() {
+      try {
+        const saved = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+        const shouldBeDark =
+          saved === "dark" ||
+          (saved === "auto" && prefersDark) ||
+          (!saved && prefersDark);
+
+        if (shouldBeDark) {
+          document.documentElement.classList.add("dark-mode");
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+
+
+  <meta charset="UTF-8">
+  <title>Base64 Encoder & Decoder - Convert Text to Base64 | PrivacyKit</title>
+  <meta name="description" content="Encode text to Base64 or decode Base64 back to text instantly. 100% client-side, no tracking. Perfect for developers, API testing, data encoding, and more.">
+  <link rel="canonical" href="https://privacykit.dev/tools/base64-encoder-decoder.html">
+
+  <!-- Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Base64 Encoder & Decoder",
+    "url": "https://privacykit.dev/tools/base64-encoder-decoder.html",
+    "description": "Encode text to Base64 or decode Base64 to text instantly. 100% client-side with no tracking.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "publisher": {
+      "@type": "Organization",
+      "name": "PrivacyKit",
+      "url": "https://privacykit.dev"
+    }
+  }
+  </script>
+
+  <!-- Social -->
+  <meta property="og:title" content="Free Base64 Encoder & Decoder - PrivacyKit">
+  <meta property="og:description" content="Encode text to Base64 or decode Base64 to text instantly. 100% client-side, fully private, no tracking.">
+  <meta property="og:image" content="/assets/og/preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://privacykit.dev/tools/base64-encoder-decoder.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/png" href="../assets/icons/favicon.png">
+  <link rel="stylesheet" href="../assets/css/style.css">
+
+  <!-- Single global AdSense loader -->
+  <script async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5308109286906812"
+          crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+  <div class="page-wrapper">
+
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <div class="logo">PrivacyKit</div>
+
+        <nav class="nav">
+          <a href="../index.html">Home</a>
+        </nav>
+
+        <button id="theme-toggle" class="btn ghost" style="margin-left:1rem;">
+          🌙 Dark
+        </button>
+      </div>
+    </header>
+
+    <!-- HEADER AD SLOT -->
+    <div class="header-ad-slot">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-5308109286906812"
+           data-ad-slot="3281546401"
+           data-ad-format="horizontal"
+           data-full-width-responsive="true"></ins>
+    </div>
+
+    <button id="theme-fab" class="theme-fab">🌙</button>
+
+    <!-- PAGE LAYOUT -->
+    <div class="page-content-with-rail">
+
+      <!-- MAIN CONTENT -->
+      <main class="page-main">
+        <a href="../index.html" class="back-link">Back to tools</a>
+
+        <div class="container">
+          <div class="tool-wrapper">
+            <h1>Base64 Encoder & Decoder</h1>
+
+            <div class="tool-card" style="padding: 2rem;">
+
+              <!-- MODE SELECTOR -->
+              <div style="display: flex; gap: 0; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem;">
+                <label style="flex: 1; position: relative;">
+                  <input type="radio" name="mode" value="encode" checked style="display: none;">
+                  <div style="padding: 0.75rem 1rem; text-align: center; background: var(--bg-hover); border-radius: 6px 0 0 6px; cursor: pointer; transition: all 0.2s ease; border: 1px solid var(--border); border-right: none;">
+                    Encode to Base64
+                  </div>
+                </label>
+                <label style="flex: 1; position: relative;">
+                  <input type="radio" name="mode" value="decode" style="display: none;">
+                  <div style="padding: 0.75rem 1rem; text-align: center; background: var(--bg-card); border-radius: 0 6px 6px 0; cursor: pointer; transition: all 0.2s ease; border: 1px solid var(--border); border-left: none;">
+                    Decode from Base64
+                  </div>
+                </label>
+              </div>
+
+              <!-- INPUT -->
+              <label for="b64-input" style="font-weight: 600; font-size: 1.05rem;">Input Text</label>
+              <textarea id="b64-input" rows="6" placeholder="Enter text to encode, or Base64 to decode" style="margin-bottom: 1.5rem;"></textarea>
+
+              <!-- ACTION BUTTONS -->
+              <div class="action-row">
+                <button class="btn primary" id="b64-convert">Encode</button>
+                <button class="btn ghost" id="b64-copy">Copy</button>
+                <button class="btn ghost" id="b64-clear">Clear</button>
+              </div>
+
+              <!-- OUTPUT -->
+              <label for="b64-output" style="font-weight: 600; font-size: 1.05rem; margin-top: 1.5rem; display: block;">Output</label>
+              <textarea id="b64-output" rows="6" readonly placeholder="Result will appear here"></textarea>
+
+            </div>
+          </div>
+
+          <!-- HOW TO USE SECTION -->
+          <section class="content-section">
+            <h3>How to Use the Base64 Encoder & Decoder</h3>
+            <p>
+              Using PrivacyKit's Base64 tool is straightforward. First, choose your operation: "Encode to Base64" to convert regular text or "Decode from Base64" to convert Base64 back to readable text. In the input field, paste or type the text you want to convert. Click the "Encode" (or "Decode") button and your result will instantly appear in the output area. Use the "Copy" button to add the result to your clipboard, then paste it wherever needed. The "Clear" button resets both fields so you can start a new conversion. All processing happens in your browser—nothing is sent to servers and nothing is logged.
+            </p>
+          </section>
+
+          <!-- WHAT IS BASE64 SECTION -->
+          <section class="content-section">
+            <h3>What is Base64?</h3>
+            <p>
+              Base64 is a standard encoding scheme that converts binary data into a text format using only 64 "safe" characters (A-Z, a-z, 0-9, +, /, and =). This makes it useful for transmitting data across systems that might not support binary formats directly. Common uses include:
+            </p>
+            <ul>
+              <li><strong>Email attachments:</strong> Email systems traditionally only handle text, so attachments are encoded in Base64 before transmission.</li>
+              <li><strong>Data URLs:</strong> Embedding images directly in HTML or CSS by encoding them as Base64 data URLs.</li>
+              <li><strong>API communication:</strong> Passing binary data through JSON or XML APIs that expect text.</li>
+              <li><strong>Authentication:</strong> HTTP Basic Authentication encodes credentials in Base64 format.</li>
+              <li><strong>Data storage:</strong> Storing binary data in text-based databases or configuration files.</li>
+              <li><strong>Mobile development:</strong> Encoding images and files for mobile app APIs.</li>
+            </ul>
+            <p>
+              Base64 is not encryption—it's simply encoding. Anyone can decode Base64 back to the original data. If you need to protect sensitive information, use actual encryption, not Base64.
+            </p>
+          </section>
+
+          <!-- COMMON USE CASES -->
+          <section class="content-section">
+            <h3>Common Use Cases for Base64</h3>
+            
+            <h4>Developers & Programmers</h4>
+            <p>
+              Base64 is essential in software development. When testing APIs that require encoded payloads, developers use Base64 encoding to format request bodies. Mobile developers often embed images as Base64 data URLs to reduce HTTP requests. Backend developers use it for HTTP Basic Authentication and to transmit binary files through JSON APIs.
+            </p>
+
+            <h4>Web Development</h4>
+            <p>
+              Web developers use Base64 to embed images, fonts, and other resources directly in HTML or CSS using data URLs. This reduces the number of HTTP requests and can improve page load times for small assets. For example: <code style="background: var(--bg-hover); padding: 0.2rem 0.4rem; border-radius: 4px;">data:image/png;base64,iVBORw0KGg...</code>
+            </p>
+
+            <h4>System Administration</h4>
+            <p>
+              System administrators use Base64 encoding for configuration files, SSH keys, certificates, and other sensitive data that needs to be stored or transmitted in text format. Many configuration management tools expect Base64-encoded values.
+            </p>
+
+            <h4>Data Migration</h4>
+            <p>
+              When migrating data between systems that use different formats or character encodings, Base64 encoding ensures data integrity by converting everything to a standardized text format.
+            </p>
+          </section>
+
+          <!-- KEY POINTS SECTION -->
+          <section class="content-section">
+            <h3>Important Points About Base64</h3>
+            <ul>
+              <li><strong>Not encryption:</strong> Base64 is encoding, not encryption. Anyone can decode it. Use for compatibility, not security.</li>
+              <li><strong>Increases size:</strong> Base64-encoded data is about 33% larger than the original binary data. Keep this in mind for performance-sensitive applications.</li>
+              <li><strong>Universal standard:</strong> Base64 is supported across virtually all programming languages and platforms, making it extremely portable.</li>
+              <li><strong>Deterministic:</strong> The same input always produces the same Base64 output. This is useful for checksums and verification.</li>
+              <li><strong>Reversible:</strong> Unlike hashing, Base64 can always be decoded back to the original data perfectly.</li>
+            </ul>
+          </section>
+
+          <!-- FAQ SECTION -->
+          <section class="content-section">
+            <h3>Frequently Asked Questions</h3>
+            
+            <h4>Is Base64 secure?</h4>
+            <p>
+              No. Base64 is encoding, not encryption. Anyone can easily decode Base64 text back to the original. If you need to protect sensitive data, use actual encryption like AES-256. Base64 is designed for data compatibility and transmission, not security.
+            </p>
+            
+            <h4>Why does my decoded Base64 look like gibberish?</h4>
+            <p>
+              This usually means the original data was binary (like an image or executable file) rather than text. Binary data appears as strange characters when decoded as text. Base64 is bidirectional—it works with any data—but the result will only be readable if the original was text-based.
+            </p>
+
+            <h4>Can I encode/decode large files?</h4>
+            <p>
+              Yes, PrivacyKit can handle reasonably large texts since everything runs in your browser. However, for very large files (10MB+), you might experience slowness. For production use with huge files, consider command-line tools like <code style="background: var(--bg-hover); padding: 0.2rem 0.4rem; border-radius: 4px;">base64</code> or dedicated utilities.
+            </p>
+
+            <h4>What's the difference between Base64 URL-safe and standard Base64?</h4>
+            <p>
+              Standard Base64 uses <code style="background: var(--bg-hover); padding: 0.2rem 0.4rem; border-radius: 4px;">+</code> and <code style="background: var(--bg-hover); padding: 0.2rem 0.4rem; border-radius: 4px;">/</code> characters. URL-safe Base64 replaces these with <code style="background: var(--bg-hover); padding: 0.2rem 0.4rem; border-radius: 4px;">-</code> and <code style="background: var(--bg-hover); padding: 0.2rem 0.4rem; border-radius: 4px;">_</code> to avoid conflicts with URL syntax. This tool uses standard Base64; most modern APIs handle both.
+            </p>
+
+            <h4>Can I use this offline?</h4>
+            <p>
+              Yes! Once this page loads, the encoder/decoder works entirely offline in your browser. You don't need an internet connection to use it. This makes it perfect for processing sensitive data offline.
+            </p>
+
+            <h4>Why does the output have padding (=) at the end?</h4>
+            <p>
+              Base64 uses <code style="background: var(--bg-hover); padding: 0.2rem 0.4rem; border-radius: 4px;">=</code> as padding to ensure the output length is always a multiple of 4 characters. This is part of the Base64 standard and is necessary for proper decoding. Don't remove it.
+            </p>
+
+            <h4>Can I encode multiple lines of text?</h4>
+            <p>
+              Absolutely. Paste any amount of text, including line breaks and special characters. Base64 handles all of it. Just click Encode and you'll get the full Base64 version.
+            </p>
+
+            <h4>Why should I use an online tool instead of command line?</h4>
+            <p>
+              Online tools like PrivacyKit are great for quick conversions, learning, and testing without command line knowledge. They're browser-based (no installation needed) and handle the complexity for you. For power users, <code style="background: var(--bg-hover); padding: 0.2rem 0.4rem; border-radius: 4px;">base64</code> command line tools are faster for batch operations.
+            </p>
+
+            <h4>Is my data private when I use this?</h4>
+            <p>
+              Yes, completely. PrivacyKit's Base64 encoder runs entirely in your browser using JavaScript. Your input and output never leave your device and are never sent to any server. We don't log anything.
+            </p>
+
+            <h4>Can I Base64 encode images?</h4>
+            <p>
+              This tool works with text. For images, you'd typically need a different tool or command-line utility. However, if you copy an image's binary data as text, this tool can technically encode it, but it's not optimized for that use case.
+            </p>
+          </section>
+
+        </div>
+
+      </main>
+    </div>
+
+    <!-- FOOTER AD SLOT -->
+    <div class="footer-ad-slot">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-5308109286906812"
+           data-ad-slot="5563384374"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      © <span id="year"></span> PrivacyKit — Privacy-First Security Tools · 
+      <a href="../about.html" class="footer-link">About</a> ·
+      <a href="../privacy-policy.html" class="footer-link">Privacy Policy</a> ·
+      <a href="../terms.html" class="footer-link">Terms of Service</a> ·
+      <a href="../contact.html" class="footer-link">Contact</a>
+    </footer>
+
+  </div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+  <!-- Base64 Encoder/Decoder Logic -->
+  <script>
+    const input = document.getElementById('b64-input');
+    const output = document.getElementById('b64-output');
+    const convertBtn = document.getElementById('b64-convert');
+    const copyBtn = document.getElementById('b64-copy');
+    const clearBtn = document.getElementById('b64-clear');
+    const modeRadios = document.querySelectorAll('input[name="mode"]');
+    const modeLabels = document.querySelectorAll('input[name="mode"]').forEach(radio => {
+      radio.closest('label').dataset.forRadio = radio.value;
+    });
+
+    function updateModeButtons() {
+      const mode = document.querySelector('input[name="mode"]:checked').value;
+      modeRadios.forEach(radio => {
+        const label = radio.closest('label');
+        const div = label.querySelector('div');
+        if (radio.value === mode) {
+          div.style.background = 'var(--accent)';
+          div.style.color = 'white';
+          div.style.fontWeight = 'bold';
+          div.style.borderColor = 'var(--accent)';
+        } else {
+          div.style.background = 'var(--bg-hover)';
+          div.style.color = 'var(--text-main)';
+          div.style.fontWeight = 'normal';
+          div.style.borderColor = 'var(--border)';
+        }
+      });
+    }
+
+    function updateButtonText() {
+      const mode = document.querySelector('input[name="mode"]:checked').value;
+      convertBtn.textContent = mode === 'encode' ? 'Encode' : 'Decode';
+    }
+
+    function encode() {
+      try {
+        const text = input.value;
+        if (!text) {
+          output.value = '';
+          return;
+        }
+        output.value = btoa(unescape(encodeURIComponent(text)));
+      } catch (e) {
+        output.value = 'Error: Invalid input';
+      }
+    }
+
+    function decode() {
+      try {
+        const text = input.value;
+        if (!text) {
+          output.value = '';
+          return;
+        }
+        output.value = decodeURIComponent(escape(atob(text)));
+      } catch (e) {
+        output.value = 'Error: Invalid Base64 input';
+      }
+    }
+
+    function convert() {
+      const mode = document.querySelector('input[name="mode"]:checked').value;
+      mode === 'encode' ? encode() : decode();
+    }
+
+    convertBtn.addEventListener('click', convert);
+    input.addEventListener('input', convert);
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && e.ctrlKey) convert();
+    });
+
+    copyBtn.addEventListener('click', () => {
+      if (output.value) {
+        navigator.clipboard.writeText(output.value).then(() => {
+          const originalText = copyBtn.textContent;
+          copyBtn.textContent = 'Copied!';
+          setTimeout(() => {
+            copyBtn.textContent = originalText;
+          }, 2000);
+        });
+      }
+    });
+
+    clearBtn.addEventListener('click', () => {
+      input.value = '';
+      output.value = '';
+      input.focus();
+    });
+
+    modeRadios.forEach((radio) => {
+      radio.addEventListener('change', () => {
+        updateButtonText();
+        updateModeButtons();
+        input.value = '';
+        output.value = '';
+        input.focus();
+      });
+    });
+
+    // Initial mode setup
+    updateModeButtons();
+  </script>
+
+  <!-- AdSense Init -->
+  <script>
+    window.addEventListener("load", function () {
+      var slots = document.querySelectorAll(".adsbygoogle");
+      slots.forEach(function (slot) {
+        try {
+          if (slot.offsetWidth > 0) {
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          }
+        } catch (e) {}
+      });
+    });
+  </script>
+
+  <script src="../assets/js/script.js"></script>
+</body>
+</html>

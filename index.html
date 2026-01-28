@@ -98,6 +98,12 @@
     <div class="page-content-with-rail">
       <main class="page-main">
         <div class="container">
+
+          <!-- QUICK VALUE SECTION -->
+          <p style="margin-top: 2.5rem; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); font-size: 1rem;">
+            <strong>100% client-side processing.</strong> All tools run in your browser—nothing is sent to servers, nothing is logged, nothing is tracked. Choose a tool below to get started.
+          </p>
+
           <div class="tools-list">
 
             <!-- PASSWORD GENERATOR -->
@@ -154,7 +160,149 @@
               <span>→</span>
             </a>
 
+            <!-- BASE64 ENCODER DECODER -->
+            <a class="tool-row" href="tools/base64-encoder-decoder.html">
+              <div class="tool-info">
+                <h3>Base64 Encoder & Decoder</h3>
+                <p>Encode text to Base64 or decode it back, instantly.</p>
+              </div>
+              <span>→</span>
+            </a>
+
           </div>
+
+          <!-- TOOL CATEGORIES SECTION -->
+          <section style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border);">
+            <h2>What You Can Do With PrivacyKit</h2>
+            <p>
+              Whether you're securing your accounts, generating test data, or protecting sensitive information, PrivacyKit provides the tools you need without compromising your privacy.
+            </p>
+            <ul style="margin-left: 1.5rem; line-height: 1.8;">
+              <li><strong>Password Generation & Security:</strong> Create strong passwords, passphrases, and check the strength of existing ones to ensure your accounts are protected against brute force attacks.</li>
+              <li><strong>Unique Identity Creation:</strong> Generate custom usernames for gaming, social media, and online accounts without revealing your real identity or reusing usernames across sites.</li>
+              <li><strong>QR Code Creation:</strong> Generate QR codes for URLs, contact info, WiFi networks, or any text—ideal for business cards, marketing materials, event management, and seamless mobile experiences.</li>
+              <li><strong>Cryptographic Keys & Tokens:</strong> Create secure keys, API tokens, and random strings for development, testing, and authentication purposes using military-grade randomness.</li>
+            </ul>
+          </section>
+
+          <!-- WHY PRIVACY MATTERS SECTION -->
+          <section style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border);">
+            <h2>Why Privacy Matters in Security Tools</h2>
+            <p>
+              When you use security tools online, you're often sharing sensitive information—passwords you're considering, personal details for usernames, or data you want to protect. Many tools log this information, track your usage, or sell your data to third parties.
+            </p>
+            <p>
+              PrivacyKit is different. Every tool runs entirely on your device using client-side JavaScript. Your passwords, usernames, QR code content, and generated keys never leave your browser. We have no servers to hack, no logs to breach, and no data to sell. Your security shouldn't require you to compromise your privacy.
+            </p>
+          </section>
+
+          <!-- TRUST SECTION -->
+          <section style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border);">
+            <h2>Why Trust PrivacyKit?</h2>
+            <ul style="margin-left: 1.5rem; line-height: 1.8;">
+              <li><strong>Privacy First:</strong> All processing happens in your browser. No data collection, no tracking, no servers involved. Your data never leaves your device.</li>
+              <li><strong>Free & Simple:</strong> Every tool is free, no accounts required, no hidden costs or premium tiers. All functionality is available to everyone.</li>
+              <li><strong>Cryptographically Secure:</strong> Built with security best practices using the Web Crypto API (crypto.getRandomValues()) for true, unpredictable randomness instead of weak pseudo-random algorithms.</li>
+              <li><strong>Transparent:</strong> View the page source code to see exactly how each tool works. No hidden functionality or malicious code.</li>
+              <li><strong>Fast & Lightweight:</strong> Minimal dependencies, quick load times, and optimized for both desktop and mobile devices.</li>
+            </ul>
+          </section>
+
+          <!-- FAQ SECTION WITH SCHEMA -->
+          <section style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border);">
+            <h2>Frequently Asked Questions</h2>
+            
+            <div style="margin-top: 1.5rem;">
+              <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">How do I know my data isn't being sent to your servers?</h4>
+              <p>
+                Open your browser's Developer Tools (F12), go to the Network tab, use any PrivacyKit tool, and observe the network requests. You'll only see requests to load the page and external resources like our stylesheet and ads—no data requests to our servers. All processing is done locally in your browser using JavaScript.
+              </p>
+            </div>
+
+            <div style="margin-top: 1.5rem;">
+              <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">Is it safe to generate passwords on an online tool?</h4>
+              <p>
+                Yes, when done correctly. PrivacyKit is safe because: (1) Everything runs in your browser, not on distant servers. (2) We use crypto.getRandomValues(), which is cryptographically secure randomness approved by security experts. (3) Generated passwords are never stored, logged, or transmitted. We recommend using PrivacyKit for password generation because it's more secure than trying to create strong passwords manually.
+              </p>
+            </div>
+
+            <div style="margin-top: 1.5rem;">
+              <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">Do you sell my data or use cookies to track me?</h4>
+              <p>
+                No. We don't collect personal data about you or what you generate. We use minimal cookies only to store your theme preference (dark/light mode) locally. Google AdSense may use cookies for ad personalization, but we don't control that. Check our <a href="privacy-policy.html">Privacy Policy</a> for complete details.
+              </p>
+            </div>
+
+            <div style="margin-top: 1.5rem;">
+              <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">What's the difference between a password and a passphrase?</h4>
+              <p>
+                A password is typically a shorter string combining uppercase, lowercase, numbers, and symbols (e.g., "K9@mL#2x"). A passphrase is a longer string of random words combined together (e.g., "correct-horse-battery-staple"). Passphrases are often easier to remember while remaining highly secure due to their length. Both PrivacyKit tools create strong, random options suitable for different use cases.
+              </p>
+            </div>
+
+            <div style="margin-top: 1.5rem;">
+              <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">Can I use generated usernames on multiple sites?</h4>
+              <p>
+                You can, but security experts recommend using unique usernames across different sites, just like unique passwords. This prevents someone who compromises one account from easily identifying and attacking your other accounts. PrivacyKit makes it easy to generate different usernames for each service.
+              </p>
+            </div>
+
+            <div style="margin-top: 1.5rem;">
+              <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">How do I use QR codes for business purposes?</h4>
+              <p>
+                QR codes are excellent for marketing and operations. Create codes linking to your website, social media profiles, contact information, or event registration pages. They work on business cards, product packaging, flyers, posters, and digital displays. Users simply scan with their smartphone camera to instantly access the encoded content. PrivacyKit's QR generator is ideal for testing and deployment—download as PNG and use anywhere.
+              </p>
+            </div>
+
+            <div style="margin-top: 1.5rem;">
+              <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">What makes a password "strong"?</h4>
+              <p>
+                A strong password: (1) Is at least 12-16 characters long to resist brute force attacks. (2) Includes uppercase, lowercase, numbers, and symbols. (3) Is random and unpredictable (not based on dictionary words or personal info). (4) Is unique to each account (never reused). PrivacyKit's password generator ensures all these criteria are met. Our strength checker helps you evaluate passwords against these standards.
+              </p>
+            </div>
+
+            <div style="margin-top: 1.5rem;">
+              <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">Do I need a password manager if I use PrivacyKit?</h4>
+              <p>
+                PrivacyKit generates strong passwords, but a password manager stores and organizes them securely across your devices. We recommend using PrivacyKit to generate strong passwords, then storing them in a trusted password manager like Bitwarden, 1Password, or LastPass. This combination ensures strong, unique passwords that you never have to remember.
+              </p>
+            </div>
+
+            <div style="margin-top: 1.5rem;">
+              <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">Are PrivacyKit tools available offline?</h4>
+              <p>
+                Yes. Once the page loads, all tools work offline because they run entirely in your browser with no server dependency. This makes them perfect for use in areas with unreliable internet or when you want guaranteed privacy without any network activity.
+              </p>
+            </div>
+
+            <div style="margin-top: 1.5rem;">
+              <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">How often should I change my passwords?</h4>
+              <p>
+                While there's debate around this, we recommend: (1) Change critical account passwords (email, banking, social media) every 3-6 months. (2) Change immediately if you suspect a breach. (3) Use unique, strong passwords for each account rather than frequently changing weak passwords. Enable two-factor authentication (2FA) wherever possible for additional security.
+              </p>
+            </div>
+
+            <div style="margin-top: 1.5rem;">
+              <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">What is two-factor authentication (2FA)?</h4>
+              <p>
+                2FA adds a second layer of security beyond your password. After entering your password, you must provide a second verification method—usually a code from an authenticator app (like Google Authenticator), a code sent via SMS, or a security key. Even if someone steals your password, they can't access your account without the second factor. We strongly recommend enabling 2FA on important accounts.
+              </p>
+            </div>
+
+            <div style="margin-top: 1.5rem;">
+              <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">Why should I care about privacy if I have nothing to hide?</h4>
+              <p>
+                Privacy is a fundamental right, not just for people "hiding" things. Your financial data, health information, browsing habits, and personal communications deserve protection. Data breaches happen constantly. Using privacy-focused tools minimizes your exposure and puts control back in your hands. Privacy is about security, dignity, and freedom—not secrecy.
+              </p>
+            </div>
+
+            <div style="margin-top: 1.5rem; padding-bottom: 1.5rem;">
+              <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">Have more questions?</h4>
+              <p>
+                Check out our <a href="about.html">About page</a> to learn more about PrivacyKit's mission, or <a href="contact.html">contact us</a> with specific questions or feedback. We're here to help!
+              </p>
+            </div>
+          </section>
         </div>
       </main>
     </div>
