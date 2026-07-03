@@ -1,0 +1,391 @@
+{
+  "$comment": "Launch manifest: 38 tools. Slugs are FINAL (7 marked keepSlug preserve live URLs). Titles are final (zod max 65). descriptions+faqs+body are written later per docs/voice.md. Icon names target @tabler/icons outline; if a name is missing, substitute the closest existing icon. prefix = unique element-id prefix per tool.",
+  "tools": [
+    {
+      "slug": "password-generator", "status": "done", "keepSlug": true, "prefix": "pg",
+      "name": "Password Generator", "category": "passwords", "icon": "key",
+      "title": "Password Generator — Strong Random Passwords | PrivacyKit",
+      "privacy": "local", "affiliateGroup": "passwords", "popular": true,
+      "jsonLdCategory": "SecurityApplication",
+      "related": ["passphrase-generator", "password-strength-checker", "password-leak-checker", "pin-generator", "key-generator"],
+      "keywords": ["password", "random password", "strong password", "pw gen", "secure password generator"],
+      "implementation": "DONE — reference implementation."
+    },
+    {
+      "slug": "passphrase-generator", "keepSlug": true, "prefix": "pp",
+      "name": "Passphrase Generator", "category": "passwords", "icon": "vocabulary",
+      "title": "Passphrase Generator — EFF Diceware Words | PrivacyKit",
+      "privacy": "local", "affiliateGroup": "passwords", "popular": false,
+      "jsonLdCategory": "SecurityApplication",
+      "related": ["password-generator", "password-strength-checker", "pin-generator", "username-generator"],
+      "keywords": ["passphrase", "diceware", "random words", "memorable password", "xkcd password"],
+      "implementation": "Fetch /data/eff-wordlist.json (7776 EFF words, already in public/) once, cache in module scope. Options: word count 3-10 (default 5), separator (space/hyphen/dot/none), capitalise-each-word toggle, append-a-digit toggle. Use lib/random randomItem. Show entropy: words*log2(7776)=~12.92 bits/word, plus crack-time like the reference tool. Regenerate button + auto on option change. Handle fetch failure with inline error. Attribute EFF wordlist (CC-BY 3.0) in the content body."
+    },
+    {
+      "slug": "password-strength-checker", "keepSlug": true, "prefix": "psc",
+      "name": "Password Strength Checker", "category": "passwords", "icon": "shield-check",
+      "title": "Password Strength Checker — Test Your Password | PrivacyKit",
+      "privacy": "local", "affiliateGroup": "passwords", "popular": false,
+      "jsonLdCategory": "SecurityApplication",
+      "related": ["password-generator", "passphrase-generator", "password-leak-checker"],
+      "keywords": ["password strength", "how strong is my password", "password test", "password checker"],
+      "implementation": "Use @zxcvbn-ts/core with language-common + language-en dictionaries (zxcvbnOptions.setOptions). Debounce 150ms (contract). Show: score 0-4 as coloured meter (danger/warn/ok tokens), crack-time estimates from result.crackTimesDisplay (offline_fast_hashing + online_throttling), and result.feedback warnings/suggestions rendered inline. Password input type=password with show/hide toggle. NEVER send anywhere; explicitly no history. The zxcvbn dictionaries are ~800KB — load them lazily via dynamic import() on first keystroke so initial page JS stays small; show a subtle 'analysing…' state during load."
+    },
+    {
+      "slug": "username-generator", "keepSlug": true, "prefix": "ug",
+      "name": "Username Generator", "category": "passwords", "icon": "user",
+      "title": "Username Generator — Random Name Ideas | PrivacyKit",
+      "privacy": "local", "popular": false,
+      "jsonLdCategory": "UtilitiesApplication",
+      "related": ["password-generator", "passphrase-generator", "uuid-generator"],
+      "keywords": ["username", "username ideas", "random username", "handle generator", "gamertag"],
+      "implementation": "Port spirit of legacy initUsernameGenerator (git show legacy-final:assets/js/script.js) but expand: optional keyword seed, style select (adjective+noun / noun+number / leetspeak-lite / two-words), count 5-20, click-to-copy list (.result-list). Ship curated wordlists (~60 adjectives, ~60 nouns, safe-for-work) as consts in client.ts. Use lib/random. No network."
+    },
+    {
+      "slug": "pin-generator", "prefix": "pin",
+      "name": "PIN Generator", "category": "passwords", "icon": "dialpad",
+      "title": "PIN Generator — Secure Random PIN Codes | PrivacyKit",
+      "privacy": "local", "affiliateGroup": "passwords", "popular": false,
+      "jsonLdCategory": "SecurityApplication",
+      "related": ["password-generator", "passphrase-generator", "uuid-generator"],
+      "keywords": ["pin", "pin code", "random pin", "4 digit pin", "6 digit pin"],
+      "implementation": "Length 4-12 (segmented button group 4/6/8 + custom), count 1-10, avoid-repeats toggle (rejects PINs with any digit appearing 3+ times consecutively or full repeats like 111111), avoid-sequences toggle (rejects ascending/descending runs of 4+). Generate via lib/random randomChars('0123456789', n) with rejection loop (cap 1000 attempts, then error). Show entropy honestly: a random 4-digit PIN is ~13.3 bits; content must explain PINs rely on lockout policies, not entropy."
+    },
+    {
+      "slug": "base64-encoder-decoder", "keepSlug": true, "prefix": "b64",
+      "name": "Base64 Encoder / Decoder", "category": "encoding", "icon": "binary",
+      "title": "Base64 Encode & Decode Online (UTF-8 Safe) | PrivacyKit",
+      "privacy": "local", "popular": true,
+      "jsonLdCategory": "DeveloperApplication",
+      "related": ["base64-file", "url-encoder-decoder", "html-entities", "jwt-decoder"],
+      "keywords": ["base64", "base64 encode", "base64 decode", "b64", "base64 converter"],
+      "implementation": "Two textareas (input/output) with swap direction button; live on input. Use lib/bytes textToBase64/base64ToText (UTF-8-correct, throws on invalid). URL-safe alphabet toggle; line-wrap-at-76 toggle for MIME. Invalid decode input → inline .field-error with position hint where feasible, never a thrown console error. Character/byte counts under each pane (lib/bytes formatBytes)."
+    },
+    {
+      "slug": "base64-file", "prefix": "b64f",
+      "name": "Base64 File Encoder", "category": "encoding", "icon": "file-code",
+      "title": "Base64 File Encoder — File to Data URI | PrivacyKit",
+      "privacy": "local", "popular": false,
+      "jsonLdCategory": "DeveloperApplication",
+      "related": ["base64-encoder-decoder", "image-compressor", "hash-generator"],
+      "keywords": ["file to base64", "data uri", "base64 image", "data url generator"],
+      "implementation": "Dropzone (lib/dom wireDropzone) accepting any file up to 10MB (reject larger with clear message — output strings get huge). Output: raw base64 AND full data URI (with detected MIME) in two panes, copy buttons, byte size vs base64 size stat (+33%). Reverse mode: paste a data URI → decode → download via lib/download downloadDataUrl. Read via FileReader.readAsArrayBuffer + lib/bytes bytesToBase64 (chunked — no call-stack overflow on big files)."
+    },
+    {
+      "slug": "url-encoder-decoder", "prefix": "url",
+      "name": "URL Encoder / Decoder", "category": "encoding", "icon": "link",
+      "title": "URL Encoder & Decoder — Percent Encoding | PrivacyKit",
+      "privacy": "local", "popular": false,
+      "jsonLdCategory": "DeveloperApplication",
+      "related": ["base64-encoder-decoder", "html-entities", "url-cleaner", "slug-generator"],
+      "keywords": ["url encode", "url decode", "percent encoding", "encodeURIComponent", "uri escape"],
+      "implementation": "Two textareas, live. Mode select: encodeURIComponent (default, encodes everything reserved) vs encodeURI (keeps URL structure) — explain difference inline via .field-hint. Decode uses decodeURIComponent with try/catch → inline error on malformed % sequences (show the offending index). Handles multiline input (encode each line separately toggle)."
+    },
+    {
+      "slug": "jwt-decoder", "prefix": "jwt",
+      "name": "JWT Decoder", "category": "encoding", "icon": "id",
+      "title": "JWT Decoder — Inspect JSON Web Tokens Online | PrivacyKit",
+      "privacy": "local", "popular": true,
+      "jsonLdCategory": "DeveloperApplication",
+      "related": ["base64-encoder-decoder", "hash-generator", "hmac-generator", "unix-timestamp-converter"],
+      "keywords": ["jwt", "jwt decode", "json web token", "jwt debugger", "decode token"],
+      "implementation": "Paste JWT → split on dots, base64url-decode header+payload (lib/bytes base64ToBytes handles url-safe), pretty-print JSON in two .pane-mono blocks. NO signature verification at launch (decode only — say so clearly). Highlight registered claims: exp/nbf/iat rendered as human dates with LIVE expired/not-yet-valid badges (badge-danger/badge-ok). Malformed token → inline error naming which segment failed. Content MUST stress: decoding is not verification; never paste production tokens containing real secrets into any website, even client-side ones — model the honesty voice."
+    },
+    {
+      "slug": "html-entities", "prefix": "ent",
+      "name": "HTML Entity Encoder / Decoder", "category": "encoding", "icon": "code",
+      "title": "HTML Entity Encoder & Decoder | PrivacyKit",
+      "privacy": "local", "popular": false,
+      "jsonLdCategory": "DeveloperApplication",
+      "related": ["url-encoder-decoder", "base64-encoder-decoder", "markdown-preview"],
+      "keywords": ["html entities", "html encode", "html escape", "ampersand escape", "unescape html"],
+      "implementation": "Use the 'he' package (he.encode with useNamedReferences toggle, he.decode). Two textareas, live, swap button. Mode: encode special-chars-only (default: &<>\"') vs encode-everything-non-ASCII. Show a small reference table of the common entities in the content body (not the UI)."
+    },
+    {
+      "slug": "hash-generator", "prefix": "hash",
+      "name": "Hash Generator", "category": "crypto", "icon": "hash",
+      "title": "Hash Generator — SHA-256, SHA-512, MD5, SHA-3 | PrivacyKit",
+      "privacy": "local", "popular": false,
+      "jsonLdCategory": "SecurityApplication",
+      "related": ["hmac-generator", "key-generator", "uuid-generator", "password-leak-checker"],
+      "keywords": ["hash", "sha256", "sha512", "md5", "sha3", "checksum", "hash calculator"],
+      "implementation": "Text input (textarea) AND file input (dropzone) tabs. Algorithms: SHA-1/SHA-256/SHA-384/SHA-512 via WebCrypto crypto.subtle.digest; MD5, SHA-3-256, SHA-3-512, CRC32 via hash-wasm (lazy dynamic import on first use). Compute ALL selected algorithms at once into .result-list rows with copy buttons. Files: stream via hash-wasm createXXX().update() chunks (File.stream()) so 1GB files work; show progress for >50MB. Uppercase/lowercase toggle. Content: MD5/SHA-1 are for integrity/legacy interop only, not security — say it plainly."
+    },
+    {
+      "slug": "hmac-generator", "prefix": "hmac",
+      "name": "HMAC Generator", "category": "crypto", "icon": "signature",
+      "title": "HMAC Generator — SHA-256 Signatures Online | PrivacyKit",
+      "privacy": "local", "popular": false,
+      "jsonLdCategory": "SecurityApplication",
+      "related": ["hash-generator", "jwt-decoder", "key-generator"],
+      "keywords": ["hmac", "hmac sha256", "hmac generator", "message authentication", "sign payload"],
+      "implementation": "Message textarea + secret key input (text or hex toggle) + algorithm select (SHA-256 default, SHA-1/384/512) via WebCrypto crypto.subtle.importKey('raw')+sign('HMAC'). Output hex + base64 with copy buttons. Live compute, debounced 150ms. Key never persisted; warn inline that pasting production secrets anywhere is bad practice (same honesty as JWT page)."
+    },
+    {
+      "slug": "key-generator", "keepSlug": true, "prefix": "kg",
+      "name": "Encryption Key Generator", "category": "crypto", "icon": "lock-square",
+      "title": "Encryption Key Generator — Hex & Base64 Keys | PrivacyKit",
+      "privacy": "local", "popular": false,
+      "jsonLdCategory": "SecurityApplication",
+      "related": ["password-generator", "hash-generator", "hmac-generator", "uuid-generator"],
+      "keywords": ["encryption key", "random key", "256 bit key", "aes key", "secret key generator", "api key"],
+      "implementation": "Port + upgrade legacy initKeyGenerator. Length presets 128/192/256/512 bits + custom bytes; format select: hex / base64 / base64url / alphanumeric. Use lib/random randomBytes + lib/bytes converters. Count 1-10 keys into .result-list with copy buttons. Show bits of entropy per key. Keep the LIVE slug /tools/key-generator/ but the page is retitled Encryption Key Generator (avoids game-keygen ad neighbourhood — do not use the word 'keygen' anywhere)."
+    },
+    {
+      "slug": "uuid-generator", "prefix": "uuid",
+      "name": "UUID Generator", "category": "crypto", "icon": "fingerprint",
+      "title": "UUID Generator — Random v4 UUIDs in Bulk | PrivacyKit",
+      "privacy": "local", "popular": false,
+      "jsonLdCategory": "DeveloperApplication",
+      "related": ["key-generator", "pin-generator", "hash-generator", "lorem-ipsum-generator"],
+      "keywords": ["uuid", "guid", "uuid v4", "uuid generator", "unique id"],
+      "implementation": "crypto.randomUUID() for v4; count 1-100; uppercase toggle, no-hyphens toggle; output .pane-mono one per line + copy-all + download .txt (lib/download). Also v7 (time-ordered): implement per RFC 9562 using lib/random randomBytes + Date.now — 48-bit timestamp + rand — with a short content explanation of when v7 beats v4 (DB index locality)."
+    },
+    {
+      "slug": "json-formatter", "prefix": "json",
+      "name": "JSON Formatter & Validator", "category": "text", "icon": "braces",
+      "title": "JSON Formatter & Validator — Beautify JSON | PrivacyKit",
+      "privacy": "local", "popular": true,
+      "jsonLdCategory": "DeveloperApplication",
+      "related": ["markdown-preview", "text-diff", "jwt-decoder", "regex-tester"],
+      "keywords": ["json formatter", "json validator", "json beautifier", "json minify", "pretty print json"],
+      "implementation": "Input/output textareas. Actions: Format (2/4-space select), Minify, Validate. JSON.parse in try/catch; on error, parse the native error message for position, convert to line:col, show inline error AND highlight by scrolling input to the offending line (set selectionStart/End). Sort-keys toggle (recursive). Stats row: keys, depth, size. Handles 10MB input without freezing (parse is native; only stringify large output lazily). NO tree view at launch (scope control)."
+    },
+    {
+      "slug": "regex-tester", "prefix": "rx",
+      "name": "Regex Tester", "category": "text", "icon": "regex",
+      "title": "Regex Tester — Live JavaScript Regular Expressions | PrivacyKit",
+      "privacy": "local", "popular": true,
+      "jsonLdCategory": "DeveloperApplication",
+      "related": ["text-diff", "case-converter", "json-formatter", "slug-generator"],
+      "keywords": ["regex", "regex tester", "regular expression", "regex101", "pattern match"],
+      "implementation": "Pattern input + flags checkboxes (g i m s u y) + test-string textarea + optional replacement input. Live (debounce 150ms). Render matches as a highlighted overlay: build result HTML with <mark> spans (escape everything else) in a read-only div synced to the textarea content; list numbered capture groups (named groups shown by name) per match in .result-list. Replacement preview pane when replacement non-empty. Invalid pattern → inline error with the browser's message. Guard catastrophic patterns: run match on a 2s watchdog — execute in a Worker (inline Blob worker) and terminate on timeout with a friendly 'pattern too slow' error. Content body includes a compact cheatsheet table."
+    },
+    {
+      "slug": "text-diff", "prefix": "diff",
+      "name": "Text Diff Checker", "category": "text", "icon": "file-diff",
+      "title": "Text Diff Checker — Compare Two Texts Online | PrivacyKit",
+      "privacy": "local", "popular": false,
+      "jsonLdCategory": "DeveloperApplication",
+      "related": ["json-formatter", "word-counter", "regex-tester"],
+      "keywords": ["diff", "text compare", "diff checker", "compare files", "text difference"],
+      "implementation": "Two side-by-side textareas (stack on mobile) + mode select: line diff (diffLines) / word (diffWords) / char (diffChars) using the 'diff' package (v9, BSD). Render unified result with ins/del styled spans (green/red subtle backgrounds via ok-subtle/danger-subtle tokens). Ignore-whitespace + ignore-case toggles (preprocess). Debounce 200ms; texts >200KB → compute on explicit button instead of live (announce via field-hint)."
+    },
+    {
+      "slug": "word-counter", "prefix": "wc",
+      "name": "Word & Character Counter", "category": "text", "icon": "abc",
+      "title": "Word Counter — Words, Characters & Reading Time | PrivacyKit",
+      "privacy": "local", "popular": false,
+      "jsonLdCategory": "UtilitiesApplication",
+      "related": ["case-converter", "lorem-ipsum-generator", "text-diff", "slug-generator"],
+      "keywords": ["word count", "character count", "letter counter", "reading time", "sentence counter"],
+      "implementation": "Single textarea, live stats in .stat-row: words (Intl.Segmenter 'word' granularity — correct for CJK), characters with/without spaces, sentences (Segmenter 'sentence'), paragraphs, reading time (~215wpm) + speaking time (~130wpm). Top-10 word frequency table (min length 3, stopwords excluded) revealed by a <details>. All client-side, handles 1MB text (recount debounced 200ms)."
+    },
+    {
+      "slug": "case-converter", "prefix": "case",
+      "name": "Case Converter", "category": "text", "icon": "letter-case",
+      "title": "Case Converter — camelCase, snake_case & More | PrivacyKit",
+      "privacy": "local", "popular": false,
+      "jsonLdCategory": "UtilitiesApplication",
+      "related": ["slug-generator", "word-counter", "regex-tester"],
+      "keywords": ["case converter", "uppercase", "camelcase", "snake case", "kebab case", "title case"],
+      "implementation": "Input textarea; output list of ALL cases at once in .result-list rows with copy buttons: UPPER, lower, Title Case (minor-words-lowercase rule), Sentence case, camelCase, PascalCase, snake_case, SCREAMING_SNAKE, kebab-case, dot.case. Tokenise smartly: split on whitespace/punctuation AND existing case boundaries (camelCase input converts correctly). Live on input."
+    },
+    {
+      "slug": "lorem-ipsum-generator", "prefix": "li",
+      "name": "Lorem Ipsum Generator", "category": "text", "icon": "blockquote",
+      "title": "Lorem Ipsum Generator — Placeholder Text | PrivacyKit",
+      "privacy": "local", "popular": false,
+      "jsonLdCategory": "UtilitiesApplication",
+      "related": ["word-counter", "markdown-preview", "uuid-generator"],
+      "keywords": ["lorem ipsum", "placeholder text", "dummy text", "filler text"],
+      "implementation": "Classic lorem corpus (ship the standard ~70-word vocabulary as const). Generate N paragraphs/sentences/words (mode select, count input), start-with-'Lorem ipsum dolor sit amet' toggle, HTML output toggle (<p> wrapped). Sentence construction: 6-14 random words, capitalised, period; paragraphs 4-8 sentences via lib/random. Copy + regenerate."
+    },
+    {
+      "slug": "markdown-preview", "prefix": "md",
+      "name": "Markdown Preview", "category": "text", "icon": "markdown",
+      "title": "Markdown Preview — Live Markdown Editor | PrivacyKit",
+      "privacy": "local", "popular": false,
+      "jsonLdCategory": "DeveloperApplication",
+      "related": ["html-entities", "json-formatter", "word-counter", "lorem-ipsum-generator"],
+      "keywords": ["markdown", "markdown preview", "markdown editor", "md to html", "markdown viewer"],
+      "implementation": "Split view: textarea left, rendered preview right (stack on mobile), live 150ms debounce. marked.parse with gfm:true, then DOMPurify.sanitize before innerHTML (REQUIRED — user-supplied markdown). Preview area gets .prose styles. 'Copy HTML' button (sanitised output). Starter sample document in the textarea so the preview isn't empty on load."
+    },
+    {
+      "slug": "slug-generator", "prefix": "slug",
+      "name": "Slug Generator", "category": "text", "icon": "slash",
+      "title": "Slug Generator — SEO-Friendly URL Slugs | PrivacyKit",
+      "privacy": "local", "affiliateGroup": "dev", "popular": false,
+      "jsonLdCategory": "DeveloperApplication",
+      "related": ["case-converter", "url-encoder-decoder", "url-cleaner"],
+      "keywords": ["slug generator", "url slug", "slugify", "seo url", "permalink"],
+      "implementation": "Textarea (multi-line: one slug per line) live. Pipeline: Unicode NFKD normalise + strip diacritics, lowercase, replace & with 'and', strip non-alphanumeric to separator, collapse separators, trim. Separator select (- default, _), max-length input with word-boundary truncation. Show before→after list."
+    },
+    {
+      "slug": "unix-timestamp-converter", "prefix": "ts",
+      "name": "Unix Timestamp Converter", "category": "datetime", "icon": "clock",
+      "title": "Unix Timestamp Converter — Epoch to Date | PrivacyKit",
+      "privacy": "local", "popular": true,
+      "jsonLdCategory": "DeveloperApplication",
+      "related": ["timezone-converter", "cron-parser", "jwt-decoder"],
+      "keywords": ["unix timestamp", "epoch converter", "timestamp to date", "epoch time", "unix time"],
+      "implementation": "Bidirectional: timestamp input (auto-detect s vs ms vs µs by magnitude, show which was assumed + override select) → local time, UTC, ISO 8601, relative ('3 hours ago') via Intl.RelativeTimeFormat. And date/time pickers → timestamp s+ms. Live current-timestamp display ticking each second with copy. All Intl-based, no date lib."
+    },
+    {
+      "slug": "cron-parser", "prefix": "cron",
+      "name": "Cron Expression Parser", "category": "datetime", "icon": "calendar-time",
+      "title": "Cron Expression Parser — Explain Any Crontab | PrivacyKit",
+      "privacy": "local", "popular": false,
+      "jsonLdCategory": "DeveloperApplication",
+      "related": ["unix-timestamp-converter", "timezone-converter", "regex-tester"],
+      "keywords": ["cron", "crontab", "cron expression", "cron parser", "cron schedule", "every 5 minutes"],
+      "implementation": "Input with a cron expression (default '*/5 * * * *'). cronstrue.toString() for the English explanation (throws → inline error), cron-parser CronExpressionParser.parse for next 10 run times rendered in local timezone + UTC toggle. Field-by-field breakdown table (minute/hour/dom/month/dow with the parsed meaning per field). Preset chips: hourly, daily midnight, weekdays 9am, Sunday weekly, 1st of month. NOTE: Phase E adds /cron/<preset>/ programmatic pages that deep-link here; keep the client able to read an initial expression from ?expr= query param."
+    },
+    {
+      "slug": "timezone-converter", "prefix": "tz",
+      "name": "Timezone Converter", "category": "datetime", "icon": "world-longitude",
+      "title": "Timezone Converter — Compare Times Across Zones | PrivacyKit",
+      "privacy": "local", "popular": false,
+      "jsonLdCategory": "UtilitiesApplication",
+      "related": ["unix-timestamp-converter", "cron-parser", "what-is-my-ip"],
+      "keywords": ["timezone converter", "time zone", "utc converter", "meeting planner", "time difference"],
+      "implementation": "Datetime-local input (defaults now) + source zone select + target zone multi-list (add/remove rows, persisted in localStorage). Zone list from Intl.supportedValuesOf('timeZone') with search filter; display via Intl.DateTimeFormat with timeZoneName. Show day-boundary indicator (+1d/-1d vs source). Pure Intl — no data shipped."
+    },
+    {
+      "slug": "qr-code-generator", "keepSlug": true, "prefix": "qr",
+      "name": "QR Code Generator", "category": "images", "icon": "qrcode",
+      "title": "QR Code Generator — Free, No Signup, PNG & SVG | PrivacyKit",
+      "privacy": "local", "popular": true,
+      "jsonLdCategory": "UtilitiesApplication",
+      "related": ["url-cleaner", "slug-generator", "base64-file", "image-compressor"],
+      "keywords": ["qr code", "qr generator", "free qr code", "wifi qr", "qr code maker"],
+      "implementation": "Replace legacy CDN qrcodejs with bundled 'qrcode' package. Content type tabs: text/URL (default), WiFi (SSID/security/password → WIFI: string), vCard (name/phone/email/org → minimal vCard 3.0). Options: size 128-1024, error correction L/M/Q/H, dark/light colours (default black-on-white; warn contrast), quiet-zone margin. Render to canvas live; download PNG (toDataURL + lib/download) and SVG (qrcode.toString type:'svg'). Fix the legacy bug: colours must be dark-on-light by default or scanners fail — mention in content."
+    },
+    {
+      "slug": "exif-viewer", "prefix": "exv",
+      "name": "EXIF Metadata Viewer", "category": "images", "icon": "photo-search",
+      "title": "EXIF Viewer — See Photo Metadata & GPS Online | PrivacyKit",
+      "privacy": "local", "popular": false,
+      "jsonLdCategory": "UtilitiesApplication",
+      "related": ["exif-remover", "image-compressor", "browser-fingerprint"],
+      "keywords": ["exif viewer", "photo metadata", "exif data", "image metadata", "gps photo"],
+      "implementation": "Dropzone for JPEG/PNG/HEIC-container-TIFF etc (exifr parses broadly). exifr.parse(file, {gps:true, tiff:true, exif:true, interop:false}) lazily imported. Group output: Camera (make/model/lens), Capture (exposure/ISO/focal), GPS (lat/long + a LINK to OpenStreetMap — plain <a>, no embedded map), Dates, Software. Missing sections → 'none found' (that's a good thing, say so). Emphasise GPS row visually (badge-warn) when present. Image thumbnail preview via URL.createObjectURL, revoked after. Multiple files: process first, list rest as queue. Nothing uploads — reiterate in UI hint."
+    },
+    {
+      "slug": "exif-remover", "prefix": "exr",
+      "name": "EXIF / Metadata Remover", "category": "images", "icon": "photo-x",
+      "title": "EXIF Remover — Strip Photo Metadata Online | PrivacyKit",
+      "privacy": "local", "popular": false,
+      "jsonLdCategory": "SecurityApplication",
+      "related": ["exif-viewer", "image-compressor", "url-cleaner"],
+      "keywords": ["remove exif", "strip metadata", "clean photo", "remove gps from photo", "metadata remover"],
+      "implementation": "Dropzone (JPEG/PNG/WebP, multiple). Strategy: decode via createImageBitmap → draw to canvas → re-encode toBlob same format (quality 0.95 JPEG) — strips ALL metadata. Show per-file before/after: prove it worked by running exifr on the output and displaying 'no metadata found' (green badge) + size delta. Batch download individually (no zip at launch). HONESTY in content: re-encoding recompresses pixels slightly; PNG stays lossless; colour-profile stripping may shift colours (sRGB assumed)."
+    },
+    {
+      "slug": "image-compressor", "prefix": "imc",
+      "name": "Image Compressor", "category": "images", "icon": "photo-down",
+      "title": "Image Compressor — Shrink JPG, PNG & WebP | PrivacyKit",
+      "privacy": "local", "popular": false,
+      "jsonLdCategory": "UtilitiesApplication",
+      "related": ["exif-remover", "exif-viewer", "base64-file", "qr-code-generator"],
+      "keywords": ["image compressor", "compress jpg", "compress png", "reduce image size", "image optimizer"],
+      "implementation": "browser-image-compression (lazy import). Dropzone multiple; options: max dimension (1920 default), quality slider 0.5-0.95, output format keep/JPEG/WebP. Per-file .result-list row: name, before→after sizes (lib/bytes), % saved, download button; 'download all' triggers sequential downloads. Uses Web Worker via the lib's useWebWorker:true — UI stays responsive; progress callback → per-file progress text. Note: compression also strips EXIF (cross-link exif-remover for the pure use-case)."
+    },
+    {
+      "slug": "what-is-my-ip", "prefix": "ip",
+      "name": "What Is My IP Address", "category": "network", "icon": "world",
+      "title": "What Is My IP Address? — IPv4 & IPv6 Lookup | PrivacyKit",
+      "privacy": "external-api",
+      "apiNote": "This tool asks Cloudflare (with ipify as fallback) which IP your request came from — that request necessarily leaves your browser. Nothing else is sent or stored.",
+      "affiliateGroup": "vpn", "popular": false,
+      "jsonLdCategory": "UtilitiesApplication",
+      "related": ["dns-lookup", "subnet-calculator", "browser-fingerprint"],
+      "keywords": ["what is my ip", "my ip address", "ip lookup", "ipv6 test", "public ip"],
+      "implementation": "On load fetch https://one.one.one.one/cdn-cgi/trace (text: parse ip= line, also shows warp/tls info) — fallback https://api.ipify.org?format=json then https://api64.ipify.org for IPv6. Show IPv4 and IPv6 separately (attempt both), copy buttons, plus what-this-reveals explainer. Graceful failure: offline/adblocked → clear inline message (not error toast). NO geolocation API at launch (keep zero-key deps); content explains IP→location is what VPNs mask (affiliate box context)."
+    },
+    {
+      "slug": "dns-lookup", "prefix": "dns",
+      "name": "DNS Lookup", "category": "network", "icon": "server",
+      "title": "DNS Lookup — A, AAAA, MX, TXT, NS Records | PrivacyKit",
+      "privacy": "external-api",
+      "apiNote": "Queries go to Cloudflare's 1.1.1.1 DNS-over-HTTPS API. The domain you look up is disclosed to Cloudflare; nothing else is.",
+      "affiliateGroup": "dev", "popular": false,
+      "jsonLdCategory": "DeveloperApplication",
+      "related": ["what-is-my-ip", "subnet-calculator", "url-cleaner"],
+      "keywords": ["dns lookup", "dns checker", "mx records", "txt records", "nslookup online", "dig online"],
+      "implementation": "Domain input + record type chips (A AAAA CNAME MX TXT NS SOA CAA — multi-select, A+AAAA+MX+TXT default). Fetch https://cloudflare-dns.com/dns-query?name=X&type=Y with header accept: application/dns-json, parallel per type. Render grouped .result-list: value, TTL; MX sorted by priority; TXT quoted-string joined. NXDOMAIN/empty → clear message. Validate domain input (basic hostname regex + IDN via URL constructor); strip protocol/path if a URL is pasted. Rate: don't auto-fire per keystroke — explicit Lookup button + Enter."
+    },
+    {
+      "slug": "subnet-calculator", "prefix": "net",
+      "name": "Subnet Calculator", "category": "network", "icon": "network",
+      "title": "Subnet Calculator — CIDR & IP Range Tool | PrivacyKit",
+      "privacy": "local", "popular": false,
+      "jsonLdCategory": "DeveloperApplication",
+      "related": ["what-is-my-ip", "dns-lookup", "number-base-converter"],
+      "keywords": ["subnet calculator", "cidr calculator", "ip range", "netmask", "cidr to range"],
+      "implementation": "Input: CIDR (e.g. 192.168.1.0/24) or IP+mask. IPv4 with BigInt-free 32-bit math (>>> ops), IPv6 with BigInt. Output .stat-row + table: network address, broadcast (v4), first/last usable host, usable count, netmask + wildcard, binary mask visualisation (styled mono string with the boundary marked). Live validation with inline errors. A /31 and /32 edge-case handled per RFC 3021 (mention in content)."
+    },
+    {
+      "slug": "password-leak-checker", "prefix": "plc",
+      "name": "Password Leak Checker", "category": "privacy", "icon": "shield-search",
+      "title": "Password Leak Checker — Breach Exposure Test | PrivacyKit",
+      "privacy": "external-api",
+      "apiNote": "Only the first 5 characters of your password's SHA-1 hash are sent to the Have I Been Pwned API (k-anonymity). The password itself never leaves your browser.",
+      "affiliateGroup": "passwords", "popular": true,
+      "jsonLdCategory": "SecurityApplication",
+      "related": ["password-generator", "password-strength-checker", "hash-generator", "browser-fingerprint"],
+      "keywords": ["password leak", "pwned password", "password breach check", "hibp", "is my password leaked"],
+      "implementation": "Password input (type=password, show/hide) + explicit Check button (NEVER auto-check on keystroke — each check is a network call). Flow: SHA-1 via crypto.subtle.digest → hex uppercase → send first 5 chars to https://api.pwnedpasswords.com/range/XXXXX with header Add-Padding: true → search response lines for the 35-char suffix → show count. Found → badge-danger with count + advice (change it everywhere, use generator — link). Not found → badge-ok with honest caveat (absence from known breaches ≠ safe). Network failure → inline message. FRAMING RULE (ad policy): strictly 'check YOUR OWN password'; never 'look up someone's password'. Content explains k-anonymity step by step — this is the flagship privacy-story page."
+    },
+    {
+      "slug": "browser-fingerprint", "prefix": "bfp",
+      "name": "Browser Fingerprint Viewer", "category": "privacy", "icon": "fingerprint",
+      "title": "Browser Fingerprint Viewer — What You Reveal | PrivacyKit",
+      "privacy": "local", "affiliateGroup": "vpn", "popular": false, "ads": false,
+      "jsonLdCategory": "SecurityApplication",
+      "related": ["what-is-my-ip", "url-cleaner", "password-leak-checker", "exif-viewer"],
+      "keywords": ["browser fingerprint", "fingerprinting test", "what does my browser reveal", "canvas fingerprint", "tracking test"],
+      "implementation": "ads:false in frontmatter (reviewer-sensitive page). On explicit 'Show my fingerprint' click (not on load — respectful), collect LOCALLY: userAgent, platform, languages, screen size/DPR/colour depth, timezone, cookieEnabled, doNotTrack, hardwareConcurrency, deviceMemory, touch support, prefers-color-scheme/reduced-motion, canvas hash (draw fixed scene → toDataURL → SHA-256 first 16 hex), WebGL renderer string (UNMASKED_RENDERER_WEBGL via debug ext, guarded), installed-font sampling SKIPPED (too slow). Grouped .result-list with per-row 'identifying power' badge (low/medium/high). NOTHING transmitted or stored — the whole point; banner-badge says so. Content: how fingerprinting works + what actually helps (Tor Browser, Firefox RFP) — honest, no snake oil."
+    },
+    {
+      "slug": "url-cleaner", "prefix": "ucl",
+      "name": "URL Tracker Cleaner", "category": "privacy", "icon": "unlink",
+      "title": "URL Cleaner — Remove Tracking Parameters | PrivacyKit",
+      "privacy": "local", "affiliateGroup": "vpn", "popular": false,
+      "jsonLdCategory": "UtilitiesApplication",
+      "related": ["browser-fingerprint", "url-encoder-decoder", "slug-generator", "qr-code-generator"],
+      "keywords": ["url cleaner", "remove utm", "tracking parameters", "clean link", "fbclid", "utm remover"],
+      "implementation": "Textarea (multiple URLs, one per line), live. Strip list (ship as const, grouped by tracker): utm_* (prefix match), fbclid, gclid, gclsrc, dclid, msclkid, mc_cid, mc_eid, igshid, si (spotify/yt), t/s (twitter), ref_src, ref_url, _hsenc, _hsmi, vero_*, oly_*, wickedid, yclid, __hstc... Use URL API; preserve non-tracking params; handle invalid URLs per-line with inline markers. Show removed-param chips per URL (what was cut). Copy cleaned list. Content lists the parameter families in a table with what each tracks."
+    },
+    {
+      "slug": "privacy-policy-generator", "prefix": "ppg",
+      "name": "Privacy Policy Generator", "category": "privacy", "icon": "file-certificate",
+      "title": "Privacy Policy Generator — Free Simple Template | PrivacyKit",
+      "privacy": "local", "affiliateGroup": "dev", "popular": false,
+      "jsonLdCategory": "UtilitiesApplication",
+      "related": ["url-cleaner", "browser-fingerprint", "word-counter"],
+      "keywords": ["privacy policy generator", "free privacy policy", "privacy policy template", "gdpr policy", "website privacy policy"],
+      "implementation": "Form: site name, URL, contact email, country select (AU/US/EU/UK/CA/other), checkboxes for data practices (analytics? which; cookies; accounts; payments via processor; contact forms; newsletters; ads/AdSense; server logs). Generates a structured plain-English policy client-side from parametrised sections (write the section templates carefully — factual, no legalese cosplay) into a .prose preview + copy HTML/markdown/plain buttons. PROMINENT disclaimer above output AND in content: template for information only, not legal advice, laws vary — have a professional review it. This is YMYL-adjacent: the page content must be extra sober."
+    },
+    {
+      "slug": "color-converter", "prefix": "col",
+      "name": "Color Converter", "category": "math", "icon": "palette",
+      "title": "Color Converter — HEX, RGB, HSL & OKLCH | PrivacyKit",
+      "privacy": "local", "popular": false,
+      "jsonLdCategory": "DeveloperApplication",
+      "related": ["number-base-converter", "image-compressor", "qr-code-generator"],
+      "keywords": ["color converter", "hex to rgb", "rgb to hsl", "oklch", "color picker", "hex code"],
+      "implementation": "Input accepts any CSS colour string (hex 3/4/6/8, rgb(), hsl(), oklch(), named). Parse strategy: assign to a detached element style.color + getComputedStyle in a hidden probe → resolves to rgb; for oklch OUTPUT implement rgb→oklch math (sRGB→linear→LMS→OKLab→LCH, ~30 lines, cite formula in comment). Outputs in .result-list with copy buttons: HEX, RGB(A), HSL(A), OKLCH, and a large live swatch (checkerboard under alpha). Native <input type=color> picker synced. WCAG contrast vs white and black shown as bonus stat with pass/fail badges."
+    },
+    {
+      "slug": "number-base-converter", "prefix": "nb",
+      "name": "Number Base Converter", "category": "math", "icon": "calculator",
+      "title": "Number Base Converter — Binary, Hex, Decimal | PrivacyKit",
+      "privacy": "local", "popular": false,
+      "jsonLdCategory": "DeveloperApplication",
+      "related": ["color-converter", "subnet-calculator", "hash-generator", "base64-encoder-decoder"],
+      "keywords": ["number base converter", "binary to decimal", "hex to decimal", "base converter", "octal"],
+      "implementation": "Four linked inputs (bin/oct/dec/hex) — edit any one, others update live; plus custom base 2-36 row. BigInt throughout (arbitrary size); negative numbers supported; input validation per base with inline error on the edited field; digit grouping toggle (4-bit nibbles for bin, thousands for dec). Prefix handling: accept and emit optional 0x/0o/0b toggles."
+    }
+  ]
+}

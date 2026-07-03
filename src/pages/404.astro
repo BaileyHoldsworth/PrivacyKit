@@ -1,0 +1,39 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const popular = (await getCollection('tools', (t) => t.data.popular)).sort((a, b) =>
+  a.data.name.localeCompare(b.data.name),
+);
+---
+
+<BaseLayout
+  title="Page not found — PrivacyKit"
+  description="This page doesn't exist or has moved. Browse PrivacyKit's free privacy and developer tools — password generators, encoders, hashing and more, all in-browser."
+  path="/404/"
+  noindex
+>
+  <main class="container">
+    <h1 style="margin-top:var(--s-7)">Page not found</h1>
+    <p style="margin-top:var(--s-3);color:var(--text-muted);max-width:44rem">
+      The address you followed doesn't match any page here — it may have moved
+      during the site rebuild, or the link had a typo. Every tool now lives at
+      <code>/tools/&lt;name&gt;/</code>, and the
+      <a href="/tools/">full tool index</a> lists everything in one place.
+    </p>
+
+    <section aria-labelledby="popular-heading" style="margin-top:var(--s-7)">
+      <h2 id="popular-heading">Popular tools</h2>
+      <ul class="related-grid" style="margin-top:var(--s-4);list-style:none;padding:0">
+        {popular.map((t) => (
+          <li>
+            <a class="related-card" href={`/tools/${t.id}/`}>
+              <strong>{t.data.name}</strong>
+              <span>{t.data.description}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </main>
+</BaseLayout>

@@ -1,0 +1,13 @@
+/index.html / 301
+/about.html /about/ 301
+/privacy-policy.html /privacy-policy/ 301
+/terms.html /terms/ 301
+/contact.html /contact/ 301
+/tools/password-generator.html /tools/password-generator/ 301
+/tools/password-strength-checker.html /tools/password-strength-checker/ 301
+/tools/username-generator.html /tools/username-generator/ 301
+/tools/passphrase-generator.html /tools/passphrase-generator/ 301
+/tools/key-generator.html /tools/key-generator/ 301
+/tools/qr-code-generator.html /tools/qr-code-generator/ 301
+/tools/base64-encoder-decoder.html /tools/base64-encoder-decoder/ 301
+/tools/email-breach-checker.html /tools/password-leak-checker/ 301

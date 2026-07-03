@@ -1,0 +1,20 @@
+{/* Sitewide command palette. Opened by Ctrl/Cmd+K or #open-palette (Header);
+    all behavior lives in src/lib/palette.ts. */}
+<dialog class="palette" aria-label="Search tools">
+  <div class="palette-frame">
+    <input
+      class="palette-input"
+      type="search"
+      placeholder="Search tools…"
+      autocomplete="off"
+      spellcheck="false"
+      role="combobox"
+      aria-expanded="true"
+      aria-controls="palette-results"
+      aria-label="Search tools"
+    />
+    <ul id="palette-results" class="palette-results" role="listbox" aria-label="Matching tools"></ul>
+  </div>
+</dialog>
+
+<script src="../lib/palette.ts"></script>

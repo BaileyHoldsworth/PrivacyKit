@@ -1,0 +1,17 @@
+/*
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Cache-Control: max-age=0, must-revalidate, s-maxage=3600
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+/og/*
+  Cache-Control: public, max-age=86400
+/icons/*
+  Cache-Control: public, max-age=604800
+# TODO(ads-activation): when SITE.adsEnabled flips true, add under /*:
+#   Link: <https://pagead2.googlesyndication.com>; rel=preconnect

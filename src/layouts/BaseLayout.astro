@@ -2,6 +2,7 @@
 import { SITE } from '../config/site';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import CommandPalette from '../components/CommandPalette.astro';
 import '../styles/tokens.css';
 import '../styles/base.css';
 import '../styles/components.css';
@@ -43,7 +44,7 @@ const canonical = `${SITE.url}${path}`;
     {noindex && <meta name="robots" content="noindex" />}
 
     <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml" />
-    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/icons/favicon-32.png" type="image/png" sizes="32x32" />
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
 
     <link
@@ -92,6 +93,7 @@ const canonical = `${SITE.url}${path}`;
     <Header />
     <slot />
     <Footer />
+    <CommandPalette />
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
     <script>
       import { wireCopyButtons } from '../lib/clipboard';

@@ -10,7 +10,8 @@
     "dev": "astro dev",
     "build": "astro build && node scripts/generate-og.mjs && node scripts/check-content.mjs",
     "preview": "astro preview",
-    "check": "node scripts/check-content.mjs && node scripts/check-html.mjs && node scripts/check-links.mjs"
+    "check": "node scripts/check-content.mjs --strict && node scripts/check-html.mjs && node scripts/check-links.mjs",
+    "check:content": "node scripts/check-content.mjs --strict"
   },
   "dependencies": {
     "@zxcvbn-ts/core": "4.1.2",
@@ -29,10 +30,12 @@
     "qrcode": "1.5.4"
   },
   "devDependencies": {
+    "@astrojs/check": "0.9.9",
     "@tabler/icons": "3.44.0",
     "html-validate": "11.5.5",
     "linkinator": "7.6.1",
     "node-html-parser": "8.0.4",
-    "sharp": "0.35.3"
+    "sharp": "0.35.3",
+    "typescript": "6.0.3"
   }
 }
