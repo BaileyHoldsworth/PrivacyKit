@@ -1,0 +1,106 @@
+{
+  "$comment": "13 launch guides. Slugs+titles final (zod: title<=70). Each guide links its tools in prose; the paired tool pages link back from 'How it works'. Written in Phase D per docs/voice.md, 800-1500 words, one idea taught properly: background -> mechanism -> worked example -> practical advice.",
+  "guides": [
+    {
+      "slug": "password-entropy",
+      "title": "How Password Entropy Actually Works",
+      "tools": ["password-generator", "password-strength-checker"],
+      "keywords": ["password entropy", "bits of entropy", "password strength math"],
+      "outline": "What entropy measures (process, not string); log2 arithmetic with a table of pool sizes vs length; why 'Tr0ub4dor' style loses to length; offline vs online attack rates; realistic GPU numbers; common myths (complexity rules)."
+    },
+    {
+      "slug": "diceware-passphrases",
+      "title": "Diceware Passphrases: Four Random Words Beat P@ssw0rd1",
+      "tools": ["passphrase-generator"],
+      "keywords": ["diceware", "passphrase vs password", "xkcd 936", "eff wordlist"],
+      "outline": "The xkcd 936 argument done rigorously; EFF large wordlist mechanics (7776 words, 12.9 bits/word); dice-roll provenance; when passphrases beat random strings (human memory) and when they don't; realistic length advice."
+    },
+    {
+      "slug": "exif-data-privacy",
+      "title": "What EXIF Data Reveals About You — and How to Strip It",
+      "tools": ["exif-viewer", "exif-remover"],
+      "keywords": ["exif privacy", "photo metadata", "gps in photos", "remove exif"],
+      "outline": "What cameras/phones embed (GPS, serials, timestamps, software); real de-anonymisation cases (described generically, no names); which platforms strip EXIF on upload and which don't; how re-encoding removes it; limits (recompression)."
+    },
+    {
+      "slug": "jwt-security-mistakes",
+      "title": "JWT Security Mistakes Developers Still Make",
+      "tools": ["jwt-decoder"],
+      "keywords": ["jwt security", "jwt best practices", "alg none", "jwt vs session"],
+      "outline": "Decoding != verification; alg:none and algorithm-confusion attacks (HS/RS); putting secrets in payloads; long expiry + no revocation; localStorage vs httpOnly cookie trade-offs; sensible defaults checklist."
+    },
+    {
+      "slug": "hibp-k-anonymity",
+      "title": "How a Password Leak Check Works Without Seeing Your Password",
+      "tools": ["password-leak-checker", "hash-generator"],
+      "keywords": ["k-anonymity", "have i been pwned api", "password breach check safe"],
+      "outline": "The k-anonymity range protocol step by step with a worked SHA-1 example; why 5 hex chars ~ 500-1000 candidates; what HIBP can and cannot infer; why this beats naive 'send the hash'; response padding."
+    },
+    {
+      "slug": "browser-fingerprinting",
+      "title": "Browser Fingerprinting Explained: Tracking Without Cookies",
+      "tools": ["browser-fingerprint", "url-cleaner"],
+      "keywords": ["browser fingerprinting", "canvas fingerprint", "tracking without cookies"],
+      "outline": "Entropy budget of common signals (UA, screen, fonts, canvas, WebGL); how bits combine to uniqueness; why clearing cookies doesn't help; what actually mitigates (Tor Browser letterboxing, Firefox RFP) and what's snake oil; honest advice."
+    },
+    {
+      "slug": "cron-expressions-guide",
+      "title": "A Practical Guide to Cron Expressions",
+      "tools": ["cron-parser"],
+      "keywords": ["cron syntax", "crontab examples", "cron every 5 minutes", "cron cheat sheet"],
+      "outline": "The five fields with a reference table; step/range/list syntax; DOM-vs-DOW OR gotcha; timezone and DST pitfalls; a dozen worked examples from real ops life; links to the /cron/ preset pages."
+    },
+    {
+      "slug": "base64-is-not-encryption",
+      "title": "Base64 Is Not Encryption: Encoding vs Encryption vs Hashing",
+      "tools": ["base64-encoder-decoder", "hash-generator"],
+      "keywords": ["base64 vs encryption", "encoding vs encryption", "is base64 secure"],
+      "outline": "The three concepts with one-line definitions and a comparison table; why base64 exists (binary-safe transport); the 4/3 size math; real incidents of base64-as-'security' (generic); when each is the right tool."
+    },
+    {
+      "slug": "how-password-managers-work",
+      "title": "How Password Managers Work — and How to Choose One",
+      "tools": ["password-generator", "password-strength-checker"],
+      "affiliateGroup": "passwords",
+      "keywords": ["how password managers work", "password manager security", "choose password manager"],
+      "outline": "Vault encryption architecture (KDF from master password, zero-knowledge); what a breach of the vendor can and can't expose (Argon2/PBKDF2 iterations); autofill phishing protection; choosing criteria (audits, open source, platform fit); honest mentions incl. Bitwarden/KeePass free options alongside affiliate picks."
+    },
+    {
+      "slug": "url-tracking-parameters",
+      "title": "What utm_, fbclid and gclid Actually Do",
+      "tools": ["url-cleaner"],
+      "keywords": ["utm parameters", "fbclid", "gclid", "url tracking", "remove tracking from links"],
+      "outline": "Param families table (analytics campaign tags vs click identifiers vs session leakage); how click IDs tie ad clicks to profiles; why stripping sometimes breaks links (signed params); browser features (Firefox query stripping) and their limits."
+    },
+    {
+      "slug": "what-your-ip-reveals",
+      "title": "What Your IP Address Reveals — and What a VPN Changes",
+      "tools": ["what-is-my-ip", "dns-lookup"],
+      "affiliateGroup": "vpn",
+      "keywords": ["what does my ip reveal", "ip geolocation accuracy", "do i need a vpn"],
+      "outline": "What IP geolocation actually resolves (city-ish, ISP, not your house); who sees your IP (sites, ISP, DNS); what a VPN moves vs what it doesn't (fingerprinting, logins); honest 'do you need one' decision guide; mention Mullvad editorially (no affiliate) alongside affiliate picks — credibility matters more than one click."
+    },
+    {
+      "slug": "website-privacy-policy-basics",
+      "title": "Does Your Website Need a Privacy Policy?",
+      "tools": ["privacy-policy-generator"],
+      "affiliateGroup": "dev",
+      "keywords": ["do i need a privacy policy", "privacy policy requirements", "gdpr small website"],
+      "outline": "When laws apply (GDPR/UK, CCPA thresholds, Australian Privacy Act small-business nuance); what analytics/ads/forms trigger; minimum contents; generator-vs-lawyer honesty; NOT LEGAL ADVICE disclaimer prominent; keep sober — YMYL page."
+    },
+    {
+      "slug": "csprng-vs-math-random",
+      "title": "Why Math.random() Can't Make Passwords: CSPRNGs Explained",
+      "tools": ["password-generator", "key-generator", "uuid-generator"],
+      "keywords": ["csprng", "math.random security", "crypto.getRandomValues", "secure random"],
+      "outline": "PRNG vs CSPRNG; xorshift128+ predictability (state recovery from outputs — describe, don't tutorialise); where browsers get entropy; modulo bias with a tiny worked example and rejection sampling; how this site's generators apply it."
+    },
+    {
+      "slug": "choosing-secure-pins",
+      "title": "PIN Security: What Four Digits Can and Can't Do",
+      "tools": ["pin-generator"],
+      "keywords": ["pin security", "most common pins", "4 digit pin safety"],
+      "outline": "13.3 bits reality; why PINs work anyway (lockout + secure elements); common-PIN research (1234, dates — cite the well-known DataGenetics-style findings generically); when to use 6+ digits; device vs remote contexts."
+    }
+  ]
+}

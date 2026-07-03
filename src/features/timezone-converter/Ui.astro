@@ -1,0 +1,61 @@
+<div class="tool" data-tool="timezone-converter">
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Time to convert</span>
+      <div class="pane-actions">
+        <button id="tz-now" class="btn btn-ghost btn-sm" type="button">Set to now</button>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field" style="flex:1 1 13rem">
+        <label for="tz-datetime">Date and time</label>
+        <input id="tz-datetime" class="pane pane-mono" type="datetime-local" />
+      </div>
+      <div class="field" style="flex:1 1 13rem">
+        <label for="tz-source">In timezone</label>
+        <select id="tz-source" class="select">
+          <option value="" selected>Your local timezone</option>
+        </select>
+      </div>
+    </div>
+    <p id="tz-time-hint" class="field-hint" aria-live="polite"></p>
+    <p id="tz-time-error" class="field-error" role="alert"></p>
+  </div>
+
+  <div class="field-row">
+    <div class="field" style="flex:1 1 16rem">
+      <label for="tz-zone-search">Add a timezone to compare</label>
+      <input
+        id="tz-zone-search"
+        class="pane pane-mono"
+        type="search"
+        list="tz-zone-list"
+        placeholder="Search: Europe/Berlin, Tokyo, UTC…"
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <datalist id="tz-zone-list"></datalist>
+    </div>
+    <button id="tz-add" class="btn btn-primary" type="button">Add zone</button>
+  </div>
+  <p id="tz-add-error" class="field-error" role="alert"></p>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Converted times</span>
+      <div class="pane-actions">
+        <button id="tz-copy-all" class="btn btn-ghost btn-sm" type="button">Copy all</button>
+      </div>
+    </div>
+    <ul id="tz-results" class="result-list" aria-live="polite">
+      <li><span style="flex:1">UTC</span><code>–</code></li>
+      <li><span style="flex:1">America/New_York</span><code>–</code></li>
+      <li><span style="flex:1">Europe/London</span><code>–</code></li>
+    </ul>
+    <p class="field-hint">
+      Zones you add are remembered in this browser (localStorage) — nothing leaves your device.
+    </p>
+  </div>
+</div>
+
+<script src="./client.ts"></script>

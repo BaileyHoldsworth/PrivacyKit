@@ -1,0 +1,69 @@
+<div class="tool" data-tool="word-counter">
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <label class="pane-label" for="wc-input">Your text</label>
+      <div class="pane-actions">
+        <button id="wc-copy" class="btn btn-ghost btn-sm" type="button">Copy stats</button>
+        <button id="wc-clear" class="btn btn-ghost btn-sm" type="button">Clear</button>
+      </div>
+    </div>
+    <textarea
+      id="wc-input"
+      class="pane"
+      rows="10"
+      placeholder="Type or paste your text — every count updates as you write"
+      autocomplete="off"
+    ></textarea>
+  </div>
+
+  <p id="wc-error" class="field-error" role="alert" aria-live="polite"></p>
+  <p id="wc-mode-hint" class="field-hint" aria-live="polite" hidden>
+    Very large input — counts switched to a faster approximate mode and may
+    differ slightly from the exact Unicode word rules.
+  </p>
+
+  <div class="stat-row" aria-live="polite">
+    <div class="stat">
+      <div class="stat-label">Words</div>
+      <div class="stat-value" id="wc-words">0</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Characters</div>
+      <div class="stat-value" id="wc-chars">0</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Characters (no spaces)</div>
+      <div class="stat-value" id="wc-chars-nospace">0</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Sentences</div>
+      <div class="stat-value" id="wc-sentences">0</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Paragraphs</div>
+      <div class="stat-value" id="wc-paragraphs">0</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Reading time (215 wpm)</div>
+      <div class="stat-value" id="wc-reading">0 s</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Speaking time (130 wpm)</div>
+      <div class="stat-value" id="wc-speaking">0 s</div>
+    </div>
+  </div>
+
+  <details id="wc-freq">
+    <summary>Top 10 words</summary>
+    <p class="field-hint">
+      Words of three or more letters, case-insensitive; numbers and common
+      English words (the, and, would…) are excluded.
+    </p>
+    <ol id="wc-freq-list" class="result-list" hidden></ol>
+    <p id="wc-freq-empty" class="field-hint">
+      Type or paste text above to see its most frequent words.
+    </p>
+  </details>
+</div>
+
+<script src="./client.ts"></script>

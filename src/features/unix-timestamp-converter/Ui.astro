@@ -1,0 +1,104 @@
+<div class="tool" data-tool="unix-timestamp-converter">
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Current Unix time</span>
+    </div>
+    <ul class="result-list">
+      <li>
+        <span class="badge">Seconds</span>
+        <code id="ts-now-s" style="flex:1">–</code>
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#ts-now-s" aria-label="Copy current timestamp in seconds">Copy</button>
+      </li>
+      <li>
+        <span class="badge">Milliseconds</span>
+        <code id="ts-now-ms" style="flex:1">–</code>
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#ts-now-ms" aria-label="Copy current timestamp in milliseconds">Copy</button>
+      </li>
+    </ul>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Timestamp → date</span>
+      <div class="pane-actions">
+        <button id="ts-fill-now" class="btn btn-ghost btn-sm" type="button">Use current time</button>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field" style="flex:2 1 12rem">
+        <label for="ts-input">Unix timestamp</label>
+        <input
+          id="ts-input"
+          class="pane pane-mono"
+          type="text"
+          inputmode="numeric"
+          placeholder="e.g. 2147483647"
+          autocomplete="off"
+          spellcheck="false"
+        />
+      </div>
+      <div class="field" style="flex:1 1 8rem">
+        <label for="ts-unit">Unit</label>
+        <select id="ts-unit" class="select">
+          <option value="auto" selected>Auto-detect</option>
+          <option value="s">Seconds</option>
+          <option value="ms">Milliseconds</option>
+          <option value="us">Microseconds</option>
+        </select>
+      </div>
+    </div>
+    <p id="ts-detected" class="field-hint" aria-live="polite"></p>
+    <p id="ts-error" class="field-error" role="alert"></p>
+    <ul class="result-list" aria-live="polite">
+      <li>
+        <span class="badge">Local</span>
+        <code id="ts-out-local" style="flex:1">–</code>
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#ts-out-local" aria-label="Copy local time">Copy</button>
+      </li>
+      <li>
+        <span class="badge">UTC</span>
+        <code id="ts-out-utc" style="flex:1">–</code>
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#ts-out-utc" aria-label="Copy UTC time">Copy</button>
+      </li>
+      <li>
+        <span class="badge">ISO 8601</span>
+        <code id="ts-out-iso" style="flex:1">–</code>
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#ts-out-iso" aria-label="Copy ISO 8601 time">Copy</button>
+      </li>
+      <li>
+        <span class="badge">Relative</span>
+        <code id="ts-out-rel" style="flex:1">–</code>
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#ts-out-rel" aria-label="Copy relative time">Copy</button>
+      </li>
+    </ul>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Date → timestamp</span>
+      <div class="pane-actions">
+        <button id="ts-date-now" class="btn btn-ghost btn-sm" type="button">Set to now</button>
+      </div>
+    </div>
+    <div class="field">
+      <label for="ts-date">Date and time (your local timezone)</label>
+      <input id="ts-date" class="pane pane-mono" type="datetime-local" step="1" />
+    </div>
+    <p id="ts-tz" class="field-hint" aria-live="polite"></p>
+    <p id="ts-date-error" class="field-error" role="alert"></p>
+    <ul class="result-list" aria-live="polite">
+      <li>
+        <span class="badge">Seconds</span>
+        <code id="ts-date-s" style="flex:1">–</code>
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#ts-date-s" aria-label="Copy timestamp in seconds">Copy</button>
+      </li>
+      <li>
+        <span class="badge">Milliseconds</span>
+        <code id="ts-date-ms" style="flex:1">–</code>
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#ts-date-ms" aria-label="Copy timestamp in milliseconds">Copy</button>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<script src="./client.ts"></script>

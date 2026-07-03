@@ -1,0 +1,108 @@
+<div class="tool" data-tool="jwt-decoder">
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <label class="pane-label" for="jwt-input">Encoded token</label>
+      <div class="pane-actions">
+        <button
+          id="jwt-sample"
+          class="btn btn-ghost btn-sm"
+          type="button"
+          title="Insert a synthetic token built locally with a random signature"
+        >Load sample</button>
+        <button id="jwt-clear" class="btn btn-ghost btn-sm" type="button">Clear</button>
+      </div>
+    </div>
+    <textarea
+      id="jwt-input"
+      class="pane pane-mono"
+      rows="5"
+      placeholder="Paste a JWT (eyJ…). A full “Authorization: Bearer …” header works too — the prefix is stripped."
+      spellcheck="false"
+      autocomplete="off"
+      autocapitalize="off"
+    ></textarea>
+    <p class="field-hint">
+      Decode only: the signature is displayed but never verified, and nothing you paste leaves this
+      page. Even so, avoid pasting live production tokens into any website — including this one.
+    </p>
+  </div>
+
+  <p id="jwt-error" class="field-error" role="alert"></p>
+
+  <div class="stat-row">
+    <div class="stat">
+      <div class="stat-label">Algorithm</div>
+      <div class="stat-value" id="jwt-alg">–</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Token status</div>
+      <div class="stat-value" id="jwt-status" aria-live="polite"><span class="badge">No token</span></div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Signature</div>
+      <div class="stat-value" id="jwt-sig-info">–</div>
+    </div>
+  </div>
+
+  <div class="field">
+    <span class="field-hint" id="jwt-claims-label">Time claims (exp · nbf · iat)</span>
+    <ul class="result-list" id="jwt-claims" aria-labelledby="jwt-claims-label">
+      <li id="jwt-claims-empty">Registered time claims appear here as readable dates with live expiry badges.</li>
+    </ul>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <label class="pane-label" for="jwt-header">Header (decoded)</label>
+      <div class="pane-actions">
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#jwt-header">Copy</button>
+      </div>
+    </div>
+    <textarea
+      id="jwt-header"
+      class="pane pane-mono"
+      rows="4"
+      readonly
+      placeholder="Header JSON appears here"
+      spellcheck="false"
+    ></textarea>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <label class="pane-label" for="jwt-payload">Payload (decoded)</label>
+      <div class="pane-actions">
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#jwt-payload">Copy</button>
+      </div>
+    </div>
+    <textarea
+      id="jwt-payload"
+      class="pane pane-mono"
+      rows="9"
+      readonly
+      placeholder="Payload JSON appears here"
+      spellcheck="false"
+    ></textarea>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <label class="pane-label" for="jwt-signature">Signature (Base64URL)</label>
+      <div class="pane-actions">
+        <span class="badge badge-warn">Not verified</span>
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#jwt-signature">Copy</button>
+      </div>
+    </div>
+    <input
+      id="jwt-signature"
+      class="pane pane-mono"
+      type="text"
+      readonly
+      placeholder="Raw signature segment appears here"
+      spellcheck="false"
+      autocomplete="off"
+    />
+  </div>
+</div>
+
+<script src="./client.ts"></script>

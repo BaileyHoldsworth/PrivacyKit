@@ -1,0 +1,69 @@
+<div class="tool" data-tool="pin-generator">
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Generated PINs</span>
+      <div class="pane-actions">
+        <button id="pin-copy-all" class="btn btn-ghost btn-sm" type="button" disabled>Copy all</button>
+      </div>
+    </div>
+    <ul id="pin-list" class="result-list" aria-live="polite" aria-label="Generated PINs"></ul>
+  </div>
+
+  <fieldset class="field" style="border:none;padding:0;margin:0">
+    <legend class="field-hint" style="padding:0 0 var(--s-1)">Length</legend>
+    <div class="action-row" role="group" aria-label="PIN length">
+      <button class="btn" type="button" data-pin-length="4" aria-pressed="false">4 digits</button>
+      <button class="btn btn-primary" type="button" data-pin-length="6" aria-pressed="true">6 digits</button>
+      <button class="btn" type="button" data-pin-length="8" aria-pressed="false">8 digits</button>
+      <button class="btn" type="button" data-pin-length="custom" aria-pressed="false">Custom</button>
+      <input
+        id="pin-length-custom"
+        class="pane pane-mono"
+        type="number"
+        min="4"
+        max="12"
+        step="1"
+        value="10"
+        aria-label="Custom length, 4 to 12 digits"
+        hidden
+        style="max-width:7rem"
+      />
+    </div>
+  </fieldset>
+
+  <div class="field">
+    <label for="pin-count">How many PINs: <span id="pin-count-value" class="range-value">1</span></label>
+    <div class="range-row">
+      <input id="pin-count" type="range" min="1" max="10" value="1" />
+    </div>
+  </div>
+
+  <div class="field-row">
+    <label class="checkbox-row">
+      <input type="checkbox" id="pin-no-repeats" checked /> Avoid repeated digits (111, 7777)
+    </label>
+    <label class="checkbox-row">
+      <input type="checkbox" id="pin-no-sequences" checked /> Avoid sequences (1234, 9876)
+    </label>
+  </div>
+
+  <p id="pin-error" class="field-error" role="alert"></p>
+
+  <div class="action-row">
+    <button id="pin-generate" class="btn btn-primary" type="button">Generate new PINs</button>
+  </div>
+
+  <div class="stat-row" aria-live="polite">
+    <div class="stat">
+      <div class="stat-label">Entropy per PIN</div>
+      <div class="stat-value"><span id="pin-entropy">–</span> bits</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Possible PINs</div>
+      <div class="stat-value" id="pin-space">–</div>
+    </div>
+  </div>
+  <p class="field-hint" id="pin-note">A PIN's main protection is the device's lockout policy, not its entropy — see the FAQ below.</p>
+</div>
+
+<script src="./client.ts"></script>

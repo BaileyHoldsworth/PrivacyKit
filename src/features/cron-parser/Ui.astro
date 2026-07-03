@@ -1,0 +1,96 @@
+<div class="tool" data-tool="cron-parser">
+  <div class="field">
+    <label for="cron-input">Cron expression</label>
+    <input
+      id="cron-input"
+      class="pane pane-mono"
+      type="text"
+      value="*/5 * * * *"
+      autocomplete="off"
+      autocapitalize="off"
+      spellcheck="false"
+      aria-describedby="cron-hint"
+    />
+    <p id="cron-hint" class="field-hint">
+      Five fields — minute, hour, day of month, month, day of week — or six with a
+      leading seconds field. Macros like <code>@daily</code> work too.
+    </p>
+  </div>
+
+  <div class="field">
+    <span class="field-hint" id="cron-presets-label">Presets</span>
+    <div class="field-row" role="group" aria-labelledby="cron-presets-label">
+      <button class="btn btn-ghost btn-sm" type="button" data-expr="0 * * * *">Hourly</button>
+      <button class="btn btn-ghost btn-sm" type="button" data-expr="0 0 * * *">Daily at midnight</button>
+      <button class="btn btn-ghost btn-sm" type="button" data-expr="0 9 * * 1-5">Weekdays 9 am</button>
+      <button class="btn btn-ghost btn-sm" type="button" data-expr="0 0 * * 0">Weekly on Sunday</button>
+      <button class="btn btn-ghost btn-sm" type="button" data-expr="0 0 1 * *">1st of the month</button>
+    </div>
+  </div>
+
+  <p id="cron-error" class="field-error" role="alert"></p>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">In plain English</span>
+      <div class="pane-actions">
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#cron-english" aria-label="Copy plain-English explanation">Copy</button>
+      </div>
+    </div>
+    <p id="cron-english" class="pane" aria-live="polite">Every 5 minutes</p>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Next 10 runs</span>
+      <div class="pane-actions">
+        <label class="checkbox-row"><input type="checkbox" id="cron-utc" /> Show in UTC</label>
+        <button id="cron-copy-runs" class="btn btn-ghost btn-sm" type="button" aria-label="Copy the list of run times">Copy</button>
+      </div>
+    </div>
+    <ul id="cron-runs" class="result-list" aria-live="polite">
+      <li><span class="field-hint" style="flex:1">Upcoming run times appear here once computed.</span></li>
+    </ul>
+    <p id="cron-tz" class="field-hint" aria-live="polite"></p>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Field by field</span>
+    </div>
+    <ul id="cron-fields" class="result-list" aria-live="polite">
+      <li id="cron-row-second" hidden>
+        <span class="badge">Seconds</span>
+        <code id="cron-tok-second"></code>
+        <span id="cron-desc-second" style="flex:1"></span>
+      </li>
+      <li id="cron-row-minute">
+        <span class="badge">Minute</span>
+        <code id="cron-tok-minute">*/5</code>
+        <span id="cron-desc-minute" style="flex:1">every 5 minutes</span>
+      </li>
+      <li id="cron-row-hour">
+        <span class="badge">Hour</span>
+        <code id="cron-tok-hour">*</code>
+        <span id="cron-desc-hour" style="flex:1">every hour</span>
+      </li>
+      <li id="cron-row-dayOfMonth">
+        <span class="badge">Day of month</span>
+        <code id="cron-tok-dayOfMonth">*</code>
+        <span id="cron-desc-dayOfMonth" style="flex:1">every day of the month</span>
+      </li>
+      <li id="cron-row-month">
+        <span class="badge">Month</span>
+        <code id="cron-tok-month">*</code>
+        <span id="cron-desc-month" style="flex:1">every month</span>
+      </li>
+      <li id="cron-row-dayOfWeek">
+        <span class="badge">Day of week</span>
+        <code id="cron-tok-dayOfWeek">*</code>
+        <span id="cron-desc-dayOfWeek" style="flex:1">every day of the week</span>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<script src="./client.ts"></script>

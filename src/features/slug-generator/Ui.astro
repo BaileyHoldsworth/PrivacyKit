@@ -1,0 +1,62 @@
+<div class="tool" data-tool="slug-generator">
+  <div class="field-row">
+    <div class="field">
+      <label for="slug-separator">Separator</label>
+      <select id="slug-separator" class="select">
+        <option value="-" selected>Hyphen (-) — recommended for URLs</option>
+        <option value="_">Underscore (_)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="slug-maxlen">Max length (optional)</label>
+      <input
+        id="slug-maxlen"
+        class="pane pane-mono"
+        type="number"
+        min="1"
+        max="500"
+        inputmode="numeric"
+        placeholder="No limit"
+        autocomplete="off"
+        style="width: 9rem"
+      />
+    </div>
+  </div>
+  <p class="field-hint">
+    Slugs are truncated at a word boundary, never mid-word. A common target for
+    readable URLs is under 60 characters.
+  </p>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <label class="pane-label" for="slug-input">Titles — one per line</label>
+      <div class="pane-actions">
+        <button id="slug-clear" class="btn btn-ghost btn-sm" type="button">Clear</button>
+      </div>
+    </div>
+    <textarea
+      id="slug-input"
+      class="pane pane-mono"
+      rows="5"
+      placeholder="Crème Brûlée &amp; Café au Lait — Recipe #12"
+      spellcheck="false"
+      autocomplete="off"
+    ></textarea>
+    <p class="field-hint" id="slug-count">0 lines</p>
+  </div>
+
+  <p id="slug-error" class="field-error" role="alert" aria-live="polite"></p>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label" id="slug-list-label">Slugs — before → after</span>
+      <div class="pane-actions">
+        <button id="slug-copy-all" class="btn btn-ghost btn-sm" type="button" disabled>Copy all slugs</button>
+      </div>
+    </div>
+    <ul class="result-list" id="slug-list" aria-labelledby="slug-list-label" aria-live="polite"></ul>
+    <p class="field-hint" id="slug-list-hint">Converted slugs appear here as you type.</p>
+  </div>
+</div>
+
+<script src="./client.ts"></script>

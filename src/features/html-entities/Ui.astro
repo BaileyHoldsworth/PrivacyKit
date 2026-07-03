@@ -1,0 +1,76 @@
+<div class="tool" data-tool="html-entities">
+  <div class="field-row">
+    <div class="field">
+      <label for="ent-direction">Direction</label>
+      <select id="ent-direction" class="select">
+        <option value="encode" selected>Encode — text to HTML entities</option>
+        <option value="decode">Decode — HTML entities to text</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="ent-scope">Characters to encode</label>
+      <select id="ent-scope" class="select">
+        <option value="special" selected>Special characters only (&amp; &lt; &gt; " ')</option>
+        <option value="all">Everything non-ASCII too (é, —, emoji)</option>
+      </select>
+    </div>
+    <button
+      id="ent-swap"
+      class="btn"
+      type="button"
+      title="Move the output into the input and reverse direction"
+    >Swap ⇅</button>
+  </div>
+
+  <div class="field-row">
+    <label class="checkbox-row">
+      <input type="checkbox" id="ent-named" checked />
+      Prefer named references (&amp;eacute; rather than &amp;#233;)
+    </label>
+  </div>
+  <p class="field-hint" id="ent-scope-hint">
+    Encodes only the five characters HTML treats specially — &amp; &lt; &gt; " ' — and leaves
+    accents, dashes and emoji untouched.
+  </p>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <label class="pane-label" id="ent-input-label" for="ent-input">Text input</label>
+      <div class="pane-actions">
+        <button id="ent-clear" class="btn btn-ghost btn-sm" type="button">Clear</button>
+      </div>
+    </div>
+    <textarea
+      id="ent-input"
+      class="pane pane-mono"
+      rows="6"
+      placeholder="Type or paste text to encode"
+      spellcheck="false"
+      autocomplete="off"
+    ></textarea>
+    <p class="field-hint" id="ent-input-count">0 characters</p>
+  </div>
+
+  <p id="ent-error" class="field-error" role="alert" aria-live="polite"></p>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <label class="pane-label" id="ent-output-label" for="ent-output">Encoded output</label>
+      <div class="pane-actions">
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#ent-output">Copy</button>
+        <button id="ent-download" class="btn btn-ghost btn-sm" type="button">Download</button>
+      </div>
+    </div>
+    <textarea
+      id="ent-output"
+      class="pane pane-mono"
+      rows="6"
+      readonly
+      placeholder="Entity-encoded text appears here as you type"
+      spellcheck="false"
+    ></textarea>
+    <p class="field-hint" id="ent-output-count" aria-live="polite">0 characters</p>
+  </div>
+</div>
+
+<script src="./client.ts"></script>

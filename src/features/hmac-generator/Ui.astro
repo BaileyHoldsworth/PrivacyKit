@@ -1,0 +1,95 @@
+<div class="tool" data-tool="hmac-generator">
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <label class="pane-label" for="hmac-message">Message</label>
+      <div class="pane-actions">
+        <button id="hmac-clear" class="btn btn-ghost btn-sm" type="button">Clear</button>
+      </div>
+    </div>
+    <textarea
+      id="hmac-message"
+      class="pane pane-mono"
+      rows="6"
+      placeholder="Text to sign — the exact UTF-8 bytes are authenticated, including any trailing newline"
+      spellcheck="false"
+      autocomplete="off"
+      autocapitalize="off"
+    ></textarea>
+  </div>
+
+  <div class="field">
+    <label for="hmac-key">Secret key</label>
+    <input
+      id="hmac-key"
+      class="pane pane-mono"
+      type="text"
+      placeholder="Shared secret"
+      spellcheck="false"
+      autocomplete="off"
+      autocapitalize="off"
+    />
+    <p class="field-hint">
+      Signing happens locally via WebCrypto and nothing you type is sent anywhere — even so, avoid
+      pasting live production secrets into any website, including this one. Prefer test keys.
+    </p>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label for="hmac-key-encoding">Key encoding</label>
+      <select id="hmac-key-encoding" class="select">
+        <option value="utf-8" selected>Text (UTF-8)</option>
+        <option value="hex">Hex bytes</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="hmac-algorithm">Algorithm</label>
+      <select id="hmac-algorithm" class="select">
+        <option value="SHA-256" selected>HMAC-SHA-256</option>
+        <option value="SHA-1">HMAC-SHA-1</option>
+        <option value="SHA-384">HMAC-SHA-384</option>
+        <option value="SHA-512">HMAC-SHA-512</option>
+      </select>
+    </div>
+  </div>
+
+  <p id="hmac-error" class="field-error" role="alert"></p>
+
+  <div class="pane-group" aria-live="polite">
+    <div class="pane-toolbar">
+      <label class="pane-label" for="hmac-hex">Signature (hex)</label>
+      <div class="pane-actions">
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#hmac-hex">Copy</button>
+      </div>
+    </div>
+    <input
+      id="hmac-hex"
+      class="pane pane-mono"
+      type="text"
+      readonly
+      placeholder="Hex digest appears here as you type"
+      spellcheck="false"
+      autocomplete="off"
+    />
+  </div>
+
+  <div class="pane-group" aria-live="polite">
+    <div class="pane-toolbar">
+      <label class="pane-label" for="hmac-b64">Signature (Base64)</label>
+      <div class="pane-actions">
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#hmac-b64">Copy</button>
+      </div>
+    </div>
+    <input
+      id="hmac-b64"
+      class="pane pane-mono"
+      type="text"
+      readonly
+      placeholder="Base64 digest appears here as you type"
+      spellcheck="false"
+      autocomplete="off"
+    />
+  </div>
+</div>
+
+<script src="./client.ts"></script>

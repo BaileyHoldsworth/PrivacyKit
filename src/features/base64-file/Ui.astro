@@ -1,0 +1,99 @@
+<div class="tool" data-tool="base64-file">
+  <div
+    id="b64f-dropzone"
+    class="dropzone"
+    tabindex="0"
+    role="button"
+    aria-label="Choose a file to encode. Press Enter to browse, or drag and drop a file onto this area."
+  >
+    <strong>Drop a file here or click to browse</strong><br />
+    <span class="field-hint">Any file type, up to 10 MB — it never leaves this page</span>
+  </div>
+
+  <p id="b64f-file-info" class="field-hint" aria-live="polite"></p>
+  <p id="b64f-error" class="field-error" role="alert"></p>
+
+  <div class="stat-row" aria-live="polite">
+    <div class="stat">
+      <div class="stat-label">Original size</div>
+      <div class="stat-value" id="b64f-stat-original">–</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Base64 size</div>
+      <div class="stat-value" id="b64f-stat-encoded">–</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Overhead</div>
+      <div class="stat-value" id="b64f-stat-overhead">–</div>
+    </div>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Raw Base64</span>
+      <div class="pane-actions">
+        <button id="b64f-download-txt" class="btn btn-ghost btn-sm" type="button">Download .txt</button>
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#b64f-b64">Copy</button>
+        <button id="b64f-clear" class="btn btn-ghost btn-sm" type="button">Clear</button>
+      </div>
+    </div>
+    <textarea
+      id="b64f-b64"
+      class="pane pane-mono"
+      rows="5"
+      readonly
+      aria-label="Raw Base64 output"
+      placeholder="Drop a file above to see its Base64 here"
+      spellcheck="false"></textarea>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Data URI</span>
+      <div class="pane-actions">
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#b64f-datauri">Copy</button>
+      </div>
+    </div>
+    <textarea
+      id="b64f-datauri"
+      class="pane pane-mono"
+      rows="5"
+      readonly
+      aria-label="Data URI output"
+      placeholder="data:<type>;base64,… appears here, ready for src attributes and CSS"
+      spellcheck="false"></textarea>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Decode a data URI back to a file</span>
+    </div>
+    <textarea
+      id="b64f-decode-input"
+      class="pane pane-mono"
+      rows="5"
+      aria-label="Data URI or raw Base64 to decode"
+      placeholder="Paste a data URI (data:image/png;base64,iVBOR…) or raw Base64"
+      spellcheck="false"></textarea>
+  </div>
+
+  <div class="field-row">
+    <div class="field" style="flex:1">
+      <label for="b64f-filename">Save as (optional — extension is guessed from the MIME type)</label>
+      <input
+        id="b64f-filename"
+        class="pane pane-mono"
+        type="text"
+        placeholder="decoded.png"
+        autocomplete="off"
+        spellcheck="false"
+      />
+    </div>
+    <button id="b64f-decode" class="btn btn-primary" type="button">Decode &amp; download</button>
+  </div>
+
+  <p id="b64f-decode-error" class="field-error" role="alert"></p>
+  <p id="b64f-decode-info" class="field-hint" aria-live="polite"></p>
+</div>
+
+<script src="./client.ts"></script>

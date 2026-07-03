@@ -1,0 +1,79 @@
+<div class="tool" data-tool="key-generator">
+  <div class="field-row">
+    <div class="field">
+      <label for="kg-size">Key size</label>
+      <select id="kg-size" class="select">
+        <option value="128">128 bits (16 bytes)</option>
+        <option value="192">192 bits (24 bytes)</option>
+        <option value="256" selected>256 bits (32 bytes)</option>
+        <option value="512">512 bits (64 bytes)</option>
+        <option value="custom">Custom…</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="kg-custom-bytes">Custom length (bytes)</label>
+      <input
+        id="kg-custom-bytes"
+        class="pane"
+        type="number"
+        min="1"
+        max="1024"
+        step="1"
+        value="32"
+        inputmode="numeric"
+        autocomplete="off"
+        disabled
+      />
+      <span class="field-hint">1–1024 bytes; enabled when key size is Custom.</span>
+    </div>
+    <div class="field">
+      <label for="kg-format">Format</label>
+      <select id="kg-format" class="select">
+        <option value="hex" selected>Hex (0–9, a–f)</option>
+        <option value="base64">Base64</option>
+        <option value="base64url">Base64url (URL-safe)</option>
+        <option value="alphanumeric">Alphanumeric (A–Z, a–z, 0–9)</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="kg-count">Keys per batch: <span id="kg-count-value" class="range-value">3</span></label>
+    <div class="range-row">
+      <input id="kg-count" type="range" min="1" max="10" value="3" />
+    </div>
+  </div>
+
+  <p id="kg-error" class="field-error" role="alert"></p>
+
+  <div class="action-row">
+    <button id="kg-generate" class="btn btn-primary" type="button">Generate keys</button>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Generated keys</span>
+      <div class="pane-actions">
+        <button id="kg-copy-all" class="btn btn-ghost btn-sm" type="button">Copy all</button>
+      </div>
+    </div>
+    <ul id="kg-results" class="result-list" aria-live="polite"></ul>
+    <p class="field-hint">
+      Click a key (or its Copy button) to copy it. Keys are generated on your
+      device with your browser's secure random source and never sent anywhere.
+    </p>
+  </div>
+
+  <div class="stat-row" aria-live="polite">
+    <div class="stat">
+      <div class="stat-label">Entropy per key</div>
+      <div class="stat-value"><span id="kg-entropy">–</span> bits</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Key length</div>
+      <div class="stat-value"><span id="kg-length">–</span> characters</div>
+    </div>
+  </div>
+</div>
+
+<script src="./client.ts"></script>

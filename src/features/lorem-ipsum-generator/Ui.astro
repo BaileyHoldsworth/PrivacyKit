@@ -1,0 +1,59 @@
+<div class="tool" data-tool="lorem-ipsum-generator">
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Generated text</span>
+      <div class="pane-actions">
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#li-output">Copy</button>
+      </div>
+    </div>
+    <textarea
+      id="li-output"
+      class="pane pane-mono"
+      rows="10"
+      readonly
+      aria-label="Generated lorem ipsum text"
+      placeholder="Choose a mode and count below, then generate"
+      autocomplete="off"
+      spellcheck="false"></textarea>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label for="li-mode">Generate</label>
+      <select id="li-mode" class="select">
+        <option value="paragraphs" selected>Paragraphs</option>
+        <option value="sentences">Sentences</option>
+        <option value="words">Words</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="li-count">How many</label>
+      <input id="li-count" class="select" type="number" inputmode="numeric" min="1" max="100" step="1" value="3" />
+      <p id="li-count-hint" class="field-hint">1–100 paragraphs</p>
+    </div>
+  </div>
+
+  <div class="field-row">
+    <label class="checkbox-row"><input type="checkbox" id="li-start" checked /> Start with “Lorem ipsum dolor sit amet”</label>
+    <label class="checkbox-row"><input type="checkbox" id="li-html" /> HTML output (&lt;p&gt; wrapped)</label>
+  </div>
+
+  <p id="li-error" class="field-error" role="alert"></p>
+
+  <div class="action-row">
+    <button id="li-generate" class="btn btn-primary" type="button">Regenerate</button>
+  </div>
+
+  <div class="stat-row" aria-live="polite">
+    <div class="stat">
+      <div class="stat-label">Words</div>
+      <div class="stat-value" id="li-words">–</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Characters</div>
+      <div class="stat-value" id="li-chars">–</div>
+    </div>
+  </div>
+</div>
+
+<script src="./client.ts"></script>

@@ -1,0 +1,152 @@
+<div class="tool" data-tool="qr-code-generator">
+  <div class="field">
+    <label for="qr-type">Content type</label>
+    <select id="qr-type" class="select">
+      <option value="text" selected>Text or URL</option>
+      <option value="wifi">Wi-Fi network</option>
+      <option value="vcard">Contact card (vCard)</option>
+    </select>
+  </div>
+
+  <div class="pane-group" id="qr-panel-text">
+    <div class="pane-toolbar">
+      <span class="pane-label">Content to encode</span>
+    </div>
+    <textarea
+      id="qr-text"
+      class="pane pane-mono"
+      rows="3"
+      aria-label="Text or URL to encode"
+      placeholder="https://example.org/menu — or any text"
+      spellcheck="false"></textarea>
+  </div>
+
+  <div class="pane-group" id="qr-panel-wifi" style="display:none">
+    <div class="field-row">
+      <div class="field" style="flex:2 1 14rem">
+        <label for="qr-wifi-ssid">Network name (SSID)</label>
+        <input id="qr-wifi-ssid" class="pane" type="text" autocomplete="off" spellcheck="false" />
+      </div>
+      <div class="field">
+        <label for="qr-wifi-security">Security</label>
+        <select id="qr-wifi-security" class="select">
+          <option value="WPA" selected>WPA / WPA2 / WPA3</option>
+          <option value="WEP">WEP</option>
+          <option value="nopass">Open (no password)</option>
+        </select>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field" style="flex:1 1 14rem">
+        <label for="qr-wifi-password">Password</label>
+        <input id="qr-wifi-password" class="pane pane-mono" type="text" autocomplete="off" spellcheck="false" />
+      </div>
+      <label class="checkbox-row"><input type="checkbox" id="qr-wifi-hidden" /> Hidden network</label>
+    </div>
+    <p class="field-hint">The password is stored in the code as readable text — share the code only with people who may know it.</p>
+  </div>
+
+  <div class="pane-group" id="qr-panel-vcard" style="display:none">
+    <div class="field-row">
+      <div class="field" style="flex:1 1 10rem">
+        <label for="qr-vc-first">First name</label>
+        <input id="qr-vc-first" class="pane" type="text" autocomplete="off" />
+      </div>
+      <div class="field" style="flex:1 1 10rem">
+        <label for="qr-vc-last">Last name</label>
+        <input id="qr-vc-last" class="pane" type="text" autocomplete="off" />
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field" style="flex:1 1 10rem">
+        <label for="qr-vc-phone">Phone</label>
+        <input id="qr-vc-phone" class="pane pane-mono" type="text" inputmode="tel" autocomplete="off" spellcheck="false" />
+      </div>
+      <div class="field" style="flex:1 1 12rem">
+        <label for="qr-vc-email">Email</label>
+        <input id="qr-vc-email" class="pane pane-mono" type="text" inputmode="email" autocomplete="off" spellcheck="false" />
+      </div>
+      <div class="field" style="flex:1 1 10rem">
+        <label for="qr-vc-org">Organisation</label>
+        <input id="qr-vc-org" class="pane" type="text" autocomplete="off" />
+      </div>
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div class="field" style="flex:2 1 14rem">
+      <label for="qr-size">PNG size: <span id="qr-size-value" class="range-value">320</span> px</label>
+      <div class="range-row">
+        <input id="qr-size" type="range" min="128" max="1024" step="16" value="320" />
+      </div>
+    </div>
+    <div class="field" style="flex:1 1 10rem">
+      <label for="qr-margin">Quiet-zone margin: <span id="qr-margin-value" class="range-value">4</span></label>
+      <div class="range-row">
+        <input id="qr-margin" type="range" min="0" max="10" value="4" />
+      </div>
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label for="qr-ec">Error correction</label>
+      <select id="qr-ec" class="select">
+        <option value="L">L — ~7% recoverable, most capacity</option>
+        <option value="M" selected>M — ~15% recoverable</option>
+        <option value="Q">Q — ~25% recoverable</option>
+        <option value="H">H — ~30% recoverable, densest</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="qr-dark">Code colour</label>
+      <input id="qr-dark" type="color" value="#000000" style="width:3.5rem;height:2.4rem;padding:2px;border:1px solid var(--border);border-radius:var(--r-s);background:var(--bg-inset)" />
+    </div>
+    <div class="field">
+      <label for="qr-light">Background colour</label>
+      <input id="qr-light" type="color" value="#ffffff" style="width:3.5rem;height:2.4rem;padding:2px;border:1px solid var(--border);border-radius:var(--r-s);background:var(--bg-inset)" />
+    </div>
+    <span id="qr-warn" class="badge badge-warn" style="display:none" role="status"></span>
+  </div>
+
+  <p id="qr-error" class="field-error" role="alert"></p>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">QR code</span>
+      <div class="pane-actions">
+        <button id="qr-download-png" class="btn btn-ghost btn-sm" type="button" disabled>Download PNG</button>
+        <button id="qr-download-svg" class="btn btn-ghost btn-sm" type="button" disabled>Download SVG</button>
+      </div>
+    </div>
+    <div class="pane" style="display:flex;justify-content:center;padding:var(--s-4)">
+      <canvas
+        id="qr-canvas"
+        width="320"
+        height="320"
+        role="img"
+        aria-label="Generated QR code preview"
+        style="max-width:100%;height:auto"></canvas>
+    </div>
+    <p id="qr-status" class="field-hint" aria-live="polite">Enter content above — the code renders as you type.</p>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Encoded payload</span>
+      <div class="pane-actions">
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#qr-payload">Copy</button>
+      </div>
+    </div>
+    <textarea
+      id="qr-payload"
+      class="pane pane-mono"
+      rows="3"
+      readonly
+      aria-label="Exact string stored in the QR code"
+      placeholder="The exact string stored in the code appears here"
+      spellcheck="false"></textarea>
+  </div>
+</div>
+
+<script src="./client.ts"></script>

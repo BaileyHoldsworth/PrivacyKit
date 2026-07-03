@@ -1,0 +1,78 @@
+---
+const SECTIONS = [
+  { id: 'camera', label: 'Camera' },
+  { id: 'capture', label: 'Capture settings' },
+  { id: 'gps', label: 'GPS location' },
+  { id: 'dates', label: 'Dates' },
+  { id: 'software', label: 'Software & authorship' },
+] as const;
+---
+
+<div class="tool" data-tool="exif-viewer">
+  <div
+    id="exv-dropzone"
+    class="dropzone"
+    tabindex="0"
+    role="button"
+    aria-label="Choose a photo to inspect. Press Enter to browse, or drag and drop image files onto this area."
+  >
+    <strong>Drop a photo here or click to browse</strong><br />
+    <span class="field-hint">JPEG, TIFF, HEIC/AVIF or PNG — read on this page, nothing is uploaded</span>
+  </div>
+
+  <p id="exv-error" class="field-error" role="alert"></p>
+
+  <div class="field-row">
+    <img id="exv-preview" alt="Preview of the loaded photo" hidden />
+    <p id="exv-file-info" class="field-hint" aria-live="polite"></p>
+  </div>
+
+  <div class="pane-group" id="exv-queue-wrap" hidden>
+    <div class="pane-toolbar">
+      <span class="pane-label">Queued files</span>
+    </div>
+    <ul id="exv-queue" class="result-list"></ul>
+  </div>
+
+  <div class="pane-toolbar">
+    <span class="pane-label">Metadata</span>
+    <div class="pane-actions">
+      <button id="exv-copy" class="btn btn-ghost btn-sm" type="button" disabled>Copy as text</button>
+      <button id="exv-download" class="btn btn-ghost btn-sm" type="button" disabled>Download .json</button>
+      <button id="exv-clear" class="btn btn-ghost btn-sm" type="button" disabled>Clear</button>
+    </div>
+  </div>
+
+  <div aria-live="polite">
+    {
+      SECTIONS.map((s) => (
+        <div class="pane-group">
+          <div class="pane-toolbar">
+            <span class="pane-label">{s.label}</span>
+            {s.id === 'gps' && (
+              <div class="pane-actions">
+                <span id="exv-gps-badge" class="badge" hidden />
+              </div>
+            )}
+          </div>
+          <ul id={`exv-sec-${s.id}`} class="result-list">
+            <li><span class="field-hint">Load a photo to populate this section.</span></li>
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  /* Thumbnail preview has no shared component class; tokens only. */
+  #exv-preview {
+    max-width: 10rem;
+    max-height: 10rem;
+    border-radius: var(--r-m);
+    border: 1px solid var(--border);
+    object-fit: contain;
+  }
+</style>
+
+<script src="./client.ts"></script>

@@ -1,0 +1,117 @@
+<div class="tool" data-tool="subnet-calculator">
+  <div class="field">
+    <label for="net-input">IP address with prefix length or netmask</label>
+    <input
+      id="net-input"
+      class="pane pane-mono"
+      type="text"
+      placeholder="e.g. 192.168.1.0/24 or 172.16.8.1 255.255.252.0 or 2001:db8::/48"
+      autocomplete="off"
+      autocapitalize="off"
+      spellcheck="false"
+    />
+    <p class="field-hint">IPv4 and IPv6, in CIDR notation or as address + dotted netmask.</p>
+  </div>
+
+  <div class="action-row" role="group" aria-label="Example inputs">
+    <button class="btn btn-ghost btn-sm" type="button" data-net-example="192.168.1.0/24">192.168.1.0/24</button>
+    <button class="btn btn-ghost btn-sm" type="button" data-net-example="172.16.8.1 255.255.252.0">172.16.8.1 255.255.252.0</button>
+    <button class="btn btn-ghost btn-sm" type="button" data-net-example="10.0.0.4/31">10.0.0.4/31</button>
+    <button class="btn btn-ghost btn-sm" type="button" data-net-example="2001:db8::/48">2001:db8::/48</button>
+  </div>
+
+  <p id="net-error" class="field-error" role="alert"></p>
+  <p id="net-note" class="field-hint" aria-live="polite"></p>
+
+  <div class="stat-row" aria-live="polite">
+    <div class="stat">
+      <div class="stat-label">Prefix length</div>
+      <div class="stat-value" id="net-prefix">–</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Total addresses</div>
+      <div class="stat-value" id="net-total">–</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Usable hosts</div>
+      <div class="stat-value" id="net-usable">–</div>
+    </div>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Subnet details</span>
+    </div>
+    <ul class="result-list" aria-live="polite">
+      <li id="net-cidr-row">
+        <span class="badge">CIDR</span>
+        <code id="net-cidr" style="flex:1">–</code>
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#net-cidr" aria-label="Copy normalised CIDR notation">Copy</button>
+      </li>
+      <li id="net-network-row">
+        <span class="badge">Network</span>
+        <code id="net-network" style="flex:1">–</code>
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#net-network" aria-label="Copy network address">Copy</button>
+      </li>
+      <li id="net-expanded-row" hidden>
+        <span class="badge">Expanded</span>
+        <code id="net-expanded" style="flex:1">–</code>
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#net-expanded" aria-label="Copy expanded network address">Copy</button>
+      </li>
+      <li id="net-first-row">
+        <span class="badge">First host</span>
+        <code id="net-first" style="flex:1">–</code>
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#net-first" aria-label="Copy first usable host address">Copy</button>
+      </li>
+      <li id="net-last-row">
+        <span class="badge">Last host</span>
+        <code id="net-last" style="flex:1">–</code>
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#net-last" aria-label="Copy last usable host address">Copy</button>
+      </li>
+      <li id="net-broadcast-row">
+        <span class="badge">Broadcast</span>
+        <code id="net-broadcast" style="flex:1">–</code>
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#net-broadcast" aria-label="Copy broadcast address">Copy</button>
+      </li>
+      <li id="net-mask-row">
+        <span class="badge">Netmask</span>
+        <code id="net-mask" style="flex:1">–</code>
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#net-mask" aria-label="Copy netmask">Copy</button>
+      </li>
+      <li id="net-wildcard-row">
+        <span class="badge">Wildcard</span>
+        <code id="net-wildcard" style="flex:1">–</code>
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#net-wildcard" aria-label="Copy wildcard mask">Copy</button>
+      </li>
+    </ul>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Netmask in binary</span>
+      <div class="pane-actions">
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#net-binary" aria-label="Copy binary netmask">Copy</button>
+      </div>
+    </div>
+    <div id="net-binary" class="pane pane-mono" aria-live="polite">–</div>
+    <p class="field-hint">Network bits are highlighted; the coloured rule marks the network/host boundary.</p>
+  </div>
+</div>
+
+<style>
+  /* Scoped, tokens-only: the binary boundary visualisation has no shared class. */
+  #net-binary {
+    overflow-wrap: anywhere;
+  }
+  #net-binary .bin-net {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  #net-binary .bin-host {
+    color: var(--text-faint);
+    border-left: 2px solid var(--accent);
+    padding-left: 1px;
+  }
+</style>
+
+<script src="./client.ts"></script>

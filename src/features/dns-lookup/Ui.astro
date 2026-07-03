@@ -1,0 +1,63 @@
+<div class="tool" data-tool="dns-lookup">
+  <div class="field">
+    <label for="dns-domain">Domain name</label>
+    <input
+      id="dns-domain"
+      class="pane pane-mono"
+      type="text"
+      placeholder="example.com — a pasted URL also works"
+      autocomplete="off"
+      autocapitalize="off"
+      spellcheck="false"
+      inputmode="url"
+      enterkeyhint="search"
+    />
+    <p class="field-hint">
+      Protocols and paths are stripped automatically; internationalised names are converted to
+      punycode before the query.
+    </p>
+  </div>
+
+  <fieldset class="field" style="border:none;padding:0;margin:0">
+    <legend class="field-hint" style="padding:0 0 var(--s-1)">Record types</legend>
+    <div class="field-row">
+      <label class="checkbox-row"><input type="checkbox" id="dns-type-a" checked /> A</label>
+      <label class="checkbox-row"><input type="checkbox" id="dns-type-aaaa" checked /> AAAA</label>
+      <label class="checkbox-row"><input type="checkbox" id="dns-type-cname" /> CNAME</label>
+      <label class="checkbox-row"><input type="checkbox" id="dns-type-mx" checked /> MX</label>
+      <label class="checkbox-row"><input type="checkbox" id="dns-type-txt" checked /> TXT</label>
+      <label class="checkbox-row"><input type="checkbox" id="dns-type-ns" /> NS</label>
+      <label class="checkbox-row"><input type="checkbox" id="dns-type-soa" /> SOA</label>
+      <label class="checkbox-row"><input type="checkbox" id="dns-type-caa" /> CAA</label>
+    </div>
+  </fieldset>
+
+  <p id="dns-error" class="field-error" role="alert"></p>
+
+  <div class="action-row">
+    <button id="dns-lookup-btn" class="btn btn-primary" type="button" disabled>
+      Look up records
+    </button>
+    <span id="dns-status" class="field-hint" aria-live="polite"></span>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Records</span>
+      <div class="pane-actions">
+        <button id="dns-copy-all" class="btn btn-ghost btn-sm" type="button" disabled>
+          Copy all
+        </button>
+        <button id="dns-clear" class="btn btn-ghost btn-sm" type="button" disabled>Clear</button>
+      </div>
+    </div>
+    <div id="dns-results" aria-live="polite">
+      <p class="field-hint">
+        Enter a domain, tick the record types you need, and press Look up — results appear here
+        grouped by type. Nothing is queried until you do.
+      </p>
+    </div>
+  </div>
+</div>
+
+<script src="./client.ts"></script>

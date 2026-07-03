@@ -1,0 +1,46 @@
+<div class="tool" data-tool="exif-remover">
+  <div
+    id="exr-dropzone"
+    class="dropzone"
+    tabindex="0"
+    role="button"
+    aria-label="Choose photos to clean. Press Enter to browse, or drag and drop JPEG, PNG or WebP files onto this area."
+  >
+    <strong>Drop photos here or click to browse</strong><br />
+    <span class="field-hint">JPEG, PNG or WebP — several at once is fine. Files never leave this page.</span>
+  </div>
+
+  <p id="exr-error" class="field-error" role="alert"></p>
+
+  <div class="stat-row" aria-live="polite">
+    <div class="stat">
+      <div class="stat-label">Photos cleaned</div>
+      <div class="stat-value" id="exr-stat-count">–</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Size before</div>
+      <div class="stat-value" id="exr-stat-before">–</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Size after</div>
+      <div class="stat-value" id="exr-stat-after">–</div>
+    </div>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Cleaned photos</span>
+      <div class="pane-actions">
+        <button id="exr-download-all" class="btn btn-primary btn-sm" type="button" disabled>Download all</button>
+        <button id="exr-clear" class="btn btn-ghost btn-sm" type="button" disabled>Clear</button>
+      </div>
+    </div>
+    <ul id="exr-results" class="result-list" aria-live="polite"></ul>
+    <p id="exr-results-hint" class="field-hint">
+      Each photo is decoded and redrawn locally, then re-checked with exifr to prove the metadata is gone.
+      Downloads are per-file — originals on your device are never modified.
+    </p>
+  </div>
+</div>
+
+<script src="./client.ts"></script>

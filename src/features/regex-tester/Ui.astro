@@ -1,0 +1,142 @@
+<div class="tool" data-tool="regex-tester">
+  <div class="field">
+    <label for="rx-pattern">Pattern</label>
+    <input
+      id="rx-pattern"
+      class="pane pane-mono"
+      type="text"
+      value="(?<user>[\w.+-]+)@(?<domain>[\w-]+\.[\w.]+)"
+      placeholder="e.g. (?<year>\d{4})-(?<month>\d{2})"
+      spellcheck="false"
+      autocomplete="off"
+      autocapitalize="off"
+      aria-describedby="rx-pattern-hint"
+    />
+    <p class="field-hint" id="rx-pattern-hint">Write the pattern without surrounding slashes — pick flags below instead.</p>
+  </div>
+
+  <fieldset class="field" style="border:none;padding:0">
+    <legend class="field-hint" style="padding:0 0 var(--s-1)">Flags</legend>
+    <div class="field-row">
+      <label class="checkbox-row"><input type="checkbox" id="rx-flag-g" checked /> g — global</label>
+      <label class="checkbox-row"><input type="checkbox" id="rx-flag-i" checked /> i — ignore case</label>
+      <label class="checkbox-row"><input type="checkbox" id="rx-flag-m" /> m — multiline ^ $</label>
+      <label class="checkbox-row"><input type="checkbox" id="rx-flag-s" /> s — dot matches newline</label>
+      <label class="checkbox-row"><input type="checkbox" id="rx-flag-u" /> u — unicode</label>
+      <label class="checkbox-row"><input type="checkbox" id="rx-flag-y" /> y — sticky</label>
+    </div>
+  </fieldset>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <label class="pane-label" for="rx-text">Test string</label>
+      <div class="pane-actions">
+        <button id="rx-clear" class="btn btn-ghost btn-sm" type="button">Clear</button>
+      </div>
+    </div>
+    <textarea
+      id="rx-text"
+      class="pane pane-mono"
+      rows="6"
+      spellcheck="false"
+      autocomplete="off"
+      placeholder="Paste the text to match against"
+    >Send reports to alice.nguyen@dev.example.io by Friday.
+CC ops-team@example.co.nz — skip malformed entries like bob@@nowhere.</textarea>
+  </div>
+
+  <div class="field">
+    <label for="rx-replacement">Replacement (optional)</label>
+    <input
+      id="rx-replacement"
+      class="pane pane-mono"
+      type="text"
+      placeholder="$1, $<name>, $& — leave empty to skip the preview"
+      spellcheck="false"
+      autocomplete="off"
+      autocapitalize="off"
+    />
+  </div>
+
+  <p id="rx-error" class="field-error" role="alert"></p>
+
+  <div class="stat-row" aria-live="polite">
+    <div class="stat">
+      <div class="stat-label">Matches</div>
+      <div class="stat-value" id="rx-count">–</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Match time</div>
+      <div class="stat-value" id="rx-time">–</div>
+    </div>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Matches highlighted</span>
+    </div>
+    <div id="rx-highlight" class="pane pane-mono rx-highlight">Send reports to alice.nguyen@dev.example.io by Friday.
+CC ops-team@example.co.nz — skip malformed entries like bob@@nowhere.</div>
+    <p class="field-hint" id="rx-status" aria-live="polite"></p>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Match details</span>
+    </div>
+    <ul id="rx-matches" class="result-list"></ul>
+  </div>
+
+  <div class="pane-group" id="rx-replace-group" hidden>
+    <div class="pane-toolbar">
+      <label class="pane-label" for="rx-output">Replacement preview</label>
+      <div class="pane-actions">
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#rx-output">Copy</button>
+      </div>
+    </div>
+    <textarea
+      id="rx-output"
+      class="pane pane-mono"
+      rows="5"
+      readonly
+      spellcheck="false"
+      placeholder="Result of the replacement appears here"
+    ></textarea>
+  </div>
+</div>
+
+<style>
+  .rx-highlight {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    min-height: 5rem;
+    max-height: 22rem;
+    overflow-y: auto;
+  }
+  .rx-highlight :global(mark) {
+    background: var(--accent-subtle);
+    color: var(--accent);
+    outline: 1px solid var(--accent-border);
+    border-radius: 2px;
+  }
+  /* Zero-length matches still get a visible tick between characters. */
+  .rx-highlight :global(mark:empty) {
+    border-left: 2px solid var(--accent);
+  }
+  /* Match-list entries are built by client.ts. */
+  .result-list :global(.rx-match) {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-1);
+  }
+  .result-list :global(.rx-match-top) {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--s-3);
+  }
+</style>
+
+<script src="./client.ts"></script>

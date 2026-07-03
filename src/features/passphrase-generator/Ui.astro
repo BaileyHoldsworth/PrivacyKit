@@ -1,0 +1,60 @@
+<div class="tool" data-tool="passphrase-generator">
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Generated passphrase</span>
+      <div class="pane-actions">
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#pp-output">Copy</button>
+      </div>
+    </div>
+    <input
+      id="pp-output"
+      class="pane pane-mono"
+      type="text"
+      readonly
+      aria-label="Generated passphrase"
+      placeholder="Choose options below, then generate"
+      autocomplete="off"
+      spellcheck="false"
+    />
+  </div>
+
+  <div class="field">
+    <label for="pp-words">Words: <span id="pp-words-value" class="range-value">5</span></label>
+    <div class="range-row">
+      <input id="pp-words" type="range" min="3" max="10" value="5" />
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label for="pp-separator">Separator</label>
+      <select id="pp-separator" class="select">
+        <option value=" ">Space</option>
+        <option value="-" selected>Hyphen (-)</option>
+        <option value=".">Dot (.)</option>
+        <option value="">None</option>
+      </select>
+    </div>
+    <label class="checkbox-row"><input type="checkbox" id="pp-capitalise" /> Capitalise each word</label>
+    <label class="checkbox-row"><input type="checkbox" id="pp-digit" /> Append a digit</label>
+  </div>
+
+  <p id="pp-error" class="field-error" role="alert"></p>
+
+  <div class="action-row">
+    <button id="pp-generate" class="btn btn-primary" type="button">Generate new passphrase</button>
+  </div>
+
+  <div class="stat-row" aria-live="polite">
+    <div class="stat">
+      <div class="stat-label">Entropy</div>
+      <div class="stat-value"><span id="pp-entropy">–</span> bits</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Offline crack time (10¹⁰ guesses/s)</div>
+      <div class="stat-value" id="pp-crack-time">–</div>
+    </div>
+  </div>
+</div>
+
+<script src="./client.ts"></script>

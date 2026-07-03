@@ -1,0 +1,108 @@
+<div class="tool" data-tool="password-strength-checker">
+  <div class="field">
+    <label for="psc-input">Password to test</label>
+    <div class="field-row">
+      <input
+        id="psc-input"
+        class="pane pane-mono"
+        type="password"
+        placeholder="Type or paste a password"
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false"
+        aria-describedby="psc-hint"
+      />
+      <button id="psc-toggle" class="btn" type="button" aria-pressed="false" aria-label="Show password">Show</button>
+    </div>
+    <p id="psc-hint" class="field-hint">
+      Analysed on this device with zxcvbn. Nothing you type is sent anywhere or stored — there is no history.
+    </p>
+  </div>
+
+  <div class="field">
+    <div class="pane-toolbar" aria-live="polite">
+      <span class="pane-label">Strength</span>
+      <span id="psc-score" class="badge">Not rated</span>
+    </div>
+    <div id="psc-meter" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <p id="psc-status" class="field-hint" role="status"></p>
+    <p id="psc-error" class="field-error" role="alert"></p>
+  </div>
+
+  <div class="stat-row" aria-live="polite">
+    <div class="stat">
+      <div class="stat-label">Guesses needed</div>
+      <div class="stat-value" id="psc-guesses">–</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Online attack · 100/hour</div>
+      <div class="stat-value" id="psc-online">–</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Offline attack · 10¹⁰/s</div>
+      <div class="stat-value" id="psc-offline">–</div>
+    </div>
+  </div>
+
+  <div id="psc-feedback" class="pane" aria-live="polite" hidden>
+    <p id="psc-warning" hidden></p>
+    <ul id="psc-suggestions"></ul>
+  </div>
+</div>
+
+<style>
+  /* Strength meter: no shared component covers a segmented meter, so this
+     small scoped block composes design tokens only. */
+  #psc-input {
+    flex: 1 1 14rem;
+    width: auto;
+    min-width: 0;
+  }
+
+  #psc-meter {
+    display: flex;
+    gap: var(--s-1);
+  }
+
+  #psc-meter span {
+    flex: 1;
+    height: 0.45rem;
+    border-radius: 999px;
+    background: var(--bg-inset);
+    border: 1px solid var(--border);
+    transition: background 150ms ease;
+  }
+
+  #psc-meter[data-score='0'] span:nth-child(-n + 1),
+  #psc-meter[data-score='1'] span:nth-child(-n + 2) {
+    background: var(--danger);
+    border-color: transparent;
+  }
+
+  #psc-meter[data-score='2'] span:nth-child(-n + 3),
+  #psc-meter[data-score='3'] span:nth-child(-n + 4) {
+    background: var(--warn);
+    border-color: transparent;
+  }
+
+  #psc-meter[data-score='4'] span:nth-child(-n + 5) {
+    background: var(--ok);
+    border-color: transparent;
+  }
+
+  #psc-warning {
+    color: var(--warn);
+    font-weight: 550;
+    margin-bottom: var(--s-2);
+  }
+
+  #psc-suggestions {
+    margin: 0;
+    padding-left: 1.1rem;
+    color: var(--text-muted);
+  }
+</style>
+
+<script src="./client.ts"></script>

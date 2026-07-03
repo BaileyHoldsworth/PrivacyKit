@@ -1,0 +1,120 @@
+---
+/**
+ * The starter sample is rendered at build time so the preview pane shows a
+ * real document before JS loads (contract: meaningful static render). The
+ * sample is our own trusted content, so no sanitiser is needed here — but
+ * everything the *user* types is sanitised with DOMPurify in client.ts
+ * before it reaches innerHTML.
+ */
+import { marked } from 'marked';
+
+const sample = `## Job sheet — 14 Wren St
+
+Edit this document on the left; the preview on the right follows as you type.
+
+## Formatting basics
+
+*Italic*, **bold**, \`inline code\`, ~~struck out~~, and a
+[link](https://example.org/spec).
+
+> Blockquotes indent like this — useful for site notes or callouts.
+
+## Lists
+
+1. Measure twice
+2. Cut once
+
+- [x] Order the flashing
+- [ ] Book the scaffold
+
+## Table (GFM)
+
+| Item               | Qty | Length |
+| ------------------ | --: | ------ |
+| Treated pine 90×45 |  12 | 2.4 m  |
+| Batten screws      | 200 | 65 mm  |
+
+## Code block
+
+\`\`\`js
+const total = lines.reduce((sum, l) => sum + l.qty, 0);
+\`\`\`
+`;
+
+const sampleHtml = marked.parse(sample, { gfm: true, async: false });
+---
+
+<div class="tool" data-tool="markdown-preview">
+  <div class="md-columns">
+    <div class="pane-group">
+      <div class="pane-toolbar">
+        <label class="pane-label" for="md-input">Markdown</label>
+        <div class="pane-actions">
+          <button id="md-clear" class="btn btn-ghost btn-sm" type="button">Clear</button>
+        </div>
+      </div>
+      <textarea
+        id="md-input"
+        class="pane pane-mono"
+        rows="20"
+        spellcheck="false"
+        autocomplete="off"
+        autocapitalize="off"
+        aria-describedby="md-hint">{sample}</textarea>
+    </div>
+
+    <div class="pane-group">
+      <div class="pane-toolbar">
+        <span class="pane-label" id="md-preview-label">Preview</span>
+        <div class="pane-actions">
+          <button id="md-copy-html" class="btn btn-ghost btn-sm" type="button">Copy HTML</button>
+          <button id="md-download" class="btn btn-ghost btn-sm" type="button">Download .html</button>
+        </div>
+      </div>
+      <div
+        id="md-preview"
+        class="pane prose md-preview"
+        role="region"
+        aria-labelledby="md-preview-label"
+        tabindex="0"
+        set:html={sampleHtml}
+      />
+    </div>
+  </div>
+
+  <div class="action-row">
+    <button id="md-render" class="btn btn-primary" type="button">Render preview</button>
+  </div>
+  <p id="md-hint" class="field-hint" aria-live="polite">
+    The preview updates 150 ms after you stop typing; documents over 200,000 characters render on demand.
+  </p>
+  <p id="md-error" class="field-error" role="alert" aria-live="polite"></p>
+</div>
+
+{/* Scoped layout only — tokens only, everything else comes from shared classes.
+    .pane.md-preview out-specifies .prose to cancel its page-body margins. */}
+<style>
+  .md-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-4);
+    align-items: stretch;
+  }
+
+  @media (max-width: 720px) {
+    .md-columns {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .pane.md-preview {
+    margin-top: 0;
+    max-width: none;
+    min-height: 9rem;
+    max-height: 36rem;
+    overflow-y: auto;
+    overflow-wrap: anywhere;
+  }
+</style>
+
+<script src="./client.ts"></script>

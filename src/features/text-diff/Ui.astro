@@ -1,0 +1,140 @@
+<div class="tool" data-tool="text-diff">
+  <div class="diff-columns">
+    <div class="pane-group">
+      <div class="pane-toolbar">
+        <label class="pane-label" for="diff-original">Original text</label>
+        <div class="pane-actions">
+          <button id="diff-clear" class="btn btn-ghost btn-sm" type="button">Clear both</button>
+        </div>
+      </div>
+      <textarea
+        id="diff-original"
+        class="pane pane-mono"
+        rows="10"
+        placeholder="Paste the earlier version — e.g. the paragraph before your edits"
+        spellcheck="false"
+        autocomplete="off"
+        autocapitalize="off"
+      ></textarea>
+    </div>
+    <div class="pane-group">
+      <div class="pane-toolbar">
+        <label class="pane-label" for="diff-changed">Changed text</label>
+        <div class="pane-actions">
+          <button id="diff-swap" class="btn btn-ghost btn-sm" type="button">Swap sides</button>
+        </div>
+      </div>
+      <textarea
+        id="diff-changed"
+        class="pane pane-mono"
+        rows="10"
+        placeholder="Paste the newer version here"
+        spellcheck="false"
+        autocomplete="off"
+        autocapitalize="off"
+      ></textarea>
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label for="diff-mode">Compare by</label>
+      <select id="diff-mode" class="select">
+        <option value="lines" selected>Lines</option>
+        <option value="words">Words</option>
+        <option value="chars">Characters</option>
+      </select>
+    </div>
+    <label class="checkbox-row"><input type="checkbox" id="diff-ignore-ws" /> Ignore whitespace</label>
+    <label class="checkbox-row"><input type="checkbox" id="diff-ignore-case" /> Ignore case</label>
+  </div>
+
+  <div class="action-row">
+    <button id="diff-compare" class="btn btn-primary" type="button">Compare</button>
+    <span id="diff-status" class="badge badge-ok" hidden aria-live="polite"></span>
+  </div>
+  <p id="diff-hint" class="field-hint" aria-live="polite">
+    The diff updates as you type; inputs over 200,000 characters switch to the Compare button.
+  </p>
+  <p id="diff-error" class="field-error" role="alert" aria-live="polite"></p>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label" id="diff-output-label">Result</span>
+      <div class="pane-actions">
+        <button id="diff-copy" class="btn btn-ghost btn-sm" type="button">Copy</button>
+        <button id="diff-download" class="btn btn-ghost btn-sm" type="button">Download</button>
+      </div>
+    </div>
+    <div
+      id="diff-output"
+      class="pane pane-mono diff-output"
+      tabindex="0"
+      role="region"
+      aria-labelledby="diff-output-label"
+    >
+      <span class="diff-placeholder">Differences appear here — removed text in red, added text in green.</span>
+    </div>
+  </div>
+
+  <div class="stat-row" aria-live="polite">
+    <div class="stat">
+      <div class="stat-label">Added</div>
+      <div class="stat-value" id="diff-stat-added">–</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Removed</div>
+      <div class="stat-value" id="diff-stat-removed">–</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Similarity</div>
+      <div class="stat-value" id="diff-stat-similarity">–</div>
+    </div>
+  </div>
+</div>
+
+{/* is:global because client.ts inserts <ins>/<del> at runtime — Astro's scope
+    class never reaches them. Every selector is prefixed with the tool root,
+    so the rules cannot leak. Tokens only. */}
+<style is:global>
+  [data-tool='text-diff'] .diff-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-4);
+  }
+
+  @media (max-width: 720px) {
+    [data-tool='text-diff'] .diff-columns {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  [data-tool='text-diff'] .diff-output {
+    min-height: 9rem;
+    max-height: 30rem;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  [data-tool='text-diff'] .diff-output ins,
+  [data-tool='text-diff'] .diff-output del {
+    text-decoration: none;
+  }
+
+  [data-tool='text-diff'] .diff-output ins {
+    background: var(--ok-subtle);
+    color: var(--ok);
+  }
+
+  [data-tool='text-diff'] .diff-output del {
+    background: var(--danger-subtle);
+    color: var(--danger);
+  }
+
+  [data-tool='text-diff'] .diff-placeholder {
+    color: var(--text-faint);
+  }
+</style>
+
+<script src="./client.ts"></script>

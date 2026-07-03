@@ -1,0 +1,81 @@
+<div class="tool" data-tool="case-converter">
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <label class="pane-label" for="case-input">Text to convert</label>
+      <div class="pane-actions">
+        <span id="case-count" class="field-hint" aria-live="polite"></span>
+        <button id="case-clear" class="btn btn-ghost btn-sm" type="button">Clear</button>
+      </div>
+    </div>
+    <textarea
+      id="case-input"
+      class="pane pane-mono"
+      rows="5"
+      placeholder="Type or paste text — every format updates as you type"
+      autocomplete="off"
+      spellcheck="false"></textarea>
+  </div>
+
+  <p id="case-error" class="field-error" role="alert"></p>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Converted</span>
+      <span id="case-notice" class="field-hint" aria-live="polite"></span>
+    </div>
+    <ul class="result-list" aria-live="polite">
+      <li>
+        <span class="badge">UPPERCASE</span>
+        <code id="case-out-upper" style="flex:1">–</code>
+        <button id="case-copy-upper" class="btn btn-ghost btn-sm" type="button" aria-label="Copy UPPERCASE result">Copy</button>
+      </li>
+      <li>
+        <span class="badge">lowercase</span>
+        <code id="case-out-lower" style="flex:1">–</code>
+        <button id="case-copy-lower" class="btn btn-ghost btn-sm" type="button" aria-label="Copy lowercase result">Copy</button>
+      </li>
+      <li>
+        <span class="badge">Title Case</span>
+        <code id="case-out-title" style="flex:1">–</code>
+        <button id="case-copy-title" class="btn btn-ghost btn-sm" type="button" aria-label="Copy Title Case result">Copy</button>
+      </li>
+      <li>
+        <span class="badge">Sentence case</span>
+        <code id="case-out-sentence" style="flex:1">–</code>
+        <button id="case-copy-sentence" class="btn btn-ghost btn-sm" type="button" aria-label="Copy Sentence case result">Copy</button>
+      </li>
+      <li>
+        <span class="badge">camelCase</span>
+        <code id="case-out-camel" style="flex:1">–</code>
+        <button id="case-copy-camel" class="btn btn-ghost btn-sm" type="button" aria-label="Copy camelCase result">Copy</button>
+      </li>
+      <li>
+        <span class="badge">PascalCase</span>
+        <code id="case-out-pascal" style="flex:1">–</code>
+        <button id="case-copy-pascal" class="btn btn-ghost btn-sm" type="button" aria-label="Copy PascalCase result">Copy</button>
+      </li>
+      <li>
+        <span class="badge">snake_case</span>
+        <code id="case-out-snake" style="flex:1">–</code>
+        <button id="case-copy-snake" class="btn btn-ghost btn-sm" type="button" aria-label="Copy snake_case result">Copy</button>
+      </li>
+      <li>
+        <span class="badge">SCREAMING_SNAKE</span>
+        <code id="case-out-screaming" style="flex:1">–</code>
+        <button id="case-copy-screaming" class="btn btn-ghost btn-sm" type="button" aria-label="Copy SCREAMING_SNAKE_CASE result">Copy</button>
+      </li>
+      <li>
+        <span class="badge">kebab-case</span>
+        <code id="case-out-kebab" style="flex:1">–</code>
+        <button id="case-copy-kebab" class="btn btn-ghost btn-sm" type="button" aria-label="Copy kebab-case result">Copy</button>
+      </li>
+      <li>
+        <span class="badge">dot.case</span>
+        <code id="case-out-dot" style="flex:1">–</code>
+        <button id="case-copy-dot" class="btn btn-ghost btn-sm" type="button" aria-label="Copy dot.case result">Copy</button>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<script src="./client.ts"></script>

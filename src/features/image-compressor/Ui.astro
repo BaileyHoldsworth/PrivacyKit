@@ -1,0 +1,71 @@
+<div class="tool" data-tool="image-compressor">
+  <div
+    id="imc-dropzone"
+    class="dropzone"
+    tabindex="0"
+    role="button"
+    aria-label="Choose images to compress. Press Enter to browse, or drag and drop JPEG, PNG or WebP files onto this area."
+  >
+    <strong>Drop images here or click to browse</strong><br />
+    <span class="field-hint">JPEG, PNG or WebP · up to 20 files, 30 MB each · compressed on this device, never uploaded</span>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label for="imc-max-dim">Max dimension (longest side)</label>
+      <select id="imc-max-dim" class="select">
+        <option value="0">Keep original size</option>
+        <option value="1280">1280 px</option>
+        <option value="1920" selected>1920 px</option>
+        <option value="2560">2560 px</option>
+        <option value="3840">3840 px</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="imc-format">Output format</label>
+      <select id="imc-format" class="select">
+        <option value="keep" selected>Keep original format</option>
+        <option value="image/jpeg">Convert to JPEG</option>
+        <option value="image/webp">Convert to WebP</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="imc-quality">Quality: <span id="imc-quality-value" class="range-value">0.80</span></label>
+    <div class="range-row">
+      <input id="imc-quality" type="range" min="0.5" max="0.95" step="0.05" value="0.8" aria-describedby="imc-quality-hint" />
+    </div>
+    <span id="imc-quality-hint" class="field-hint">
+      Applies to JPEG and WebP output — PNG is lossless, so shrink PNGs with the max dimension or by
+      converting to WebP. Re-encoding also strips EXIF metadata (camera model, GPS position).
+    </span>
+  </div>
+
+  <p id="imc-error" class="field-error" role="alert"></p>
+
+  <div class="action-row">
+    <button id="imc-recompress" class="btn btn-primary" type="button" disabled>Recompress with current settings</button>
+    <button id="imc-download-all" class="btn" type="button" disabled>Download all</button>
+    <button id="imc-clear" class="btn btn-ghost" type="button" disabled>Clear</button>
+  </div>
+
+  <div class="stat-row" aria-live="polite">
+    <div class="stat">
+      <div class="stat-label">Total before</div>
+      <div class="stat-value" id="imc-total-before">–</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Total after</div>
+      <div class="stat-value" id="imc-total-after">–</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Saved</div>
+      <div class="stat-value" id="imc-total-saved">–</div>
+    </div>
+  </div>
+
+  <ul id="imc-results" class="result-list" aria-live="polite"></ul>
+</div>
+
+<script src="./client.ts"></script>

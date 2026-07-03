@@ -1,0 +1,74 @@
+<div class="tool" data-tool="url-encoder-decoder">
+  <div class="field-row">
+    <div class="field">
+      <label for="url-direction">Direction</label>
+      <select id="url-direction" class="select">
+        <option value="encode" selected>Encode — text to percent-encoding</option>
+        <option value="decode">Decode — percent-encoding to text</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="url-style">Encoding function</label>
+      <select id="url-style" class="select">
+        <option value="component" selected>encodeURIComponent — single value</option>
+        <option value="uri">encodeURI — whole URL</option>
+      </select>
+    </div>
+    <button
+      id="url-swap"
+      class="btn"
+      type="button"
+      title="Move the output into the input and reverse direction"
+    >Swap ⇅</button>
+  </div>
+  <p class="field-hint" id="url-style-hint">
+    encodeURIComponent escapes every reserved character, including / ? &amp; = and # —
+    use it on a single value such as one query-string parameter.
+  </p>
+
+  <div class="field-row">
+    <label class="checkbox-row"><input type="checkbox" id="url-lines" /> Encode each line separately</label>
+    <label class="checkbox-row"><input type="checkbox" id="url-plus" disabled /> Decode + as spaces (form data)</label>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <label class="pane-label" id="url-input-label" for="url-input">Text input</label>
+      <div class="pane-actions">
+        <button id="url-clear" class="btn btn-ghost btn-sm" type="button">Clear</button>
+      </div>
+    </div>
+    <textarea
+      id="url-input"
+      class="pane pane-mono"
+      rows="6"
+      placeholder="Type or paste text to encode"
+      spellcheck="false"
+      autocomplete="off"
+    ></textarea>
+    <p class="field-hint" id="url-input-count">0 characters</p>
+  </div>
+
+  <p id="url-error" class="field-error" role="alert" aria-live="polite"></p>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <label class="pane-label" id="url-output-label" for="url-output">Encoded output</label>
+      <div class="pane-actions">
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#url-output">Copy</button>
+        <button id="url-download" class="btn btn-ghost btn-sm" type="button">Download</button>
+      </div>
+    </div>
+    <textarea
+      id="url-output"
+      class="pane pane-mono"
+      rows="6"
+      readonly
+      placeholder="Percent-encoded text appears here as you type"
+      spellcheck="false"
+    ></textarea>
+    <p class="field-hint" id="url-output-count" aria-live="polite">0 characters</p>
+  </div>
+</div>
+
+<script src="./client.ts"></script>

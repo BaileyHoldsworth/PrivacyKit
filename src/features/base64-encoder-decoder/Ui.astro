@@ -1,0 +1,66 @@
+<div class="tool" data-tool="base64-encoder-decoder">
+  <div class="field-row">
+    <div class="field">
+      <label for="b64-mode">Direction</label>
+      <select id="b64-mode" class="select">
+        <option value="encode" selected>Encode — text to Base64</option>
+        <option value="decode">Decode — Base64 to text</option>
+      </select>
+    </div>
+    <button
+      id="b64-swap"
+      class="btn"
+      type="button"
+      title="Move the output into the input and reverse direction"
+    >Swap ⇅</button>
+  </div>
+
+  <div class="field">
+    <div class="field-row">
+      <label class="checkbox-row"><input type="checkbox" id="b64-urlsafe" /> URL-safe alphabet (- and _)</label>
+      <label class="checkbox-row"><input type="checkbox" id="b64-wrap" /> Wrap at 76 characters (MIME)</label>
+    </div>
+    <p class="field-hint">Options apply when encoding. Decoding accepts both alphabets and ignores line breaks.</p>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <label class="pane-label" id="b64-input-label" for="b64-input">Text input</label>
+      <div class="pane-actions">
+        <button id="b64-clear" class="btn btn-ghost btn-sm" type="button">Clear</button>
+      </div>
+    </div>
+    <textarea
+      id="b64-input"
+      class="pane pane-mono"
+      rows="6"
+      placeholder="Type or paste text to encode"
+      spellcheck="false"
+      autocomplete="off"
+    ></textarea>
+    <p class="field-hint" id="b64-input-count">0 characters · 0 B</p>
+  </div>
+
+  <p id="b64-error" class="field-error" role="alert" aria-live="polite"></p>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <label class="pane-label" id="b64-output-label" for="b64-output">Base64 output</label>
+      <div class="pane-actions">
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#b64-output">Copy</button>
+        <button id="b64-download" class="btn btn-ghost btn-sm" type="button">Download</button>
+      </div>
+    </div>
+    <textarea
+      id="b64-output"
+      class="pane pane-mono"
+      rows="6"
+      readonly
+      placeholder="Base64 appears here as you type"
+      spellcheck="false"
+    ></textarea>
+    <p class="field-hint" id="b64-output-count" aria-live="polite">0 characters · 0 B</p>
+  </div>
+</div>
+
+<script src="./client.ts"></script>

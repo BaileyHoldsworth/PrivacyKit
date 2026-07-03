@@ -1,0 +1,56 @@
+<div class="tool" data-tool="username-generator">
+  <div class="field-row">
+    <div class="field" style="flex:1 1 14rem">
+      <label for="ug-keyword">Keyword (optional)</label>
+      <input
+        id="ug-keyword"
+        class="pane"
+        type="text"
+        maxlength="24"
+        placeholder="e.g. wolf"
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false"
+      />
+      <span class="field-hint">Letters and numbers only — it is worked into every name.</span>
+    </div>
+    <div class="field">
+      <label for="ug-style">Style</label>
+      <select id="ug-style" class="select">
+        <option value="adjective-noun" selected>Adjective + noun (CrimsonFalcon)</option>
+        <option value="noun-number">Noun + number (falcon2481)</option>
+        <option value="leetspeak">Leetspeak-lite (crims0nfalc0n)</option>
+        <option value="two-words">Two words (crimson_falcon)</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="ug-count">Names per batch: <span id="ug-count-value" class="range-value">10</span></label>
+    <div class="range-row">
+      <input id="ug-count" type="range" min="5" max="20" value="10" />
+    </div>
+  </div>
+
+  <p id="ug-error" class="field-error" role="alert"></p>
+
+  <div class="action-row">
+    <button id="ug-generate" class="btn btn-primary" type="button">Generate usernames</button>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Username ideas</span>
+      <div class="pane-actions">
+        <button id="ug-copy-all" class="btn btn-ghost btn-sm" type="button">Copy all</button>
+      </div>
+    </div>
+    <ul id="ug-results" class="result-list" aria-live="polite"></ul>
+    <p class="field-hint">
+      Click any name (or its Copy button) to copy it. Names are generated on your
+      device and are not checked against any website.
+    </p>
+  </div>
+</div>
+
+<script src="./client.ts"></script>

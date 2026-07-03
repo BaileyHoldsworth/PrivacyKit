@@ -1,0 +1,62 @@
+<div class="tool" data-tool="uuid-generator">
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Generated UUIDs</span>
+      <div class="pane-actions">
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#uuid-output">Copy all</button>
+        <button id="uuid-download" class="btn btn-ghost btn-sm" type="button" disabled>Download .txt</button>
+      </div>
+    </div>
+    <textarea
+      id="uuid-output"
+      class="pane pane-mono"
+      rows="6"
+      readonly
+      aria-label="Generated UUIDs, one per line"
+      placeholder="Choose a version and count below, then generate"
+      autocomplete="off"
+      spellcheck="false"></textarea>
+  </div>
+
+  <fieldset class="field" style="border:none;padding:0;margin:0">
+    <legend class="field-hint" style="padding:0 0 var(--s-1)">Version</legend>
+    <div class="action-row" role="group" aria-label="UUID version">
+      <button class="btn btn-primary" type="button" data-uuid-version="4" aria-pressed="true">v4 — random</button>
+      <button class="btn" type="button" data-uuid-version="7" aria-pressed="false">v7 — time-ordered</button>
+    </div>
+  </fieldset>
+
+  <div class="field">
+    <label for="uuid-count">How many: <span id="uuid-count-value" class="range-value">5</span></label>
+    <div class="range-row">
+      <input id="uuid-count" type="range" min="1" max="100" value="5" />
+    </div>
+  </div>
+
+  <div class="field-row">
+    <label class="checkbox-row"><input type="checkbox" id="uuid-uppercase" /> Uppercase</label>
+    <label class="checkbox-row"><input type="checkbox" id="uuid-no-hyphens" /> Remove hyphens</label>
+  </div>
+
+  <p id="uuid-error" class="field-error" role="alert"></p>
+
+  <div class="action-row">
+    <button id="uuid-generate" class="btn btn-primary" type="button">Generate new UUIDs</button>
+  </div>
+
+  <div class="stat-row" aria-live="polite">
+    <div class="stat">
+      <div class="stat-label">Random bits per UUID</div>
+      <div class="stat-value" id="uuid-bits">–</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Layout</div>
+      <div class="stat-value" id="uuid-layout">–</div>
+    </div>
+  </div>
+  <p class="field-hint" id="uuid-note" aria-live="polite">
+    v4 UUIDs are 122 bits of pure randomness — nothing in them reveals when or where they were made.
+  </p>
+</div>
+
+<script src="./client.ts"></script>

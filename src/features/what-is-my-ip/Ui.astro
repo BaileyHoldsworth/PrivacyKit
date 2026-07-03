@@ -1,0 +1,56 @@
+<div class="tool" data-tool="what-is-my-ip">
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Your public IPv4 address</span>
+      <div class="pane-actions">
+        <button id="ip-copy-v4" class="btn btn-ghost btn-sm" type="button" disabled aria-label="Copy IPv4 address">Copy</button>
+      </div>
+    </div>
+    <div id="ip-v4" class="pane pane-mono" aria-live="polite">Detected automatically when this page loads (requires JavaScript)</div>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Your public IPv6 address</span>
+      <div class="pane-actions">
+        <button id="ip-copy-v6" class="btn btn-ghost btn-sm" type="button" disabled aria-label="Copy IPv6 address">Copy</button>
+      </div>
+    </div>
+    <div id="ip-v6" class="pane pane-mono" aria-live="polite">Detected automatically when this page loads (requires JavaScript)</div>
+  </div>
+
+  <p id="ip-error" class="field-error" role="alert"></p>
+
+  <div class="action-row">
+    <button id="ip-refresh" class="btn btn-primary" type="button" disabled>Check again</button>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Connection details</span>
+    </div>
+    <ul class="result-list" aria-live="polite">
+      <li>
+        <span class="badge">TLS version</span>
+        <code id="ip-tls" style="flex:1">–</code>
+      </li>
+      <li>
+        <span class="badge">Cloudflare WARP</span>
+        <code id="ip-warp" style="flex:1">–</code>
+      </li>
+      <li>
+        <span class="badge">Answered by</span>
+        <code id="ip-source" style="flex:1">–</code>
+      </li>
+    </ul>
+  </div>
+
+  <p class="field-hint">
+    What this reveals: every site you visit sees this address, and can map it to
+    your ISP and an approximate, city-level location — that mapping is what a
+    VPN replaces with its own address. This page performs no location lookup:
+    the only network request is the IP echo described in the privacy badge above.
+  </p>
+</div>
+
+<script src="./client.ts"></script>

@@ -1,0 +1,108 @@
+<div class="tool" data-tool="hash-generator">
+  <div class="action-row" role="group" aria-label="Input source">
+    <button id="hash-tab-text" class="btn btn-primary btn-sm" type="button" aria-pressed="true">Text</button>
+    <button id="hash-tab-file" class="btn btn-sm" type="button" aria-pressed="false">File</button>
+  </div>
+
+  <div id="hash-panel-text" class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Text to hash</span>
+      <span id="hash-text-info" class="field-hint" aria-live="polite"></span>
+    </div>
+    <textarea
+      id="hash-text"
+      class="pane pane-mono"
+      rows="5"
+      aria-label="Text to hash"
+      placeholder="Type or paste text — digests update as you type"
+      autocomplete="off"
+      spellcheck="false"></textarea>
+  </div>
+
+  <div id="hash-panel-file" class="pane-group" hidden>
+    <div
+      id="hash-dropzone"
+      class="dropzone"
+      tabindex="0"
+      role="button"
+      aria-label="Choose a file to hash. Press Enter to browse, or drag and drop a file onto this area."
+    >
+      <strong>Drop a file here or click to browse</strong><br />
+      <span class="field-hint">Any type or size — hashed in streaming chunks, never uploaded</span>
+    </div>
+    <p id="hash-file-info" class="field-hint" aria-live="polite"></p>
+  </div>
+
+  <fieldset class="field" style="border:none;padding:0;margin:0">
+    <legend class="field-hint" style="padding:0 0 var(--s-1)">Algorithms</legend>
+    <div class="field-row">
+      <label class="checkbox-row"><input type="checkbox" id="hash-alg-md5" checked /> MD5</label>
+      <label class="checkbox-row"><input type="checkbox" id="hash-alg-sha1" checked /> SHA-1</label>
+      <label class="checkbox-row"><input type="checkbox" id="hash-alg-sha256" checked /> SHA-256</label>
+      <label class="checkbox-row"><input type="checkbox" id="hash-alg-sha384" /> SHA-384</label>
+      <label class="checkbox-row"><input type="checkbox" id="hash-alg-sha512" checked /> SHA-512</label>
+      <label class="checkbox-row"><input type="checkbox" id="hash-alg-sha3-256" /> SHA3-256</label>
+      <label class="checkbox-row"><input type="checkbox" id="hash-alg-sha3-512" /> SHA3-512</label>
+      <label class="checkbox-row"><input type="checkbox" id="hash-alg-crc32" /> CRC32</label>
+    </div>
+  </fieldset>
+
+  <div class="field-row">
+    <label class="checkbox-row"><input type="checkbox" id="hash-uppercase" /> Uppercase hex</label>
+  </div>
+
+  <p id="hash-error" class="field-error" role="alert"></p>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Digests</span>
+      <div class="pane-actions">
+        <button id="hash-clear" class="btn btn-ghost btn-sm" type="button">Clear</button>
+      </div>
+    </div>
+    <ul class="result-list" aria-live="polite">
+      <li id="hash-row-md5">
+        <span class="badge">MD5</span>
+        <code id="hash-out-md5" style="flex:1">–</code>
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#hash-out-md5" aria-label="Copy MD5 hash">Copy</button>
+      </li>
+      <li id="hash-row-sha1">
+        <span class="badge">SHA-1</span>
+        <code id="hash-out-sha1" style="flex:1">–</code>
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#hash-out-sha1" aria-label="Copy SHA-1 hash">Copy</button>
+      </li>
+      <li id="hash-row-sha256">
+        <span class="badge">SHA-256</span>
+        <code id="hash-out-sha256" style="flex:1">–</code>
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#hash-out-sha256" aria-label="Copy SHA-256 hash">Copy</button>
+      </li>
+      <li id="hash-row-sha384" hidden>
+        <span class="badge">SHA-384</span>
+        <code id="hash-out-sha384" style="flex:1">–</code>
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#hash-out-sha384" aria-label="Copy SHA-384 hash">Copy</button>
+      </li>
+      <li id="hash-row-sha512">
+        <span class="badge">SHA-512</span>
+        <code id="hash-out-sha512" style="flex:1">–</code>
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#hash-out-sha512" aria-label="Copy SHA-512 hash">Copy</button>
+      </li>
+      <li id="hash-row-sha3-256" hidden>
+        <span class="badge">SHA3-256</span>
+        <code id="hash-out-sha3-256" style="flex:1">–</code>
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#hash-out-sha3-256" aria-label="Copy SHA3-256 hash">Copy</button>
+      </li>
+      <li id="hash-row-sha3-512" hidden>
+        <span class="badge">SHA3-512</span>
+        <code id="hash-out-sha3-512" style="flex:1">–</code>
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#hash-out-sha3-512" aria-label="Copy SHA3-512 hash">Copy</button>
+      </li>
+      <li id="hash-row-crc32" hidden>
+        <span class="badge">CRC32</span>
+        <code id="hash-out-crc32" style="flex:1">–</code>
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#hash-out-crc32" aria-label="Copy CRC32 checksum">Copy</button>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<script src="./client.ts"></script>
