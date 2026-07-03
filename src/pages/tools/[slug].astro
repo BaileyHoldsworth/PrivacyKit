@@ -1,0 +1,25 @@
+---
+import { getCollection, render } from 'astro:content';
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+export async function getStaticPaths() {
+  const tools = await getCollection('tools');
+  return tools.map((tool) => ({ params: { slug: tool.id }, props: { tool } }));
+}
+
+const { tool } = Astro.props;
+const { Content } = await render(tool);
+
+// Each tool folder ships its UI as Ui.astro; resolve it by slug.
+const uiModules = import.meta.glob<{ default: any }>('/src/features/*/Ui.astro');
+const loader = uiModules[`/src/features/${tool.id}/Ui.astro`];
+if (!loader) {
+  throw new Error(`Missing Ui.astro for tool "${tool.id}" (src/features/${tool.id}/Ui.astro)`);
+}
+const Ui = (await loader()).default;
+---
+
+<ToolLayout tool={tool}>
+  <Ui slot="ui" />
+  <Content slot="content" />
+</ToolLayout>

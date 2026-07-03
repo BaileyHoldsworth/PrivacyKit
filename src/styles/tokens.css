@@ -1,0 +1,114 @@
+/* Design tokens. Dark is the default theme; light overrides below.
+   Neutrals are a cool-zinc OKLCH scale; one teal-mint accent. */
+
+:root {
+  /* Neutral scale: n0 = page bg … n11 = highest-contrast text */
+  --n-0: oklch(0.16 0.006 260);
+  --n-1: oklch(0.19 0.006 260);
+  --n-2: oklch(0.23 0.007 260);
+  --n-3: oklch(0.28 0.008 260);
+  --n-4: oklch(0.34 0.009 260);
+  --n-5: oklch(0.42 0.01 260);
+  --n-6: oklch(0.52 0.011 260);
+  --n-7: oklch(0.62 0.011 260);
+  --n-8: oklch(0.72 0.01 260);
+  --n-9: oklch(0.82 0.008 260);
+  --n-10: oklch(0.9 0.006 260);
+  --n-11: oklch(0.97 0.004 260);
+
+  --bg: var(--n-0);
+  --bg-raised: var(--n-1);
+  --bg-inset: oklch(0.13 0.006 260);
+  --border: oklch(0.32 0.01 260 / 0.55);
+  --border-strong: oklch(0.4 0.012 260 / 0.7);
+  --text: var(--n-10);
+  --text-muted: var(--n-7);
+  --text-faint: var(--n-6);
+
+  --accent: oklch(0.78 0.13 175);
+  --accent-strong: oklch(0.84 0.14 175);
+  --accent-contrast: oklch(0.18 0.02 175);
+  --accent-subtle: oklch(0.78 0.13 175 / 0.1);
+  --accent-border: oklch(0.78 0.13 175 / 0.35);
+
+  --ok: oklch(0.75 0.15 155);
+  --warn: oklch(0.8 0.14 85);
+  --danger: oklch(0.68 0.19 25);
+  --ok-subtle: oklch(0.75 0.15 155 / 0.12);
+  --warn-subtle: oklch(0.8 0.14 85 / 0.12);
+  --danger-subtle: oklch(0.68 0.19 25 / 0.12);
+
+  /* Spacing (4px base) */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.5rem;
+  --s-6: 2rem;
+  --s-7: 3rem;
+  --s-8: 4rem;
+
+  --r-s: 6px;
+  --r-m: 10px;
+  --r-l: 16px;
+
+  --shadow-1: 0 1px 2px oklch(0 0 0 / 0.3);
+  --shadow-pop: 0 8px 30px oklch(0 0 0 / 0.45);
+
+  --font-ui: 'InterVariable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', 'JetBrains Mono', Menlo, Consolas,
+    monospace;
+
+  --header-h: 3.5rem;
+  --container-max: 72rem;
+
+  color-scheme: dark;
+}
+
+:root[data-theme='light'] {
+  --n-0: oklch(0.985 0.002 260);
+  --bg: var(--n-0);
+  --bg-raised: oklch(1 0 0);
+  --bg-inset: oklch(0.955 0.004 260);
+  --border: oklch(0.85 0.008 260 / 0.9);
+  --border-strong: oklch(0.78 0.01 260);
+  --text: oklch(0.25 0.01 260);
+  --text-muted: oklch(0.45 0.012 260);
+  --text-faint: oklch(0.55 0.012 260);
+
+  --accent: oklch(0.55 0.12 175);
+  --accent-strong: oklch(0.48 0.12 175);
+  --accent-contrast: oklch(0.99 0.005 175);
+  --accent-subtle: oklch(0.55 0.12 175 / 0.09);
+  --accent-border: oklch(0.55 0.12 175 / 0.3);
+
+  --ok: oklch(0.55 0.15 155);
+  --warn: oklch(0.6 0.13 85);
+  --danger: oklch(0.55 0.2 25);
+  --ok-subtle: oklch(0.55 0.15 155 / 0.1);
+  --warn-subtle: oklch(0.6 0.13 85 / 0.12);
+  --danger-subtle: oklch(0.55 0.2 25 / 0.09);
+
+  --shadow-1: 0 1px 2px oklch(0.2 0.01 260 / 0.07);
+  --shadow-pop: 0 8px 30px oklch(0.2 0.01 260 / 0.16);
+
+  color-scheme: light;
+}
+
+@font-face {
+  font-family: 'InterVariable';
+  src: url('/fonts/InterVariable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Metric-adjusted local fallback keeps text from shifting while Inter loads */
+@font-face {
+  font-family: 'Inter-fallback';
+  src: local('Helvetica Neue'), local('Arial');
+  size-adjust: 107%;
+  ascent-override: 90%;
+  descent-override: 22.5%;
+  line-gap-override: 0%;
+}

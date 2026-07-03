@@ -1,0 +1,40 @@
+---
+import { SITE } from '../config/site';
+
+interface Props {
+  slot: keyof typeof SITE.adSlots;
+}
+const { slot } = Astro.props;
+const slotId = SITE.adSlots[slot];
+// Reserve the full height of the largest creative so the slot NEVER shifts
+// layout — neither when the ad loads nor when it goes unfilled.
+const sizes: Record<string, { w: number; h: number }> = {
+  toolBottom: { w: 336, h: 280 },
+  articleMid: { w: 300, h: 250 },
+  hubBottom: { w: 336, h: 280 },
+};
+const size = sizes[slot]!;
+const render = SITE.adsEnabled && slotId !== '';
+---
+
+{render && (
+  <div
+    class="ad-container"
+    style={`min-height:${size.h}px`}
+    data-ad-lazy
+    aria-hidden="true"
+  >
+    <ins
+      class="adsbygoogle"
+      style={`display:inline-block;width:${size.w}px;height:${size.h}px`}
+      data-ad-client={SITE.adClient}
+      data-ad-slot={slotId}
+    ></ins>
+  </div>
+)}
+{render && (
+  <script>
+    import { initLazyAds } from '../lib/lazy-ads';
+    initLazyAds();
+  </script>
+)}

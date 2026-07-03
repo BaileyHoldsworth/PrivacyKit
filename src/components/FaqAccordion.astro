@@ -1,0 +1,21 @@
+---
+import { marked } from 'marked';
+
+interface Props {
+  faqs: { q: string; a: string }[];
+}
+const { faqs } = Astro.props;
+// Our own trusted content, rendered at build time. No FAQPage JSON-LD on
+// purpose: Google removed FAQ rich results; visible text is what matters.
+const rendered = faqs.map((f) => ({ q: f.q, html: marked.parse(f.a) as string }));
+---
+
+<section class="faq" aria-labelledby="faq-heading">
+  <h2 id="faq-heading">Frequently asked questions</h2>
+  {rendered.map((f) => (
+    <details class="faq-item">
+      <summary>{f.q}</summary>
+      <div class="faq-answer" set:html={f.html} />
+    </details>
+  ))}
+</section>

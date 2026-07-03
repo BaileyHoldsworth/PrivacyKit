@@ -1,0 +1,50 @@
+---
+import { SITE } from '../config/site';
+import { CATEGORIES } from '../config/categories';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-col footer-brand">
+      <span class="logo-text">PrivacyKit</span>
+      <p>
+        Free privacy and developer tools that run entirely in your browser.
+        No signup, no uploads, no tracking scripts.
+      </p>
+      {SITE.koFiUrl && (
+        <a href={SITE.koFiUrl} rel="noopener" class="kofi-link">Support this site on Ko-fi</a>
+      )}
+    </div>
+    <nav class="footer-col" aria-label="Tool categories">
+      <h2 class="footer-heading">Tools</h2>
+      <ul>
+        {CATEGORIES.map((c) => (
+          <li><a href={`/category/${c.slug}/`}>{c.shortName}</a></li>
+        ))}
+      </ul>
+    </nav>
+    <nav class="footer-col" aria-label="Site">
+      <h2 class="footer-heading">Site</h2>
+      <ul>
+        <li><a href="/tools/">All tools</a></li>
+        <li><a href="/guides/">Guides</a></li>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/contact/">Contact</a></li>
+      </ul>
+    </nav>
+    <nav class="footer-col" aria-label="Legal">
+      <h2 class="footer-heading">Legal</h2>
+      <ul>
+        <li><a href="/privacy-policy/">Privacy policy</a></li>
+        <li><a href="/terms/">Terms of service</a></li>
+        <li><a href="/affiliate-disclosure/">Affiliate disclosure</a></li>
+        <li><a href="/licenses/">Licenses</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="container footer-legal">
+    <p>© {year} {SITE.name}. Tools are provided as-is and are not professional, legal or security advice.</p>
+  </div>
+</footer>

@@ -1,0 +1,29 @@
+---
+import { AFFILIATES } from '../config/affiliates';
+
+interface Props {
+  group: 'passwords' | 'vpn' | 'dev';
+}
+const { group } = Astro.props;
+// Only offers with a configured tracking URL render; max two per box.
+const offers = AFFILIATES[group].filter((o) => o.url !== '').slice(0, 2);
+---
+
+{offers.length > 0 && (
+  <aside class="affiliate-box" aria-label="Recommended services">
+    <p class="affiliate-kicker">Recommended</p>
+    {offers.map((o) => (
+      <div class="affiliate-offer">
+        <div class="affiliate-copy">
+          <strong>{o.name}</strong>
+          <p>{o.blurb}</p>
+        </div>
+        <a class="btn btn-primary" href={o.url} rel="sponsored noopener" target="_blank">{o.cta}</a>
+      </div>
+    ))}
+    <p class="affiliate-disclosure">
+      Disclosure: if you sign up through a link above, PrivacyKit earns a commission at no extra
+      cost to you. See our <a href="/affiliate-disclosure/">affiliate disclosure</a>.
+    </p>
+  </aside>
+)}

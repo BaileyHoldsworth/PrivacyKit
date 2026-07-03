@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+
+interface Props {
+  /** Slugs of related tools, in display order. */
+  slugs: string[];
+}
+const { slugs } = Astro.props;
+const all = await getCollection('tools');
+const bySlug = new Map(all.map((t) => [t.id, t]));
+const related = slugs
+  .map((s) => bySlug.get(s))
+  .filter((t): t is NonNullable<typeof t> => Boolean(t));
+---
+
+{related.length > 0 && (
+  <section class="related-tools" aria-labelledby="related-heading">
+    <h2 id="related-heading">Related tools</h2>
+    <ul class="related-grid">
+      {related.map((t) => (
+        <li>
+          <a class="related-card" href={`/tools/${t.id}/`}>
+            <strong>{t.data.name}</strong>
+            <span>{t.data.description}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}

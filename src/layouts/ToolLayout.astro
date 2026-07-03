@@ -1,0 +1,59 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import PrivacyBadge from '../components/PrivacyBadge.astro';
+import FaqAccordion from '../components/FaqAccordion.astro';
+import AffiliateBox from '../components/AffiliateBox.astro';
+import AdSlot from '../components/AdSlot.astro';
+import RelatedTools from '../components/RelatedTools.astro';
+import { getCategory } from '../config/categories';
+import { softwareApplicationLd, breadcrumbLd } from '../lib/jsonld';
+
+interface Props {
+  tool: CollectionEntry<'tools'>;
+}
+
+const { tool } = Astro.props;
+const t = tool.data;
+const slug = tool.id;
+const category = getCategory(t.category);
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: category.name, path: `/category/${category.slug}/` },
+  { name: t.name, path: `/tools/${slug}/` },
+];
+const jsonLd = [
+  softwareApplicationLd({ name: t.name, description: t.description, slug, jsonLdCategory: t.jsonLdCategory }),
+  breadcrumbLd(crumbs),
+];
+---
+
+<BaseLayout
+  title={t.title}
+  description={t.description}
+  path={`/tools/${slug}/`}
+  ogImage={`/og/tools/${slug}.png`}
+  jsonLd={jsonLd}
+>
+  <main class="container tool-page">
+    <Breadcrumbs crumbs={crumbs} />
+    <h1>{t.name}</h1>
+    <p class="tool-lede">{t.description}</p>
+    <PrivacyBadge privacy={t.privacy} apiNote={t.apiNote} />
+
+    {/* The tool itself — above the fold, never preceded by an ad. */}
+    <slot name="ui" />
+
+    <article class="prose tool-content">
+      <slot name="content" />
+    </article>
+
+    <FaqAccordion faqs={t.faqs} />
+
+    {t.affiliateGroup && <AffiliateBox group={t.affiliateGroup} />}
+    {t.ads && <AdSlot slot="toolBottom" />}
+
+    <RelatedTools slugs={t.related} />
+  </main>
+</BaseLayout>

@@ -1,0 +1,19 @@
+---
+interface Props {
+  privacy: 'local' | 'external-api';
+  apiNote?: string;
+}
+const { privacy, apiNote } = Astro.props;
+---
+
+{privacy === 'local' ? (
+  <p class="privacy-badge privacy-badge-local">
+    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 4v5c0 4.5-3 7.5-7 9c-4-1.5-7-4.5-7-9V7z"/><path d="M9 12l2 2l4-4"/></svg>
+    Runs 100% in your browser — nothing you enter leaves your device.
+  </p>
+) : (
+  <p class="privacy-badge privacy-badge-api">
+    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4m0 4h.01"/></svg>
+    {apiNote}
+  </p>
+)}

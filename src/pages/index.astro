@@ -1,0 +1,31 @@
+---
+// PROVISIONAL homepage — Phase E replaces this with the full design
+// (hero + popular row + category sections + editorial block).
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../config/site';
+import { webSiteLd, organizationLd } from '../lib/jsonld';
+
+const tools = await getCollection('tools');
+---
+
+<BaseLayout
+  title={`${SITE.name} — ${SITE.tagline}`}
+  description={SITE.description}
+  path="/"
+  jsonLd={[webSiteLd(), organizationLd()]}
+>
+  <main class="container">
+    <h1 style="margin-top:var(--s-7)">{SITE.tagline}</h1>
+    <ul class="related-grid" style="margin-top:var(--s-5);list-style:none;padding:0">
+      {tools.map((t) => (
+        <li>
+          <a class="related-card" href={`/tools/${t.id}/`}>
+            <strong>{t.data.name}</strong>
+            <span>{t.data.description}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </main>
+</BaseLayout>

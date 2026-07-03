@@ -1,0 +1,103 @@
+---
+import { SITE } from '../config/site';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/components.css';
+
+interface Props {
+  /** Full, unique <title>. */
+  title: string;
+  /** Unique meta description, 120-165 chars. */
+  description: string;
+  /** Path with trailing slash, e.g. "/tools/password-generator/". */
+  path: string;
+  /** JSON-LD objects to emit (one script tag each). */
+  jsonLd?: object[];
+  /** Path to the OG image; defaults to the shared card until per-page images exist. */
+  ogImage?: string;
+  noindex?: boolean;
+}
+
+const { title, description, path, jsonLd = [], ogImage = '/og/default.png', noindex = false } = Astro.props;
+const canonical = `${SITE.url}${path}`;
+---
+
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:image" content={`${SITE.url}${ogImage}`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    {noindex && <meta name="robots" content="noindex" />}
+
+    <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+
+    <link
+      rel="preload"
+      href="/fonts/InterVariable.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    {/* No-flash theme: set data-theme before first paint. Dark is the default
+        for first-time visitors whose system prefers dark OR expresses no
+        preference; explicit localStorage override wins. */}
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme');
+          var theme =
+            stored === 'light' || stored === 'dark'
+              ? stored
+              : window.matchMedia('(prefers-color-scheme: light)').matches
+                ? 'light'
+                : 'dark';
+          document.documentElement.dataset.theme = theme;
+        } catch (e) {
+          /* keep SSR default (dark) */
+        }
+      })();
+    </script>
+
+    {SITE.adsEnabled && (
+      <script
+        is:inline
+        async
+        data-cfasync="false"
+        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${SITE.adClient}`}
+        crossorigin="anonymous"
+      />
+    )}
+
+    {jsonLd.map((obj) => (
+      <script type="application/ld+json" set:html={JSON.stringify(obj)} />
+    ))}
+  </head>
+  <body>
+    <Header />
+    <slot />
+    <Footer />
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script>
+      import { wireCopyButtons } from '../lib/clipboard';
+      import { initThemeToggle } from '../lib/theme';
+      wireCopyButtons();
+      initThemeToggle();
+    </script>
+  </body>
+</html>
