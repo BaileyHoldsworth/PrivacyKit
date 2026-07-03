@@ -5,12 +5,75 @@ const path = '/about/';
 const crumbs = [{ name: 'Home', path: '/' }, { name: 'about', path }];
 ---
 <ArticleLayout
-  title="PLACEHOLDER — about | PrivacyKit"
-  description="Placeholder description for the about page that is at least one hundred and twenty characters long so it satisfies the schema during the build."
+  title="About — Who Builds PrivacyKit and Why | PrivacyKit"
+  description="Meet the independent developer behind PrivacyKit, why these browser-based tools exist, the client-side promise, and how the free site is funded."
   path={path}
   h1="about"
   crumbs={crumbs}
   jsonLd={[breadcrumbLd(crumbs)]}
 >
-  <p>Placeholder. Real content written in Phase D.</p>
+  <h2>Who's behind PrivacyKit</h2>
+  <p>
+    PrivacyKit is built and maintained by one independent developer. There is no
+    company behind it, no team and no investors — just an engineer who got tired
+    of pasting passwords, JWTs and JSON into random websites that quietly upload
+    everything to a server. I build the tools I wanted to exist: small,
+    single-purpose and honest about what they do.
+  </p>
+
+  <h2>Why it exists</h2>
+  <p>
+    Most "free online tools" work by sending your input to a backend, processing
+    it there, and sending the result back. For a colour converter that is
+    harmless. For a password, a private key, a JWT that carries your session, or
+    a photo with GPS coordinates buried in its metadata, it means handing
+    sensitive data to a stranger's server and trusting their logging, their
+    retention and their security. PrivacyKit exists to remove that trade-off: the
+    tool runs where your data already is.
+  </p>
+
+  <h2>The client-side promise</h2>
+  <p>
+    Nearly every tool here runs entirely in your browser using JavaScript and the
+    Web Crypto API. Your input is processed on your own machine and never reaches
+    a server. You can confirm this yourself — open your browser's network tab, use
+    a tool, and watch that nothing goes out.
+  </p>
+  <p>
+    Three tools are the honest exception, because their job is impossible without
+    a network request, and each says so on its own page.
+    <a href="/tools/what-is-my-ip/">What Is My IP</a> asks Cloudflare which
+    address your connection presents; <a href="/tools/dns-lookup/">DNS Lookup</a>
+    sends the domain you type to Cloudflare's DNS-over-HTTPS resolver; and the
+    <a href="/tools/password-leak-checker/">Password Leak Checker</a> sends only
+    the first five characters of your password's SHA-1 hash to Have I Been Pwned,
+    never the password itself. The <a href="/privacy-policy/">privacy policy</a>
+    spells out exactly what each one sends.
+  </p>
+
+  <h2>How it's funded</h2>
+  <p>
+    Every tool is free, with no signup and no account. Running the site costs
+    little because there is no backend to pay for, but it isn't free to me, so
+    PrivacyKit is supported two ways. Some pages link to products I would
+    recommend anyway — password managers, VPNs, a domain registrar — and if you
+    buy through one of those links I may earn a commission at no extra cost to
+    you. Those links are always marked, and the
+    <a href="/affiliate-disclosure/">affiliate disclosure</a> explains the
+    arrangement. Later, once the site qualifies, unobtrusive ads may appear; the
+    <a href="/privacy-policy/">privacy policy</a> already describes how that will
+    work before a single ad loads.
+  </p>
+  <p>
+    What I won't do is sell data, add tracking to the tools, or put anything
+    behind a paywall. The funding model only works if the tools stay
+    trustworthy, and that is the whole point of the site.
+  </p>
+
+  <h2>Get in touch</h2>
+  <p>
+    Found a bug, want a tool that isn't here yet, or spotted something
+    inaccurate? I read every message — see the <a href="/contact/">contact
+    page</a>.
+  </p>
 </ArticleLayout>

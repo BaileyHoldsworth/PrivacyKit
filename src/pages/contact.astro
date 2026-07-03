@@ -1,16 +1,59 @@
 ---
 import ArticleLayout from '../layouts/ArticleLayout.astro';
 import { breadcrumbLd } from '../lib/jsonld';
+import { SITE } from '../config/site';
 const path = '/contact/';
 const crumbs = [{ name: 'Home', path: '/' }, { name: 'contact', path }];
 ---
 <ArticleLayout
-  title="PLACEHOLDER — contact | PrivacyKit"
-  description="Placeholder description for the contact page that is at least one hundred and twenty characters long so it satisfies the schema during the build."
+  title="Contact — Report a Bug or Suggest a Tool | PrivacyKit"
+  description="Get in touch with PrivacyKit by email to report a bug, suggest a new browser tool, or flag a correction — plus a realistic response time to expect."
   path={path}
   h1="contact"
   crumbs={crumbs}
   jsonLd={[breadcrumbLd(crumbs)]}
 >
-  <p>Placeholder. Real content written in Phase D.</p>
+  <h2>Email</h2>
+  <p>The best way to reach PrivacyKit is email:</p>
+  <p>
+    <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>
+  </p>
+
+  <h2>What to write about</h2>
+  <ul>
+    <li>
+      <strong>Bug reports</strong> — a tool gives a wrong result, breaks in your
+      browser, or does something unexpected. Tell me which tool, which browser,
+      and what you entered (leave out anything sensitive), and I can usually
+      reproduce it.
+    </li>
+    <li>
+      <strong>Tool suggestions</strong> — a small, single-purpose utility you
+      wish existed here. The ones that fit are the kind that can run client-side,
+      without a server.
+    </li>
+    <li>
+      <strong>Corrections</strong> — a factual error in a guide, an out-of-date
+      figure, or a formula that is off. Accuracy matters more than being right,
+      so these are always welcome.
+    </li>
+    <li>
+      <strong>Privacy questions</strong> — anything about what a tool does with
+      your data. The <a href="/privacy-policy/">privacy policy</a> covers the
+      details, but ask if something is unclear.
+    </li>
+  </ul>
+
+  <h2>Response time</h2>
+  <p>
+    PrivacyKit is run by one person around other work, so replies are not
+    instant. Expect a few days, sometimes a little longer during busy stretches.
+    Every genuine message gets read; obvious spam and SEO pitches do not get a
+    reply.
+  </p>
+  <p>
+    There is no contact form here on purpose — a form would need a backend
+    collecting your details, which runs against the point of the site. Plain
+    email keeps it uncomplicated and leaves you in control of what you share.
+  </p>
 </ArticleLayout>

@@ -1,16 +1,130 @@
 ---
 import ArticleLayout from '../layouts/ArticleLayout.astro';
 import { breadcrumbLd } from '../lib/jsonld';
+import { SITE } from '../config/site';
 const path = '/privacy-policy/';
 const crumbs = [{ name: 'Home', path: '/' }, { name: 'privacy-policy', path }];
 ---
 <ArticleLayout
-  title="PLACEHOLDER — privacy-policy | PrivacyKit"
-  description="Placeholder description for the privacy-policy page that is at least one hundred and twenty characters long so it satisfies the schema during the build."
+  title="Privacy Policy | PrivacyKit"
+  description="How PrivacyKit handles your data: tools run in your browser, the three tools that make a network request, cookies, hosting logs, and no analytics."
   path={path}
   h1="privacy-policy"
   crumbs={crumbs}
   jsonLd={[breadcrumbLd(crumbs)]}
 >
-  <p>Placeholder. Real content written in Phase D.</p>
+  <p><em>Last updated: 3 July 2026</em></p>
+
+  <p>
+    PrivacyKit is designed so that this policy can be short and true. The core
+    idea: the tools run on your device, not on a server, so for most of what you
+    do here there is no data for anyone to collect. This page explains that in
+    detail, names the few tools that are exceptions, and describes the cookies
+    that third parties may set.
+  </p>
+
+  <h2>Tools run in your browser</h2>
+  <p>
+    Nearly every tool on PrivacyKit is built entirely from client-side
+    JavaScript. When you generate a password, decode a JWT, format JSON, strip
+    EXIF data from a photo, or hash a string, the work happens inside your
+    browser tab using your own device's processor and the Web Crypto API. Your
+    input is not transmitted to PrivacyKit, is not logged, and is not stored
+    anywhere. It stays in the page until you close or reload the tab, at which
+    point it is gone. You can verify this at any time by opening your browser's
+    developer tools and watching the Network panel while you use a tool — you
+    will see no request carrying your data.
+  </p>
+
+  <h2>The tools that do make a network request</h2>
+  <p>
+    Three tools cannot do their job without contacting an outside service. Each
+    states this on its own page, and here is exactly what each one sends:
+  </p>
+  <ul>
+    <li>
+      <strong>What Is My IP</strong> asks Cloudflare — with ipify as a fallback —
+      which public IP address your connection is presenting. That request
+      necessarily leaves your browser, because the point is to observe the
+      address a remote server sees. Nothing else is sent, and the result is not
+      stored.
+    </li>
+    <li>
+      <strong>DNS Lookup</strong> sends the domain name you enter to Cloudflare's
+      1.1.1.1 DNS-over-HTTPS resolver to fetch its records. The domain you look
+      up is disclosed to Cloudflare; nothing else is.
+    </li>
+    <li>
+      <strong>Password Leak Checker</strong> hashes your password with SHA-1
+      inside your browser and sends only the first five characters of that hash
+      to the Have I Been Pwned range API — a method called k-anonymity. Your
+      password, and the rest of its hash, never leave your browser.
+    </li>
+  </ul>
+  <p>
+    These external services have their own privacy practices. If you would like
+    the detail on how they handle requests, see Cloudflare's and Have I Been
+    Pwned's respective policies.
+  </p>
+
+  <h2>Analytics</h2>
+  <p>
+    PrivacyKit currently runs no analytics. There is no Google Analytics, no
+    third-party tracking script, no pixel, and no cookie set by the site itself
+    to follow you around. The site does not build a profile of you or count you
+    as a visitor beyond the standard server logs described below. If that ever
+    changes, this policy will be updated first.
+  </p>
+
+  <h2>Advertising</h2>
+  <p>
+    Ads are not enabled at the time of writing. When advertising is switched on,
+    PrivacyKit will use Google AdSense. Google and its partners may then use
+    cookies — including the DoubleClick cookie — to serve ads based on your
+    visits to this and other sites. You can read how Google uses information from
+    sites that use its services at
+    <a href="https://policies.google.com/technologies/partner-sites">policies.google.com/technologies/partner-sites</a>,
+    and you can review or turn off personalised advertising at
+    <a href="https://adssettings.google.com">adssettings.google.com</a>. If you
+    are in the EEA, the UK or Switzerland, you will be asked for consent before
+    any advertising or measurement cookies are set, and you can decline. None of
+    this is active until ads are enabled.
+  </p>
+
+  <h2>Affiliate links</h2>
+  <p>
+    Some pages link to third-party products. When you follow one of these
+    affiliate links, the destination site may set a cookie to attribute the
+    visit, which is how any commission is credited. That cookie is set by the
+    destination, not by PrivacyKit, and is governed by that company's privacy
+    policy. Following the link is entirely optional. The
+    <a href="/affiliate-disclosure/">affiliate disclosure</a> has more.
+  </p>
+
+  <h2>Hosting and server logs</h2>
+  <p>
+    PrivacyKit is hosted and served through Cloudflare, which acts as the site's
+    host and content delivery network. Like any web host, Cloudflare processes
+    the standard information that every request carries — your IP address, the
+    time of the request, the page requested, and your browser's user-agent
+    string — in order to deliver the page and protect the site from abuse. This
+    is ordinary request logging, handled under Cloudflare's own privacy terms;
+    PrivacyKit does not combine it with anything else or use it to identify you.
+  </p>
+
+  <h2>Your data and questions</h2>
+  <p>
+    Because the site stores no personal data of its own, there is generally
+    nothing for it to export or delete on request. If you have a question about
+    how a particular tool handles your input, or anything else in this policy,
+    email <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a> and I
+    will answer.
+  </p>
+
+  <h2>Changes to this policy</h2>
+  <p>
+    If the site's data practices change — most likely when ads are enabled —
+    this page will be updated and the date at the top revised. Material changes
+    will be reflected here before the new practice takes effect.
+  </p>
 </ArticleLayout>

@@ -2,15 +2,130 @@
 import ArticleLayout from '../layouts/ArticleLayout.astro';
 import { breadcrumbLd } from '../lib/jsonld';
 const path = '/licenses/';
-const crumbs = [{ name: 'Home', path: '/' }, { name: 'licenses', path }];
+const crumbs = [{ name: 'Home', path: '/' }, { name: 'Licences', path }];
 ---
 <ArticleLayout
-  title="PLACEHOLDER — licenses | PrivacyKit"
-  description="Placeholder description for the licenses page that is at least one hundred and twenty characters long so it satisfies the schema during the build."
+  title="Licences & attribution | PrivacyKit"
+  description="The open-source fonts, wordlist data, icons and JavaScript libraries that make PrivacyKit work, each credited under the licence its authors released it with."
   path={path}
-  h1="licenses"
+  h1="Licences and attribution"
   crumbs={crumbs}
   jsonLd={[breadcrumbLd(crumbs)]}
 >
-  <p>Placeholder. Real content written in Phase D.</p>
+  <p>
+    PrivacyKit is built on open-source work by other people. The tools run in
+    your browser because those authors published their code and data under
+    licences that let us bundle and build on them. The site itself is generated
+    with <a href="https://astro.build" rel="noopener">Astro</a> (MIT). Here is
+    the third-party work it depends on, and the licence each project is used
+    under. Everything below is bundled and served from PrivacyKit's own domain,
+    so opening a tool doesn't quietly call out to a third-party host.
+  </p>
+
+  <h2>Fonts</h2>
+  <ul>
+    <li>
+      <strong>Inter</strong> by Rasmus Andersson — SIL Open Font License 1.1.
+      The interface typeface, self-hosted as a variable WOFF2 rather than pulled
+      from a font CDN, so rendering text sends no request out of your browser.
+    </li>
+  </ul>
+
+  <h2>Data</h2>
+  <ul>
+    <li>
+      <strong>EFF Large Wordlist</strong> by Joseph Bonneau and the
+      <a href="https://www.eff.org/dice" rel="noopener">Electronic Frontier
+      Foundation</a> — Creative Commons Attribution 3.0 US (CC-BY 3.0). The
+      7,776-word list behind the passphrase generator. Attribution is a
+      condition of the licence, which is why the EFF is credited and linked
+      here and on the generator itself.
+    </li>
+  </ul>
+
+  <h2>Icons</h2>
+  <ul>
+    <li>
+      <strong>Tabler Icons</strong> — MIT License. The interface icon set used
+      across the site.
+    </li>
+  </ul>
+
+  <h2>Libraries</h2>
+  <p>
+    The tools lean on these runtime libraries. Each does one job, and each ships
+    under a permissive licence:
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th>Library</th>
+        <th>What it does here</th>
+        <th>Licence</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>qrcode</code></td>
+        <td>Generates QR codes</td>
+        <td>MIT</td>
+      </tr>
+      <tr>
+        <td><code>exifr</code></td>
+        <td>Reads EXIF metadata from images</td>
+        <td>MIT</td>
+      </tr>
+      <tr>
+        <td><code>@zxcvbn-ts/core</code></td>
+        <td>Estimates password strength</td>
+        <td>MIT</td>
+      </tr>
+      <tr>
+        <td><code>hash-wasm</code></td>
+        <td>Computes hashes via WebAssembly</td>
+        <td>MIT</td>
+      </tr>
+      <tr>
+        <td><code>cronstrue</code></td>
+        <td>Explains cron expressions in English</td>
+        <td>MIT</td>
+      </tr>
+      <tr>
+        <td><code>cron-parser</code></td>
+        <td>Parses cron schedules and next run times</td>
+        <td>MIT</td>
+      </tr>
+      <tr>
+        <td><code>diff</code></td>
+        <td>Compares text and builds diffs</td>
+        <td>BSD-3-Clause</td>
+      </tr>
+      <tr>
+        <td><code>marked</code></td>
+        <td>Parses Markdown to HTML</td>
+        <td>MIT</td>
+      </tr>
+      <tr>
+        <td><code>dompurify</code></td>
+        <td>Sanitises HTML output</td>
+        <td>Apache-2.0 OR MPL-2.0</td>
+      </tr>
+      <tr>
+        <td><code>he</code></td>
+        <td>Encodes and decodes HTML entities</td>
+        <td>MIT</td>
+      </tr>
+      <tr>
+        <td><code>browser-image-compression</code></td>
+        <td>Compresses images in the browser</td>
+        <td>MIT</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    The full licence text for every package ships inside that package, and the
+    dual-licensed ones let you pick whichever terms suit you. If you spot an
+    attribution that's missing or wrong, tell us on the
+    <a href="/contact/">contact page</a> and we'll correct it.
+  </p>
 </ArticleLayout>

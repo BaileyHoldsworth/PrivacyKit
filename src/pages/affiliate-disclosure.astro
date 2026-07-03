@@ -2,15 +2,70 @@
 import ArticleLayout from '../layouts/ArticleLayout.astro';
 import { breadcrumbLd } from '../lib/jsonld';
 const path = '/affiliate-disclosure/';
-const crumbs = [{ name: 'Home', path: '/' }, { name: 'affiliate-disclosure', path }];
+const crumbs = [{ name: 'Home', path: '/' }, { name: 'Affiliate disclosure', path }];
 ---
 <ArticleLayout
-  title="PLACEHOLDER — affiliate-disclosure | PrivacyKit"
-  description="Placeholder description for the affiliate-disclosure page that is at least one hundred and twenty characters long so it satisfies the schema during the build."
+  title="Affiliate disclosure | PrivacyKit"
+  description="How PrivacyKit earns affiliate commissions on some outbound links at no cost to you, why our recommendations are never for sale, and the free tools we still name."
   path={path}
-  h1="affiliate-disclosure"
+  h1="Affiliate disclosure"
   crumbs={crumbs}
   jsonLd={[breadcrumbLd(crumbs)]}
 >
-  <p>Placeholder. Real content written in Phase D.</p>
+  <p>
+    PrivacyKit is free to use and runs no ads. Part of what keeps it that way is
+    affiliate revenue: a few of the outbound links to third-party products are
+    affiliate links. If you sign up or buy through one of them, PrivacyKit may
+    earn a commission. You pay the vendor's normal price — the commission comes
+    out of their margin, not your pocket.
+  </p>
+  <p>
+    This page exists to meet the disclosure expectations of the US Federal Trade
+    Commission and the Australian Competition and Consumer Commission, and, more
+    to the point, to be straight with you about how the site is paid for.
+  </p>
+
+  <h2>Recommendations are not for sale</h2>
+  <p>
+    Which tools we recommend, and what we say about them, is decided before any
+    commercial arrangement and never changes because of one. We don't accept
+    payment for a placement, a ranking, or a kind word. A product earns a
+    mention by being something we would tell a colleague to use — and where a
+    tool has a real limitation, we say so on the same screen where you'd decide
+    to use it.
+  </p>
+  <p>
+    That is also why we point to tools that pay us nothing. For password
+    managers we name <strong>Bitwarden</strong> and <strong>KeePassXC</strong> —
+    both open-source and free — alongside the paid options. For VPNs we link
+    <strong>Mullvad</strong>, one of the tools we most often recommend; Mullvad
+    bans affiliate marketing outright, so we link it with no commission and no
+    tracking, precisely because leaving it out would be dishonest.
+  </p>
+
+  <h2>The programs we currently use</h2>
+  <p>
+    Where an affiliate program is active, the partner falls into one of three
+    categories:
+  </p>
+  <ul>
+    <li>
+      <strong>Password managers</strong> — Proton Pass, 1Password and NordPass.
+    </li>
+    <li><strong>VPNs</strong> — Proton VPN and NordVPN.</li>
+    <li><strong>Domains and hosting</strong> — Namecheap and DigitalOcean.</li>
+  </ul>
+  <p>
+    When one of these appears as an affiliate link it is labelled as such next
+    to the link, and the recommendation sits on the same footing as any free
+    alternative named on the page. Nothing here is a paid slot.
+  </p>
+
+  <h2>If you'd rather not</h2>
+  <p>
+    You never have to use an affiliate link. Searching the product name directly
+    reaches the same vendor at the same price; it simply earns us nothing, and
+    the tool works identically either way. Questions about any of this are
+    welcome on our <a href="/contact/">contact page</a>.
+  </p>
 </ArticleLayout>
