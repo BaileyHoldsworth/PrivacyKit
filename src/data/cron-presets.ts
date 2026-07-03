@@ -30,10 +30,8 @@ export const CRON_PRESETS: CronPreset[] = [
   { slug: 'every-weekend', expr: '0 10 * * 6,0', note: 'Ten in the morning on Saturday and Sunday only, for maintenance you deliberately keep off the working week.' },
   { slug: 'every-monday', expr: '0 9 * * 1', note: 'Nine on Monday morning — the natural home for a weekly kickoff summary.' },
   { slug: 'every-friday', expr: '0 17 * * 5', note: 'Five in the afternoon on Friday, a fitting slot for an end-of-week wrap-up before the weekend.' },
-  { slug: 'every-sunday', expr: '0 0 * * 0', note: 'Midnight as Sunday begins — a common weekly boundary for rotating logs and resetting counters.' },
-  { slug: 'every-week', expr: '0 0 * * 0', note: 'Weekly at the Sunday midnight boundary; identical to the Sunday preset and the phrasing cron itself reports for a once-a-week job.' },
+  { slug: 'every-sunday', expr: '0 0 * * 0', note: 'Midnight as Sunday begins — a common weekly boundary for rotating logs and resetting counters, and the schedule cron reports for a once-a-week job.' },
   { slug: 'first-day-of-month', expr: '0 0 1 * *', note: 'Midnight on the first of each month — for monthly invoices, statements and counters that reset with the calendar.' },
-  { slug: 'every-month', expr: '0 0 1 * *', note: 'The monthly boundary: 00:00 on day one of every month, when month-to-date figures are finalised.' },
   { slug: 'every-quarter', expr: '0 0 1 1,4,7,10 *', note: 'Midnight on the first day of January, April, July and October — the quarter starts for financial roll-ups.' },
   { slug: 'every-year', expr: '0 0 1 1 *', note: 'Once a year at midnight on 1 January, for annual archives and yearly resets.' },
 ];

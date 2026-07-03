@@ -1,5 +1,5 @@
 ---
-import { getCollection, getEntry, render } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import AdSlot from '../../components/AdSlot.astro';
@@ -22,13 +22,15 @@ const crumbs = [
 ];
 
 // Resolve the paired tools for the "Try the tool" callout.
-const toolEntries = (
-  await Promise.all(g.tools.map((slug) => getEntry('tools', slug).catch(() => undefined)))
-).filter((t): t is NonNullable<typeof t> => Boolean(t));
+const allTools = await getCollection('tools');
+const toolMap = new Map(allTools.map((t) => [t.id, t]));
+const toolEntries = g.tools.map((slug) => toolMap.get(slug)).filter((t): t is NonNullable<typeof t> => Boolean(t));
 
-const relatedGuideEntries = (
-  await Promise.all((g.relatedGuides ?? []).map((slug) => getEntry('guides', slug).catch(() => undefined)))
-).filter((t): t is NonNullable<typeof t> => Boolean(t));
+const allGuides = await getCollection('guides');
+const guideMap = new Map(allGuides.map((g) => [g.id, g]));
+const relatedGuideEntries = (g.relatedGuides ?? [])
+  .map((slug) => guideMap.get(slug))
+  .filter((t): t is NonNullable<typeof t> => Boolean(t));
 ---
 
 <BaseLayout
