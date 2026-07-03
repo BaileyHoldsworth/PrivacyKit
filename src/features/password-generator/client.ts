@@ -24,7 +24,9 @@ if (root) {
     lower: 'abcdefghijklmnopqrstuvwxyz',
     upper: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
     numbers: '0123456789',
-    symbols: '!@#$%^&*()-_=+[]{};:,.<>/?',
+    // All 32 printable ASCII symbols — with letters and digits this makes the
+    // 94-character pool the page copy's entropy math describes.
+    symbols: '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~',
   };
   const AMBIGUOUS = /[O0Il1]/g;
 
