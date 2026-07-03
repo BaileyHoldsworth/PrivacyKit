@@ -1,0 +1,15 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import ToolCard from './ToolCard.astro';
+
+interface Props {
+  tools: CollectionEntry<'tools'>[];
+}
+const { tools } = Astro.props;
+---
+
+<ul class="tool-grid">
+  {tools.map((tool) => (
+    <li><ToolCard tool={tool} /></li>
+  ))}
+</ul>

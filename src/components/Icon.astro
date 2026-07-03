@@ -1,0 +1,49 @@
+---
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+
+interface Props {
+  /** Tabler outline icon name, e.g. "key", "qrcode". */
+  name: string;
+  size?: number;
+  class?: string;
+}
+
+const { name, size = 24, class: className } = Astro.props;
+
+// Inline the Tabler outline SVG at build time — no runtime icon font, no
+// network. We keep only the inner paths and re-declare the wrapper so we
+// control size/stroke and can style with currentColor.
+let inner = '';
+try {
+  // Resolve from the project root (cwd) — this component is bundled at build
+  // time, so import.meta.url can't be used to locate node_modules.
+  const raw = readFileSync(
+    join(process.cwd(), 'node_modules/@tabler/icons/icons/outline', `${name}.svg`),
+    'utf-8'
+  );
+  inner = raw
+    .replace(/^[\s\S]*?<svg[^>]*>/, '')
+    .replace(/<\/svg>\s*$/, '')
+    // Drop Tabler's transparent bounding-box path; it isn't needed.
+    .replace(/<path stroke="none"[^/]*fill="none"\s*\/>/, '')
+    .trim();
+} catch {
+  throw new Error(`Icon "${name}" not found in @tabler/icons outline set`);
+}
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  class={className}
+  aria-hidden="true"
+  set:html={inner}
+/>

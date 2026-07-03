@@ -1,0 +1,108 @@
+---
+import cronstrue from 'cronstrue';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import { CRON_PRESETS } from '../../data/cron-presets';
+import { softwareApplicationLd, breadcrumbLd } from '../../lib/jsonld';
+
+export function getStaticPaths() {
+  return CRON_PRESETS.map((preset) => ({ params: { preset: preset.slug }, props: { preset } }));
+}
+
+const { preset } = Astro.props;
+let explanation = '';
+try {
+  explanation = cronstrue.toString(preset.expr, { verbose: true });
+} catch {
+  explanation = 'an invalid schedule';
+}
+const fields = preset.expr.split(/\s+/);
+const fieldNames = ['Minute', 'Hour', 'Day of month', 'Month', 'Day of week'];
+const path = `/cron/${preset.slug}/`;
+const heading = preset.slug.replace(/-/g, ' ').replace(/^\w/, (c) => c.toUpperCase());
+const title = `Cron: ${preset.expr} — ${explanation} | PrivacyKit`;
+const description = `The cron expression ${preset.expr} means "${explanation}". See the field-by-field breakdown and the next scheduled run times.`;
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Cron Parser', path: '/tools/cron-parser/' },
+  { name: preset.expr, path },
+];
+---
+
+<BaseLayout
+  title={title.length > 60 ? `Cron ${preset.expr} — ${heading} | PrivacyKit` : title}
+  description={description.slice(0, 160)}
+  path={path}
+  jsonLd={[
+    softwareApplicationLd({ name: `Cron ${preset.expr}`, description: description.slice(0, 160), slug: `cron/${preset.slug}`, jsonLdCategory: 'DeveloperApplication' }),
+    breadcrumbLd(crumbs),
+  ]}
+>
+  <main class="container tool-page">
+    <Breadcrumbs crumbs={crumbs} />
+    <h1><code>{preset.expr}</code></h1>
+    <p class="tool-lede">This cron expression runs {explanation.toLowerCase()}.</p>
+
+    <div class="tool">
+      <div class="pane-group">
+        <div class="pane-toolbar">
+          <span class="pane-label">Expression</span>
+          <div class="pane-actions">
+            <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#cron-expr">Copy</button>
+          </div>
+        </div>
+        <input id="cron-expr" class="pane pane-mono" type="text" readonly value={preset.expr} />
+      </div>
+      <div>
+        <p class="pane-label" style="margin-bottom:var(--s-2)">Next runs (your local time)</p>
+        <ul id="cron-next" class="result-list"><li>Calculating…</li></ul>
+      </div>
+    </div>
+
+    <article class="prose tool-content">
+      <h2>What {preset.expr} means</h2>
+      <p>{preset.note}</p>
+      <p>In plain English, cron reads this as: <strong>{explanation.toLowerCase()}</strong>.</p>
+
+      <h2>Field-by-field breakdown</h2>
+      <table>
+        <thead><tr><th>Field</th><th>Value</th><th>Meaning</th></tr></thead>
+        <tbody>
+          {fields.map((f, i) => (
+            <tr>
+              <td>{fieldNames[i]}</td>
+              <td><code>{f}</code></td>
+              <td>{f === '*' ? 'every value' : f.includes('/') ? `every ${f.split('/')[1]}` : f.includes('-') ? `range ${f}` : f.includes(',') ? `values ${f}` : `at ${f}`}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <h2>Editing this schedule</h2>
+      <p>
+        To adjust this expression or explain a different one, open the full
+        <a href="/tools/cron-parser/"> cron expression parser</a> — it explains any crontab line,
+        lists upcoming runs and breaks down each field as you type. New to the syntax? The
+        <a href="/guides/cron-expressions-guide/">practical guide to cron expressions</a> walks
+        through every field with worked examples.
+      </p>
+    </article>
+
+    <RelatedTools slugs={['cron-parser', 'unix-timestamp-converter', 'timezone-converter']} />
+  </main>
+
+  <script define:vars={{ expr: preset.expr }}>
+    import { CronExpressionParser } from 'cron-parser';
+    const list = document.getElementById('cron-next');
+    try {
+      const it = CronExpressionParser.parse(expr, { tz: Intl.DateTimeFormat().resolvedOptions().timeZone });
+      const fmt = new Intl.DateTimeFormat('en-AU', { dateStyle: 'medium', timeStyle: 'short' });
+      const rows = [];
+      for (let i = 0; i < 5; i++) rows.push(`<li><span>${fmt.format(it.next().toDate())}</span></li>`);
+      list.innerHTML = rows.join('');
+    } catch {
+      list.innerHTML = '<li>Could not compute next runs for this expression.</li>';
+    }
+  </script>
+</BaseLayout>

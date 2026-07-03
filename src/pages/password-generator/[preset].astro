@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Ui from '../../features/password-generator/Ui.astro';
+import { PASSWORD_PRESETS } from '../../data/password-presets';
+import { softwareApplicationLd, breadcrumbLd } from '../../lib/jsonld';
+
+export function getStaticPaths() {
+  return PASSWORD_PRESETS.map((preset) => ({ params: { preset: preset.slug }, props: { preset } }));
+}
+
+const { preset } = Astro.props;
+const poolSize =
+  (preset.sets.lower ? 26 : 0) +
+  (preset.sets.upper ? 26 : 0) +
+  (preset.sets.numbers ? 10 : 0) +
+  (preset.sets.symbols ? 32 : 0);
+const bits = Math.round(preset.length * Math.log2(poolSize));
+const combos = preset.length * Math.log10(poolSize); // log10 of the keyspace
+const path = `/password-generator/${preset.slug}/`;
+const titleCap = preset.label.charAt(0).toUpperCase() + preset.label.slice(1);
+const title = `${titleCap} Generator | PrivacyKit`;
+const description = `Generate a random ${preset.label} in your browser. About ${bits} bits of entropy, cryptographically secure, one-click copy. No signup.`;
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Password Generator', path: '/tools/password-generator/' },
+  { name: titleCap, path },
+];
+---
+
+<BaseLayout
+  title={title.length > 60 ? `${titleCap} | PrivacyKit` : title}
+  description={description}
+  path={path}
+  jsonLd={[
+    softwareApplicationLd({ name: titleCap, description, slug: `password-generator/${preset.slug}`, jsonLdCategory: 'SecurityApplication' }),
+    breadcrumbLd(crumbs),
+  ]}
+>
+  <main class="container tool-page">
+    <Breadcrumbs crumbs={crumbs} />
+    <h1>{titleCap} generator</h1>
+    <p class="tool-lede">{description}</p>
+    <p class="privacy-badge privacy-badge-local">
+      Runs 100% in your browser — nothing you generate leaves your device.
+    </p>
+
+    <Ui length={preset.length} sets={preset.sets} />
+
+    <article class="prose tool-content">
+      <h2>How strong is a {preset.label}?</h2>
+      <p>{preset.note}</p>
+      <p>
+        With the character sets shown above, each position is drawn from a pool of {poolSize}
+        possibilities, so this password carries roughly <strong>{bits} bits of entropy</strong> —
+        about 10<sup>{Math.round(combos)}</sup> equally likely combinations. Every character comes
+        from <code>crypto.getRandomValues()</code> using rejection sampling, so there is no
+        modulo bias skewing the result. Press the button above to generate a fresh one; the
+        entropy and crack-time figures update live if you change the length.
+      </p>
+      <p>
+        Want a different length or a memorable alternative? The full
+        <a href="/tools/password-generator/"> password generator</a> lets you set any length from
+        8 to 128, and the <a href="/tools/passphrase-generator/">passphrase generator</a> builds
+        word-based secrets that are easier to type. To see why a longer password is exponentially
+        harder to crack, read <a href="/guides/password-entropy/">how password entropy works</a>.
+      </p>
+    </article>
+
+    <RelatedTools slugs={['password-generator', 'passphrase-generator', 'password-strength-checker', 'password-leak-checker']} />
+  </main>
+</BaseLayout>

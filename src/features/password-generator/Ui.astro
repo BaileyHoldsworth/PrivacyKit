@@ -1,3 +1,14 @@
+---
+// Optional defaults let the programmatic /password-generator/<preset>/ pages
+// preconfigure the generator. The generic tool route passes nothing, so the
+// standard page keeps its 20-char, all-sets-on defaults.
+interface Props {
+  length?: number;
+  sets?: { lower: boolean; upper: boolean; numbers: boolean; symbols: boolean };
+}
+const { length = 20, sets = { lower: true, upper: true, numbers: true, symbols: true } } = Astro.props;
+---
+
 <div class="tool" data-tool="password-generator">
   <div class="pane-group">
     <div class="pane-toolbar">
@@ -19,19 +30,19 @@
   </div>
 
   <div class="field">
-    <label for="pg-length">Length: <span id="pg-length-value" class="range-value">20</span></label>
+    <label for="pg-length">Length: <span id="pg-length-value" class="range-value">{length}</span></label>
     <div class="range-row">
-      <input id="pg-length" type="range" min="8" max="128" value="20" />
+      <input id="pg-length" type="range" min="8" max="128" value={length} />
     </div>
   </div>
 
   <fieldset class="field" style="border:none;padding:0">
     <legend class="field-hint" style="padding:0 0 var(--s-1)">Character sets</legend>
     <div class="field-row">
-      <label class="checkbox-row"><input type="checkbox" id="pg-lowercase" checked /> Lowercase (a–z)</label>
-      <label class="checkbox-row"><input type="checkbox" id="pg-uppercase" checked /> Uppercase (A–Z)</label>
-      <label class="checkbox-row"><input type="checkbox" id="pg-numbers" checked /> Numbers (0–9)</label>
-      <label class="checkbox-row"><input type="checkbox" id="pg-symbols" checked /> Symbols (!@#$…)</label>
+      <label class="checkbox-row"><input type="checkbox" id="pg-lowercase" checked={sets.lower} /> Lowercase (a–z)</label>
+      <label class="checkbox-row"><input type="checkbox" id="pg-uppercase" checked={sets.upper} /> Uppercase (A–Z)</label>
+      <label class="checkbox-row"><input type="checkbox" id="pg-numbers" checked={sets.numbers} /> Numbers (0–9)</label>
+      <label class="checkbox-row"><input type="checkbox" id="pg-symbols" checked={sets.symbols} /> Symbols (!@#$…)</label>
       <label class="checkbox-row"><input type="checkbox" id="pg-no-ambiguous" /> Exclude look-alikes (O0Il1)</label>
     </div>
   </fieldset>

@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { breadcrumbLd, collectionPageLd } from '../../lib/jsonld';
+
+const guides = await getCollection('guides');
+guides.sort((a, b) => a.data.title.localeCompare(b.data.title));
+const path = '/guides/';
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Guides', path },
+];
+const description =
+  'Plain-English guides to the ideas behind the tools: password entropy, EXIF privacy, JWT security, cron syntax, browser fingerprinting and more.';
+---
+
+<BaseLayout
+  title="Guides — Privacy & Security Explained | PrivacyKit"
+  description={description}
+  path={path}
+  jsonLd={[collectionPageLd({ name: 'Guides', description, path }), breadcrumbLd(crumbs)]}
+>
+  <main class="container article-page">
+    <Breadcrumbs crumbs={crumbs} />
+    <h1>Guides</h1>
+    <p class="tool-lede">
+      The reasoning behind the tools — how the mechanisms actually work, and how to use them well.
+    </p>
+    <ul class="guide-list">
+      {guides.map((guide) => (
+        <li>
+          <a href={`/guides/${guide.id}/`}>
+            <strong>{guide.data.title}</strong>
+            <span>{guide.data.description}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </main>
+</BaseLayout>

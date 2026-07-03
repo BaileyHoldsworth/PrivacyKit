@@ -606,3 +606,256 @@ kbd {
   color: var(--text-muted);
   font-size: 0.9rem;
 }
+
+/* ---------- Homepage hero ---------- */
+
+.hero {
+  padding: var(--s-8) 0 var(--s-6);
+  border-bottom: 1px solid var(--border);
+  background:
+    radial-gradient(60rem 30rem at 50% -10rem, var(--accent-subtle), transparent 70%);
+}
+
+.hero h1 {
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  max-width: 20ch;
+}
+
+.hero-sub {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  max-width: 60ch;
+  margin-top: var(--s-3);
+}
+
+.hero-search {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin-top: var(--s-5);
+  background: var(--bg-raised);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-m);
+  padding: var(--s-3) var(--s-4);
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.hero-search:hover {
+  border-color: var(--accent-border);
+}
+
+.hero-search kbd {
+  margin-left: var(--s-2);
+}
+
+/* ---------- Home sections ---------- */
+
+.home-main {
+  padding-top: var(--s-6);
+}
+
+.home-section {
+  margin-bottom: var(--s-7);
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-4);
+  margin-bottom: var(--s-4);
+}
+
+.section-head h2 {
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.section-icon {
+  color: var(--accent);
+  display: inline-flex;
+}
+
+.section-head a {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.home-editorial {
+  margin-top: var(--s-8);
+  padding-top: var(--s-6);
+  border-top: 1px solid var(--border);
+  max-width: 68ch;
+}
+
+.home-editorial h2 {
+  font-size: 1.4rem;
+  margin-bottom: var(--s-3);
+}
+
+.home-editorial p {
+  color: var(--text-muted);
+  margin-bottom: var(--s-3);
+}
+
+/* ---------- Tool grid & cards ---------- */
+
+.tool-grid {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: var(--s-3);
+}
+
+.tool-card {
+  display: flex;
+  gap: var(--s-3);
+  align-items: flex-start;
+  height: 100%;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--r-m);
+  padding: var(--s-3) var(--s-4);
+  color: var(--text);
+}
+
+.tool-card:hover {
+  border-color: var(--accent-border);
+  text-decoration: none;
+  transform: translateY(-1px);
+  transition: transform 120ms ease, border-color 120ms ease;
+}
+
+.tool-card-icon {
+  color: var(--accent);
+  display: inline-flex;
+  padding-top: 2px;
+  flex-shrink: 0;
+}
+
+.tool-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.tool-card-name {
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.tool-card-desc {
+  font-size: 0.83rem;
+  color: var(--text-faint);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dot-local {
+  background: var(--ok);
+}
+
+.dot-api {
+  background: var(--warn);
+}
+
+/* ---------- Hub / tools-index / article ---------- */
+
+.hub-page,
+.tools-index,
+.article-page {
+  max-width: 60rem;
+}
+
+.hub-intro,
+.article-prose {
+  max-width: 68ch;
+}
+
+.hub-intro {
+  margin-top: var(--s-6);
+}
+
+.article-prose h1 {
+  font-size: 2rem;
+  margin-bottom: var(--s-2);
+}
+
+.article-meta {
+  color: var(--text-faint);
+  font-size: 0.85rem;
+  margin-bottom: var(--s-5);
+}
+
+.try-tool,
+.related-guides {
+  margin-top: var(--s-7);
+  max-width: 68ch;
+}
+
+.try-tool h2,
+.related-guides h2 {
+  font-size: 1.3rem;
+  margin-bottom: var(--s-3);
+}
+
+.related-guides ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.guide-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: var(--s-3);
+  margin-top: var(--s-5);
+}
+
+.guide-list a {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--r-m);
+  padding: var(--s-4);
+  color: var(--text);
+}
+
+.guide-list a:hover {
+  border-color: var(--accent-border);
+  text-decoration: none;
+}
+
+.guide-list span {
+  color: var(--text-faint);
+  font-size: 0.9rem;
+}
+
+.kofi-link {
+  display: inline-block;
+  margin-top: var(--s-3);
+  font-weight: 550;
+}

@@ -1,0 +1,43 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import ToolGrid from '../components/ToolGrid.astro';
+import AdSlot from '../components/AdSlot.astro';
+import { getCategory, type CategorySlug } from '../config/categories';
+import { breadcrumbLd, collectionPageLd } from '../lib/jsonld';
+
+interface Props {
+  slug: CategorySlug;
+  tools: CollectionEntry<'tools'>[];
+}
+const { slug, tools } = Astro.props;
+const cat = getCategory(slug);
+const path = `/category/${slug}/`;
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: cat.name, path },
+];
+const title = `${cat.name} — Free Online Tools | PrivacyKit`;
+---
+
+<BaseLayout
+  title={title}
+  description={cat.description}
+  path={path}
+  jsonLd={[collectionPageLd({ name: cat.name, description: cat.description, path }), breadcrumbLd(crumbs)]}
+>
+  <main class="container hub-page">
+    <Breadcrumbs crumbs={crumbs} />
+    <h1>{cat.name}</h1>
+    <p class="tool-lede">{cat.description}</p>
+
+    <ToolGrid tools={tools} />
+
+    <div class="prose hub-intro">
+      <slot />
+    </div>
+
+    <AdSlot slot="hubBottom" />
+  </main>
+</BaseLayout>

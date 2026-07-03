@@ -1,0 +1,27 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Icon from './Icon.astro';
+
+interface Props {
+  tool: CollectionEntry<'tools'>;
+}
+const { tool } = Astro.props;
+const t = tool.data;
+---
+
+<a class="tool-card" href={`/tools/${tool.id}/`}>
+  <span class="tool-card-icon" aria-hidden="true">
+    <Icon name={t.icon} size={22} />
+  </span>
+  <span class="tool-card-body">
+    <span class="tool-card-name">
+      {t.name}
+      {t.privacy === 'local' ? (
+        <span class="dot dot-local" title="Runs entirely in your browser"></span>
+      ) : (
+        <span class="dot dot-api" title="Uses an external API (disclosed on the page)"></span>
+      )}
+    </span>
+    <span class="tool-card-desc">{t.description}</span>
+  </span>
+</a>

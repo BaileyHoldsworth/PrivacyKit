@@ -1,0 +1,27 @@
+---
+import { getCollection } from 'astro:content';
+import { marked } from 'marked';
+import CategoryLayout from '../../layouts/CategoryLayout.astro';
+import { CATEGORIES } from '../../config/categories';
+
+export async function getStaticPaths() {
+  const tools = await getCollection('tools');
+  return CATEGORIES.map((cat) => ({
+    params: { slug: cat.slug },
+    props: { tools: tools.filter((t) => t.data.category === cat.slug) },
+  }));
+}
+
+const { slug } = Astro.params;
+const { tools } = Astro.props;
+
+// "Which tool when" hub prose is written in Phase D as raw markdown under
+// src/hub-intros/<slug>.md. Rendered here with marked; absent = no extra prose.
+const intros = import.meta.glob('/src/hub-intros/*.md', { query: '?raw', import: 'default', eager: true });
+const raw = intros[`/src/hub-intros/${slug}.md`] as string | undefined;
+const introHtml = raw ? (marked.parse(raw) as string) : '';
+---
+
+<CategoryLayout slug={slug as any} tools={tools}>
+  {introHtml && <Fragment set:html={introHtml} />}
+</CategoryLayout>

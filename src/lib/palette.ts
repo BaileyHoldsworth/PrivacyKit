@@ -148,7 +148,7 @@ if (dialogEl && inputEl && listEl) {
       open();
     }
   });
-  document.getElementById('open-palette')?.addEventListener('click', open);
+  document.querySelectorAll('[data-open-palette]').forEach((el) => el.addEventListener('click', open));
 
   // Clicks on ::backdrop dispatch with the dialog itself as the target.
   dialog.addEventListener('click', (e) => {

@@ -1,12 +1,20 @@
 ---
-// PROVISIONAL homepage — Phase E replaces this with the full design
-// (hero + popular row + category sections + editorial block).
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ToolGrid from '../components/ToolGrid.astro';
+import Icon from '../components/Icon.astro';
 import { SITE } from '../config/site';
+import { CATEGORIES } from '../config/categories';
 import { webSiteLd, organizationLd } from '../lib/jsonld';
 
 const tools = await getCollection('tools');
+const byCategory = (slug: string) => tools.filter((t) => t.data.category === slug);
+const popular = tools.filter((t) => t.data.popular);
+// "Newest" = highest updated date, then name; at launch most share a date so
+// this is deterministic via the name tiebreak.
+const newest = [...tools]
+  .sort((a, b) => b.data.updated.getTime() - a.data.updated.getTime() || a.data.name.localeCompare(b.data.name))
+  .slice(0, 8);
 ---
 
 <BaseLayout
@@ -15,17 +23,67 @@ const tools = await getCollection('tools');
   path="/"
   jsonLd={[webSiteLd(), organizationLd()]}
 >
-  <main class="container">
-    <h1 style="margin-top:var(--s-7)">{SITE.tagline}</h1>
-    <ul class="related-grid" style="margin-top:var(--s-5);list-style:none;padding:0">
-      {tools.map((t) => (
-        <li>
-          <a class="related-card" href={`/tools/${t.id}/`}>
-            <strong>{t.data.name}</strong>
-            <span>{t.data.description}</span>
-          </a>
-        </li>
-      ))}
-    </ul>
+  <section class="hero">
+    <div class="container">
+      <h1>Free privacy &amp; developer tools that run in your browser</h1>
+      <p class="hero-sub">
+        {tools.length} fast, focused utilities for passwords, encoding, text, images and more.
+        No signup, no uploads, no tracking scripts — most tools never send your data anywhere.
+      </p>
+      <button class="hero-search" data-open-palette type="button">
+        <Icon name="search" size={18} />
+        <span>Search {tools.length} tools…</span>
+        <kbd>⌘K</kbd>
+      </button>
+    </div>
+  </section>
+
+  <main class="container home-main">
+    <section class="home-section">
+      <div class="section-head">
+        <h2>Popular tools</h2>
+        <a href="/tools/">All tools →</a>
+      </div>
+      <ToolGrid tools={popular} />
+    </section>
+
+    {CATEGORIES.map((cat) => {
+      const inCat = byCategory(cat.slug);
+      if (inCat.length === 0) return null;
+      return (
+        <section class="home-section">
+          <div class="section-head">
+            <h2>
+              <span class="section-icon" aria-hidden="true"><Icon name={cat.icon} size={20} /></span>
+              {cat.name}
+            </h2>
+            <a href={`/category/${cat.slug}/`}>View all {inCat.length} →</a>
+          </div>
+          <ToolGrid tools={inCat.slice(0, 4)} />
+        </section>
+      );
+    })}
+
+    <section class="home-section">
+      <div class="section-head"><h2>Recently added</h2></div>
+      <ToolGrid tools={newest} />
+    </section>
+
+    <section class="home-editorial">
+      <h2>Tools that respect your privacy by default</h2>
+      <p>
+        Most online converters and generators send whatever you paste to a server you'll never
+        see. PrivacyKit is built the other way around: password generators, hashers, formatters,
+        image tools and metadata cleaners run as plain JavaScript inside your own browser, so the
+        data you work with stays on your device. The handful of tools that genuinely need a
+        network — an IP lookup, a DNS query, a breach check — say so plainly at the top of the
+        page and send only the minimum required.
+      </p>
+      <p>
+        Everything is free and needs no account. If a tool saves you time, that's the whole point.
+        Read more <a href="/about/">about why this exists</a>, or browse the
+        <a href="/guides/"> guides</a> for the ideas behind the tools.
+      </p>
+    </section>
   </main>
 </BaseLayout>

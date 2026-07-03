@@ -1,0 +1,33 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  h1: string;
+  jsonLd?: object[];
+  crumbs: { name: string; path: string }[];
+  updated?: Date;
+  ogImage?: string;
+}
+const { title, description, path, h1, jsonLd = [], crumbs, updated, ogImage } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} path={path} jsonLd={jsonLd} ogImage={ogImage}>
+  <main class="container article-page">
+    <Breadcrumbs crumbs={crumbs} />
+    <article class="prose article-prose">
+      <h1>{h1}</h1>
+      {updated && (
+        <p class="article-meta">
+          Last updated <time datetime={updated.toISOString().slice(0, 10)}>
+            {updated.toLocaleDateString('en-AU', { year: 'numeric', month: 'long', day: 'numeric' })}
+          </time>
+        </p>
+      )}
+      <slot />
+    </article>
+  </main>
+</BaseLayout>

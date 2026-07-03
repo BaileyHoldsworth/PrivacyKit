@@ -1,0 +1,89 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import AdSlot from '../../components/AdSlot.astro';
+import AffiliateBox from '../../components/AffiliateBox.astro';
+import { breadcrumbLd, articleLd } from '../../lib/jsonld';
+
+export async function getStaticPaths() {
+  const guides = await getCollection('guides');
+  return guides.map((guide) => ({ params: { slug: guide.id }, props: { guide } }));
+}
+
+const { guide } = Astro.props;
+const g = guide.data;
+const { Content } = await render(guide);
+const path = `/guides/${guide.id}/`;
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Guides', path: '/guides/' },
+  { name: g.title, path },
+];
+
+// Resolve the paired tools for the "Try the tool" callout.
+const toolEntries = (
+  await Promise.all(g.tools.map((slug) => getEntry('tools', slug).catch(() => undefined)))
+).filter((t): t is NonNullable<typeof t> => Boolean(t));
+
+const relatedGuideEntries = (
+  await Promise.all((g.relatedGuides ?? []).map((slug) => getEntry('guides', slug).catch(() => undefined)))
+).filter((t): t is NonNullable<typeof t> => Boolean(t));
+---
+
+<BaseLayout
+  title={`${g.title} | PrivacyKit`}
+  description={g.description}
+  path={path}
+  ogImage={`/og/guides/${guide.id}.png`}
+  jsonLd={[
+    articleLd({ title: g.title, description: g.description, slug: guide.id, updated: g.updated }),
+    breadcrumbLd(crumbs),
+  ]}
+>
+  <main class="container article-page">
+    <Breadcrumbs crumbs={crumbs} />
+    <article class="prose article-prose">
+      <h1>{g.title}</h1>
+      <p class="article-meta">
+        Last updated <time datetime={g.updated.toISOString().slice(0, 10)}>
+          {g.updated.toLocaleDateString('en-AU', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </time>
+      </p>
+      {/* Mid-article ad slot marker: the guide body may include an
+          <!--ad--> HTML comment; simplest reliable placement is a single slot
+          after the article, which the AdSlot reserves. */}
+      <Content />
+    </article>
+
+    {toolEntries.length > 0 && (
+      <aside class="try-tool">
+        <h2>Try the {toolEntries.length > 1 ? 'tools' : 'tool'}</h2>
+        <ul class="related-grid">
+          {toolEntries.map((t) => (
+            <li>
+              <a class="related-card" href={`/tools/${t.id}/`}>
+                <strong>{t.data.name}</strong>
+                <span>{t.data.description}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </aside>
+    )}
+
+    {g.affiliateGroup && <AffiliateBox group={g.affiliateGroup} />}
+    <AdSlot slot="articleMid" />
+
+    {relatedGuideEntries.length > 0 && (
+      <nav class="related-guides" aria-label="Related guides">
+        <h2>Related guides</h2>
+        <ul>
+          {relatedGuideEntries.map((rg) => (
+            <li><a href={`/guides/${rg.id}/`}>{rg.data.title}</a></li>
+          ))}
+        </ul>
+      </nav>
+    )}
+  </main>
+</BaseLayout>

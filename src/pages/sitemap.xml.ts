@@ -2,6 +2,8 @@ import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { SITE } from '../config/site';
 import { CATEGORIES } from '../config/categories';
+import { CRON_PRESETS } from '../data/cron-presets';
+import { PASSWORD_PRESETS } from '../data/password-presets';
 
 /**
  * Hand-rolled sitemap so <lastmod> only ever comes from truthful per-entry
@@ -55,6 +57,8 @@ export const GET: APIRoute = async () => {
       path: `/guides/${g.id}/`,
       lastmod: toIsoDate(g.data.updated),
     })),
+    ...CRON_PRESETS.map((p) => ({ path: `/cron/${p.slug}/` })),
+    ...PASSWORD_PRESETS.map((p) => ({ path: `/password-generator/${p.slug}/` })),
   ];
 
   const urls = entries

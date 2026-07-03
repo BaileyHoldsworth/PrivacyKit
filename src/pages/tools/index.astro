@@ -1,0 +1,46 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ToolGrid from '../../components/ToolGrid.astro';
+import Icon from '../../components/Icon.astro';
+import { CATEGORIES } from '../../config/categories';
+import { breadcrumbLd, collectionPageLd } from '../../lib/jsonld';
+
+const tools = await getCollection('tools');
+const path = '/tools/';
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'All tools', path },
+];
+const description = `Browse all ${tools.length} free PrivacyKit tools by category — password generators, encoders, hashing, JSON and text utilities, image and privacy tools. All run in your browser.`;
+---
+
+<BaseLayout
+  title="All Tools — Free Privacy & Developer Utilities | PrivacyKit"
+  description={description}
+  path={path}
+  jsonLd={[collectionPageLd({ name: 'All tools', description, path }), breadcrumbLd(crumbs)]}
+>
+  <main class="container tools-index">
+    <Breadcrumbs crumbs={crumbs} />
+    <h1>All tools</h1>
+    <p class="tool-lede">Every PrivacyKit tool, grouped by what it does. {tools.length} and counting.</p>
+
+    {CATEGORIES.map((cat) => {
+      const inCat = tools.filter((t) => t.data.category === cat.slug);
+      if (!inCat.length) return null;
+      return (
+        <section class="home-section">
+          <div class="section-head">
+            <h2 id={cat.slug}>
+              <span class="section-icon" aria-hidden="true"><Icon name={cat.icon} size={20} /></span>
+              <a href={`/category/${cat.slug}/`}>{cat.name}</a>
+            </h2>
+          </div>
+          <ToolGrid tools={inCat} />
+        </section>
+      );
+    })}
+  </main>
+</BaseLayout>

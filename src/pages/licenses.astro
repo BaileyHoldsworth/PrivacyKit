@@ -1,0 +1,16 @@
+---
+import ArticleLayout from '../layouts/ArticleLayout.astro';
+import { breadcrumbLd } from '../lib/jsonld';
+const path = '/licenses/';
+const crumbs = [{ name: 'Home', path: '/' }, { name: 'licenses', path }];
+---
+<ArticleLayout
+  title="PLACEHOLDER — licenses | PrivacyKit"
+  description="Placeholder description for the licenses page that is at least one hundred and twenty characters long so it satisfies the schema during the build."
+  path={path}
+  h1="licenses"
+  crumbs={crumbs}
+  jsonLd={[breadcrumbLd(crumbs)]}
+>
+  <p>Placeholder. Real content written in Phase D.</p>
+</ArticleLayout>
