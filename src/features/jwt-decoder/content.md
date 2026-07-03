@@ -79,4 +79,26 @@ faqs:
       fix is dividing by 1,000 wherever the token is issued.
 ---
 
-<!-- content-pending: Phase C -->
+## How to use
+
+1. Paste your token into the **Encoded token** box. A full `Authorization: Bearer …` header, or a token wrapped in quotes copied from a log line, works too — the prefix, the quotes and any line breaks are stripped before decoding.
+2. Read the header, payload and signature panes below, which fill in as you type; the decode fires about 150 ms after you stop typing.
+3. Glance at the three stat tiles: the detected **Algorithm**, a live **Token status** badge, and the **Signature** size in bytes.
+4. Scan the time-claims list, where `exp`, `nbf` and `iat` show up as local dates with badges that refresh every second.
+5. No token handy? Press **Load sample** for a synthetic one built inside the page, or **Clear** to empty every field.
+
+## How it works
+
+A signed JWT (technically a JWS) is three Base64URL strings joined by dots: `header.payload.signature`. The decoder splits on those dots, insists on exactly three parts, then decodes the first two from Base64URL to UTF-8 bytes and parses each as JSON. Base64URL is ordinary Base64 with two swaps — `+` becomes `-`, `/` becomes `_` — and the `=` padding dropped, so a token survives inside a URL untouched.
+
+Worked example: take the payload segment `eyJpc3MiOiJrZXN0cmVsLWFwaSIsInN1YiI6ImFjY3RfNTU2NyIsImV4cCI6MTc4MzcyODAwMH0`. Decoding those characters yields the JSON `{"iss":"kestrel-api","sub":"acct_5567","exp":1783728000}`. The `exp` value is a NumericDate — seconds since 1 January 1970 UTC — so the tool multiplies by 1000 and formats it as 11 July 2026. Because that moment is still ahead of now, the status badge reads **Not expired** and counts down live; let the clock pass it and the badge flips to **Expired** with no reload. The signature is shown with its byte length, but nothing is ever computed against it — no key is applied.
+
+## Use cases & limitations
+
+You reach for a decoder when a login returns a token and you want to see what the server actually put inside it — which scopes it granted, which audience it names, when it lapses — or when an API keeps rejecting a request and you suspect the token expired or isn't valid yet. It also settles the argument about whether a millisecond value slipped into a time claim.
+
+The limitation is the whole point of the tool: decoding is not verification. Anyone can read a JWT and anyone can forge one, because the signature — the only thing binding those claims to their issuer — is never checked here. A decoded token proves nothing about who minted it. To recompute an HS256 signature yourself, the [HMAC generator](/tools/hmac-generator/) does that arithmetic; to convert a raw epoch claim on its own, the [Unix timestamp converter](/tools/unix-timestamp-converter/) handles it.
+
+## Privacy note
+
+Every segment is decoded on your device using the browser's own Base64 and JSON facilities; the page issues no network request, which you can confirm by watching your browser's network tab while you paste. Even so, a valid token is a live credential — whoever holds it can act as you until it expires — so treat production tokens as secrets and decode expired, test, or **Load sample** tokens instead. The underlying Base64URL step is the same operation the [Base64 encoder/decoder](/tools/base64-encoder-decoder/) exposes on its own.

@@ -70,4 +70,31 @@ faqs:
       address turned up in, use Have I Been Pwned's separate email search on
       their own site.
 ---
-<!-- content-pending: Phase C -->
+A password can be long, mixed-case, and studded with symbols and still be worthless the moment it turns up on a breach list, because attackers no longer have to guess it — they already have it. This tool answers one narrow question: has the exact password you type ever been seen in a known breach? It does that without the password, or even its full hash, ever leaving your browser.
+
+## How to use
+
+1. Type the password you want to test into the field. Nothing is transmitted while you type.
+2. Press **Show** if you want to read it back and confirm you entered it correctly — the toggle flips the field between hidden and plain text.
+3. Press **Check this password** (or hit Enter in the field). Each check is a deliberate action, so casual typing never fires a network call.
+4. Read the result: a green **Not found** badge, or a red **Found in known breaches** badge with the number of times that password has appeared across the indexed corpora.
+
+## How it works
+
+The tool leans on the *range* endpoint of the Have I Been Pwned Pwned Passwords service and a technique called k-anonymity, so the server can confirm a match while learning almost nothing.
+
+The moment you press Check, your browser computes the SHA-1 hash of the password locally via `crypto.subtle.digest`, then splits the 40-character hex digest into a 5-character prefix and a 35-character suffix. Only the prefix travels over the network, to `api.pwnedpasswords.com/range/<prefix>`. The response is a list of every leaked-hash suffix that shares that prefix — typically several hundred to a thousand of them — each followed by a colon and a breach count. Your browser scans that list for your suffix and reads off the count. A request header of `Add-Padding: true` mixes in zero-count decoy lines, so an eavesdropper cannot infer a hit from the response size.
+
+Take the password `Tandem-Otter-59`. Its SHA-1 digest is `9E3171288BC0333A2E68D1A7536D9447C8385282`. The tool sends only the prefix `9E317`; the suffix `1288BC0333A2E68D1A7536D9447C8385282` stays in the page and is matched against the returned bucket. The server sees a five-hex-character query that belongs to hundreds of thousands of unrelated hashes and never learns which one you asked about. If you want to watch the digest itself get built, the [hash generator](/tools/hash-generator/) runs the same SHA-1 in the open.
+
+## Use cases & limitations
+
+The obvious moment to reach for this is right after a breach headline, or when auditing a password you have quietly reused for years and half-suspect is compromised. It is also a fast sanity check on a candidate password before you commit to it: a string that already sits in the corpus is a string attackers will try first.
+
+The result is a floor, not a verdict. A **Not found** badge means only that the password is absent from the roughly one billion cracked hashes the service has indexed — a freshly invented weak password (a street name plus a birth year) can pass this check and still fall to a dictionary attack in seconds. For that judgement, run it through the [password strength checker](/tools/password-strength-checker/), which scores length and predictability rather than breach history. And note the scope: this looks up the password *value* only, never an email address or account.
+
+If a password comes back **Found**, retire it everywhere and mint a unique replacement with the [password generator](/tools/password-generator/).
+
+## Privacy note
+
+Your password and its complete SHA-1 hash never leave your device. The single thing sent over the network is the first five hexadecimal characters of that hash — a prefix so broad it maps to a vast crowd of unrelated passwords — and it goes only to the Have I Been Pwned range API. The full-hash comparison happens locally, so the match is decided in your browser, not on their server. You can prove all of this yourself: open your browser's network tab, run a check, and confirm the only outbound request carries five characters.

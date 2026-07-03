@@ -72,4 +72,26 @@ faqs:
       name is rejected, shorten the keyword or switch to noun+number style.
 ---
 
-<!-- content-pending: Phase C -->
+A handle should be disposable. The point of a generator like this is to hand you a shortlist to pick from — a dozen readable candidates in one click — rather than one "perfect" name you spend twenty minutes inventing. Feed it a word you like or leave it blank, choose a shape, and skim the batch for one that reads well.
+
+## How to use
+
+1. Optionally type a **keyword** — letters and digits only, anything else is stripped — and it gets woven into every name in the batch.
+2. Choose a **style** from the dropdown: adjective + noun, noun + number, leetspeak-lite, or two words joined by an underscore.
+3. Drag the **Names per batch** slider to ask for anywhere from 5 to 20 candidates at once.
+4. Click **Generate usernames**. The list also refreshes on its own whenever you change the keyword, style, or count, so you can browse without pressing the button each time.
+5. Click any name (or its **Copy** button) to copy it, or use **Copy all** to grab the whole batch, one name per line.
+
+## How it works
+
+Two curated wordlists ship with the tool — 60 adjectives and 60 nouns, all lowercase with no overlap — and each style assembles a name from them by a fixed recipe. Adjective + noun capitalises one word from each list (`GildedOsprey`); noun + number appends a random suffix between 10 and 9999 to a noun (`kestrel4820`); two words joins two picks with an underscore (`arctic_lagoon`); and leetspeak-lite builds an adjective + noun string, then rewrites some of its letters as digits.
+
+Take leetspeak-lite with the keyword left empty. The generator draws two words — say **quantum** and **gecko** — and concatenates them into `quantumgecko`. It then scans left to right for letters in its substitution map (a→4, e→3, i→1, o→0, s→5, t→7), skipping position 0 so the name never starts with a digit. Here the eligible letters are the *a*, the *t*, the *e*, and the trailing *o*. A random subset — always at least one — is swapped: flip the *a* and the *e* and the result is `qu4ntumg3cko`. Run it again and a different subset changes, so the same two words can surface several distinct spellings.
+
+Every pick — which word, which number, which letters get substituted — comes from `crypto.getRandomValues()` with rejection sampling, the same unbiased draw our [password generator](/tools/password-generator/) uses. Each batch is de-duplicated through a set, so you never see the same name twice in one list.
+
+## Use cases & limitations
+
+Signup forms are the obvious case — you want a handle that is not your real name or email — a gaming tag, a forum or marketplace account, a throwaway login. Using a *different* generated handle on each site also keeps those accounts from being trivially linked back to one person.
+
+The honest limitation is the size of the pools. Adjective + noun has only 3,600 possible base combinations, so two people can easily land on the same one, and the tool has no way to tell you whether a name is already taken — treat the output as a starting point, then check it on the platform itself. If what you actually need is a guaranteed-unique machine identifier rather than a human-readable handle, generate a [UUID](/tools/uuid-generator/) instead. And if a name has to be *memorable* — spoken aloud, typed from memory — a [passphrase](/tools/passphrase-generator/) reads more naturally than a leetspeak string.

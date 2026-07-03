@@ -70,4 +70,24 @@ faqs:
       `30 1,4,7,10,13,16,19,22 * * *`) or a guard in the script itself.
 ---
 
-<!-- content-pending: Phase C -->
+A line like `0 3 * * 0` is unambiguous to the cron daemon and opaque to almost everyone else. Paste one in and this parser turns it into a sentence, a list of the next ten moments it will actually fire, and a table showing exactly what each field matched — so you can catch a mistake before it ships to a server.
+
+## How to use
+
+1. Type or paste a cron expression into the input. Five fields is standard; six is accepted when the first one is a seconds field. The default `*/5 * * * *` is there to edit over.
+2. In a hurry, press a preset — Hourly, Weekdays 9 am, 1st of the month — to load a known-good expression and watch it decode.
+3. Read the plain-English line, then scan the **Next 10 runs** list and check the dates against what you meant to schedule.
+4. Toggle **Show in UTC** to line your local run times up against the timezone the server most likely uses.
+5. Hit **Copy** beside either pane to lift the explanation or the whole run list onto your clipboard.
+
+## How it works
+
+Every keystroke (debounced by 150 ms) kicks off two passes. First the expression is checked for the right shape — five or six space-separated fields, or a macro such as `@daily`, which expands to its canonical form (`0 0 * * *`). Then `cron-parser` walks the calendar forward from the current instant to collect the next ten matches, while `cronstrue` renders the summary sentence. The field-by-field table is built separately: each token is expanded to the concrete set of numbers it matches, consecutive values are compressed into ranges, and a uniform step that overshoots the field's maximum collapses back into an "every N" phrase.
+
+Take `30 6 * * 1,4`. The summary reads *At 06:30 AM, only on Monday and Thursday*. In the breakdown, the minute token `30` becomes "at minute 30" and the hour `6` becomes "at hour 6". The day-of-month and month fields are both `*`, so they read "every day of the month" and "every month". The day-of-week field `1,4` expands to the set {1, 4}; those are not consecutive, so they stay listed — "on Monday and Thursday". The runs list then shows the coming Monday and Thursday at 06:30, each tagged with a relative label like "in 2 days". Contrast that with a step field: `*/20` in the minute slot expands to {0, 20, 40}, and because 20 is a uniform step that runs past 59, the table shortens it to "every 20 minutes" rather than spelling out all three values.
+
+## Use cases & limitations
+
+This is the fastest way to review a colleague's crontab, work out why a job fired at 3 am, or draft a schedule before you commit it. The next-ten list is especially good at exposing the classic trap where a restricted day-of-month and a restricted day-of-week are combined with OR, so the job runs on far more days than intended.
+
+The honest limitation: the run times are a preview computed in your browser, not a promise. The real machine evaluates the crontab in its own system timezone and only while the daemon is up, so daylight-saving shifts, downtime and clock drift all move the true fire times. To convert a predicted UTC run into another zone, reach for the [timezone converter](/tools/timezone-converter/); to turn an epoch value pulled from a log into a readable date, use the [Unix timestamp converter](/tools/unix-timestamp-converter/). And if the range-and-step syntax feels familiar, the [regex tester](/tools/regex-tester/) rewards the same paste-and-watch approach.

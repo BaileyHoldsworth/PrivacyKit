@@ -79,4 +79,30 @@ faqs:
       in a local editor.
 ---
 
-<!-- content-pending: Phase C -->
+## How to use
+
+1. Enter your expression in the **Pattern** field — no surrounding slashes, just the pattern itself. It loads with an email pattern to show the layout; clear it and type your own.
+2. Set the **flags**. `g` and `i` start ticked; add `m`, `s`, `u` or `y` as the pattern needs them.
+3. Replace the **Test string** with the text you want to search — paste a log, a spreadsheet column, a paragraph, whatever you are matching against.
+4. Read the results as you go: every hit is highlighted in the mirror pane, the **Matches** and **Match time** stats update, and each match is listed below with its offsets and any capture groups.
+5. To rewrite matched text, type a template into **Replacement** — a preview pane appears with the result and a copy button.
+
+## How it works
+
+Every keystroke hands the pattern, flags, test string and replacement to a Web Worker — a separate thread — which builds a `RegExp` and runs it against your text. Doing the matching off the main thread is what lets the two-second watchdog terminate a runaway pattern without freezing the tab.
+
+For a global or sticky pattern the worker calls `exec()` in a loop, collecting each match — its text, its start and end offsets, and every capture group — until the string is exhausted or a 5,000-match ceiling is reached. Group names are read straight from the pattern source, so a numbered group and its `(?<name>…)` label show up together in the details list.
+
+Take the pattern `(?<key>\w+)=(?<val>\d+)` with `g` on, run against `width=1280 height=720 fps=60`. The loop finds three matches: `width=1280` at offsets 0–10, `height=720` at 11–21 and `fps=60` at 22–28. Each row shows `key` and `val` beside the whole match. Put `$<key>:$<val>` in the Replacement field and the preview reads `width:1280 height:720 fps:60` — the tool calls `String.prototype.replace` with your exact pattern and flags, so the output is byte-for-byte what the same call produces in your own code.
+
+The highlighted pane rebuilds by walking the match list, escaping the text between hits and wrapping each match in a `<mark>`. Past 200,000 characters that mirror is skipped to keep rendering cheap, though the count, timing and match details still cover the whole string.
+
+## Use cases & limitations
+
+A regex is easiest to trust once you have watched it match. Reach for this when you are drafting a validation rule, pulling fields out of a log line, or working out a find-and-replace before committing it to a script. When the target is structured data, matching inside the [JSON formatter](/tools/json-formatter/) first makes the shape obvious, and the tester sits naturally alongside tidying steps like the [case converter](/tools/case-converter/) or turning a heading into a [slug](/tools/slug-generator/).
+
+The engine is the limitation worth stating plainly: this is JavaScript's `RegExp`, so a pattern copied from a Python, PCRE or .NET codebase may behave differently or throw outright. Test it here against real sample text before you rely on it elsewhere.
+
+## Privacy note
+
+Nothing you type is transmitted. The pattern, flags, sample text and replacement stay inside the background worker on your own device, and no results are logged or kept — matching a file of production logs here is as contained as grepping them in a local terminal.

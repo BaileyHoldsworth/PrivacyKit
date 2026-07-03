@@ -69,4 +69,27 @@ faqs:
       handy for quick hue tweaks in older codebases.
 ---
 
-<!-- content-pending: Phase C -->
+## How to use
+
+1. Type or paste a colour into the **CSS colour** field. The sample loads on `#7c3aed`; replace it with any format your browser understands — hex, `rgb()`, `hsl()`, `oklch()`, or a name like `tomato`.
+2. Prefer clicking? Use the small swatch button beside the field to open your system colour picker and drag to a shade.
+3. Watch the four rows — HEX, RGB, HSL, OKLCH — rewrite on every keystroke. There is no convert button; the conversion is live.
+4. Glance at the two contrast figures underneath when the colour is headed for text, since they tell you whether it will read against white or black.
+5. Press **Copy** on the row whose format you need.
+
+## How it works
+
+Your text never gets parsed by hand. It is assigned to a hidden element's `color` property, and the browser's own CSS engine resolves it to an `rgb()` triple that the tool reads back — which is why the accepted input set is exactly the browser's accepted input set. From that one canonical RGB, each output row is computed independently.
+
+Take `#E8622C`. The hex splits into the channel bytes `E8`, `62`, `2C`, giving RGB `232, 98, 44`. HSL comes from the largest and smallest normalised channels: max is 232/255 ≈ 0.910, min is 44/255 ≈ 0.173, so lightness is their midpoint, (0.910 + 0.173) / 2 ≈ 0.541, i.e. **54.1%**. Feeding the same channels through the hue and saturation formulas yields `hsl(17.2, 80.3%, 54.1%)`.
+
+OKLCH takes a longer road. Each channel is linearised (undoing the sRGB gamma curve), mixed through Björn Ottosson's OKLab LMS matrix, cube-rooted, then converted from the resulting `L`, `a`, `b` coordinates to polar form: chroma is `hypot(a, b)` and hue is `atan2(b, a)` in degrees. For `#E8622C` that lands on `oklch(65.7% 0.1789 40.45)` — a lightness of 65.7%, moderate chroma, and a hue sitting in the orange arc near 40°.
+
+The contrast figures use WCAG 2.1 relative luminance on the same linearised channels. This orange scores **3.38:1** on white (an *AA Large* pass, fine for headings but short of the 4.5:1 body-text bar) and **6.21:1** on black (a comfortable *AA*). One colour, five answers, all from that single resolved RGB.
+
+## Use cases & limitations
+
+The everyday job is translation: you have a hex out of Figma and need it as an `rgb()` for a canvas call, or you are migrating a palette to OKLCH so that dark-mode variants become one-number tweaks. The built-in contrast check saves a round-trip to a separate accessibility tool when you are choosing text colours. Because it reads hex bytes, it pairs naturally with the [number base converter](/tools/number-base-converter/) when you want the decimal value behind an `FF` or `2C` pair, and the swatches you settle on can go straight into a themed [QR code](/tools/qr-code-generator/).
+
+The honest limitation is the gamut. Every input is resolved through the browser's sRGB path, so a wide-gamut Display P3 or Rec. 2020 colour is clamped to the nearest colour sRGB can show before it is measured. If you are authoring for HDR or P3 displays, treat the OKLCH output here as the sRGB-mapped version, not the full-gamut original. The native colour picker is opaque-only too, so dragging it discards any alpha you had typed.
+

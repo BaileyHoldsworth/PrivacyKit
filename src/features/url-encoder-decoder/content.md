@@ -79,4 +79,28 @@ faqs:
       type.
 ---
 
-<!-- content-pending: Phase C -->
+## How to use
+
+1. Set **Direction** to *Encode* to turn text into percent-encoding, or *Decode* to reverse it. The lower pane updates as you type — there is no button to press.
+2. When encoding, choose the **Encoding function**: *encodeURIComponent* for a single value such as one query parameter, or *encodeURI* for a whole URL. The hint below the menu names exactly which characters each one leaves untouched.
+3. Paste your text into the top pane. The character counts under each pane update live, which makes it easy to see when a short string has ballooned into a long run of escapes.
+4. Tick **Encode each line separately** to treat every line as its own value, so a newline is not turned into `%0A`. When decoding, tick **Decode + as spaces** if the input came out of an HTML form body.
+5. **Copy** or **Download** the result, or press **Swap ⇅** to move the output back into the input field and reverse the conversion — a quick check that a value survives a round trip intact.
+
+## How it works
+
+Percent-encoding replaces a character with a `%` followed by the two hexadecimal digits of each byte that character occupies. URLs carry text as UTF-8, so a single character can span several bytes, and every byte gets its own `%XX` escape.
+
+Run the search value `crème brûlée` through *encodeURIComponent*. The plain ASCII letters pass straight through; the space becomes `%20`. Each accented letter is two UTF-8 bytes: `è` is `0xC3 0xA8` → `%C3%A8`, `û` is `0xC3 0xBB` → `%C3%BB`, and `é` is `0xC3 0xA9` → `%C3%A9`. Stitched together the value reads `cr%C3%A8me%20br%C3%BBl%C3%A9e`, ready to sit after `?q=`. Switch to *encodeURI* and the same text encodes identically, because it contains no URL-structural characters — the two functions only diverge once a `/`, `?`, `&`, `=` or `#` appears.
+
+Decoding reverses that byte-by-byte, and when it cannot — a `%` without two hex digits behind it, or an escape run that is not legal UTF-8 — the tool pins down the first offending escape and names its position instead of throwing a bare exception.
+
+## Use cases & limitations
+
+The usual moment for this tool is building a link by hand: encoding one parameter value before you drop it into a query string, or working out why a value containing an `&` split one parameter into two. It is equally useful in reverse — pulling an encoded value out of a server log, an OAuth redirect, or a `curl` invocation and reading what it actually says.
+
+One limitation worth stating plainly: the tool escapes characters, it does not parse URL grammar, so it cannot tell you whether the surrounding URL is otherwise valid. A related trap is double-encoding. Feeding already-encoded text back through *encode* escapes the `%` signs themselves — `%20` becomes `%2520` — so if input looks encoded already, decode it first or use **Swap**. To strip tracking parameters from a link rather than escape it, reach for the [URL cleaner](/tools/url-cleaner/); to turn a title into a hyphenated path segment, the [slug generator](/tools/slug-generator/) does the normalising for you; and for the other half of web encoding — arbitrary bytes as text — see the [Base64 encoder / decoder](/tools/base64-encoder-decoder/).
+
+## Privacy note
+
+Every conversion calls the JavaScript engine's own `encodeURIComponent`, `encodeURI` and `decodeURIComponent`, and writes the result straight into the page. A URL you paste — signed redirects, session tokens and all — never leaves the tab, nothing is logged, and the tool keeps working after you disconnect the network.

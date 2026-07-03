@@ -71,4 +71,24 @@ faqs:
       shown here is effectively the same. Fingerprinting exists specifically to
       track browsers that block or clear cookies.
 ---
-<!-- content-pending: Phase C -->
+## How to use
+
+1. Press **Show my fingerprint**. The button sits idle until you click it, so the page never profiles you just for visiting — the read happens on your command.
+2. Work down the four groups — *Software & locale*, *Display*, *Hardware*, *Rendering & time* — and check the badge beside each row. Green **Low** signals barely narrow you down; red **High** ones (user agent, canvas hash, WebGL renderer) do most of the identifying.
+3. Look at the two stats up top: the **Combined fingerprint** folds every row into one SHA-256 value, and the **Canvas hash** isolates how your GPU draws text.
+4. Hit **Refresh fingerprint** to run it again. On the same device the values come back identical — that repeatability is exactly what a tracker relies on.
+5. Use **Copy report** to grab the full list as text (handy for comparing two browsers side by side), or **Clear** to wipe the panel.
+
+## How it works
+
+Each row is pulled from a browser API you can't easily turn off: `navigator` for the user agent, languages, CPU cores and platform; `screen` for resolution and colour depth; `Intl.DateTimeFormat().resolvedOptions()` for your timezone; `matchMedia` for your dark-mode and reduced-motion preferences. Two rows are hashed rather than read directly — the canvas hash and the combined fingerprint — both using the browser's WebCrypto `SHA-256` digest, truncated to the first 16 hex characters.
+
+The combined value is built by writing every signal as `id=value`, joining those pairs with a unit-separator control character, and hashing the whole string. The join is what makes it sensitive to change. Take a machine reporting `tz=Australia/Brisbane␟cores=8␟dpr=2` — that string digests to `eb94d4c0254e2dc4`. Move the same laptop to Perth so timezone alone flips, and the input becomes `tz=Australia/Perth␟cores=8␟dpr=2`, which digests to `25ba1e3aca93aacc`. One field changed; not a single character of the hash survived. That avalanche is why a fingerprint is fragile as a long-term ID, and also why any signal you can vary genuinely moves the needle.
+
+Sixteen hex characters give 64 bits of hash space, far more than needed to keep browsers apart. The real identifying power was never in the hash length, though — it lives in the underlying signals. If your combination of user agent, screen size and GPU is already rare, the hash just packages that rarity into a tidy label.
+
+## Use cases & limitations
+
+The honest use for this page is auditing your own exposure. Harden a browser — switch on Firefox's `resistFingerprinting`, install an extension, run the Tor Browser — then run this before and after and watch which red badges drop to grey. It also shows what any embedded widget or "log in with" button can read the moment it loads, which pairs well with checking what your network reveals on [what is my IP](/tools/what-is-my-ip/) and stripping tracking parameters off links with the [URL cleaner](/tools/url-cleaner/).
+
+The limitation worth stating plainly: this is a snapshot of one browser, not a rarity score. It cannot tell you how many other people in the world share your exact combination — that needs a large measurement panel like the EFF's Cover Your Tracks. A hash of `eb94d4c0254e2dc4` looks unique because hashes always do; whether the *inputs* behind it are common or one-in-a-million is a question this tool doesn't answer. Fingerprinting is also only half the picture — files you share carry their own identifiers, which the [EXIF viewer](/tools/exif-viewer/) surfaces.

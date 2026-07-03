@@ -80,4 +80,23 @@ faqs:
       approximate counting mode rather than sending anything to a server.
 ---
 
-<!-- content-pending: Phase C -->
+## How to use
+
+1. Paste or type your content into the **Your text** box. There is no "count" button — every figure recalculates as you write, a fifth of a second after you stop typing.
+2. Read the stat row underneath: words, characters, characters without spaces, sentences, paragraphs, and the estimated reading and speaking times.
+3. Expand **Top 10 words** to see the terms you lean on most. This panel only does its work while it is open, so long documents stay responsive when it is closed.
+4. Press **Copy stats** to put the whole summary on your clipboard as plain text, or **Clear** to empty the box and start again.
+
+## How it works
+
+Rather than splitting on spaces, the counter hands your text to your browser's `Intl.Segmenter` — the same Unicode segmentation engine that decides where a cursor lands when you double-click a word. It walks the text once at word granularity, tallying every segment the standard marks as word-like, and once more at sentence granularity to find real sentence breaks. Characters are counted as Unicode code points (so an accented letter is one, not two), and the characters-without-spaces figure subtracts every run of whitespace. Paragraphs are runs of text fenced off by a blank line. Reading time divides the word total by 215 words per minute; speaking time uses 130.
+
+Take the line **Cyclones spin clockwise here. That fact surprises 4 in 5 first-time visitors, oddly.** The segmenter reports 14 words — the bare digits *4* and *5* each count, and *first-time* splits into *first* and *time* because a hyphen is a word boundary in the Unicode rules. It finds 2 sentences from the two full stops, 84 characters, and 72 once the eleven spaces are removed. At 215 wpm those 14 words round to a 4-second read and, at 130 wpm, a 6-second read aloud. Every number on the page is arithmetic on the text in front of you, not an estimate.
+
+One engineering trade-off is worth naming: past roughly two million characters the segmenter would stall the page for a noticeable beat, so above that threshold counting switches to a faster regular-expression pass and a banner tells you the totals are now approximate.
+
+## Use cases & limitations
+
+The obvious readers are people writing to a ceiling — a 650-word college essay, a 155-character meta description, an abstract capped at 250 words, a conference talk that has to fit a 20-minute slot. Watching the count tick while you trim is faster than pasting into a word processor and hunting through a menu. The top-words panel doubles as a quick self-edit: if *actually* shows up nine times, you know what to cut. Compare two drafts side by side with the [text diff tool](/tools/text-diff/), reshape casing for a headline with the [case converter](/tools/case-converter/), or generate filler to test a layout with [lorem ipsum](/tools/lorem-ipsum-generator/).
+
+The honest limits are in the judgement calls. Reading and speaking times are population averages, so a dense legal clause or a fast presenter will diverge from them. And the frequency table's stopword list is English only — run German or Spanish prose through it and everyday connective words will crowd the top ten, because the filter does not know them. For plain English writing against a word limit, though, the counts are exact and instant.

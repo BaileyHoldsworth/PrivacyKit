@@ -76,4 +76,35 @@ faqs:
       type to confirm it.
 ---
 
-<!-- content-pending: Phase C -->
+## How to use
+
+1. Type or paste Markdown into the left pane — it opens with a sample job sheet so you can see the syntax in action; select all and delete to start clean.
+2. Read the result in the right pane. It re-renders about 150 ms after you stop typing, so there is no button to press for an ordinary document.
+3. Past 200,000 characters the live update steps aside to keep typing smooth. Hit **Render preview**, or press Ctrl+Enter (Cmd+Enter on a Mac) from inside the editor, to render on demand.
+4. Use **Copy HTML** to put the rendered markup on your clipboard, or **Download .html** to save it as `markdown.html`.
+5. Press **Clear** to empty both panes and start over.
+
+## How it works
+
+Two libraries run back to back on every render. First [marked](https://marked.js.org/) parses your text with its GFM ruleset switched on, turning Markdown into an HTML string. That string is then handed to DOMPurify, which walks the parsed nodes and drops anything that could execute — `<script>`, `<iframe>`, inline `onclick` handlers — before the markup is ever assigned to the preview's `innerHTML`. The order is deliberate: parse untrusted text, sanitise, *then* display. A small extra hook rewrites every surviving link so it opens in a new tab with `rel="noopener noreferrer"`, which stops a linked page from reaching back into this one.
+
+Take a one-line source with a link and a bit of smuggled script:
+
+```
+**Due:** 14 days — [pay invoice](https://acme.test/4471)<script>steal()</script>
+```
+
+marked emits `<p><strong>Due:</strong> 14 days — <a href="https://acme.test/4471">pay invoice</a><script>steal()</script></p>`. DOMPurify then deletes the `<script>` element outright and the link hook adds the safety attributes, leaving exactly this in the preview and in whatever you copy:
+
+```
+<p><strong>Due:</strong> 14 days — <a target="_blank" rel="noopener noreferrer" href="https://acme.test/4471">pay invoice</a></p>
+```
+
+The bold and the link survive untouched; the script never had a chance to run.
+
+## Use cases & limitations
+
+This is the quick pane to reach for when you are drafting a README, a GitHub issue, or release notes and want to confirm a table lines up or a nested list nests before you commit it. It is equally handy for turning a plain-text note into clean HTML you can drop into a CMS or an email — copy the fragment and paste. If you are pasting prose in from elsewhere and want a running total of words as you trim, keep the [word counter](/tools/word-counter/) open alongside it; for a wall of placeholder body text to test a layout, the [lorem ipsum generator](/tools/lorem-ipsum-generator/) fills the editor in seconds.
+
+Two honest limits. Code fences render as plain monospaced blocks — there is no syntax highlighting, so a JavaScript sample will not be colourised the way it is on GitHub. And the tool renders standard GFM only: LaTeX maths, footnotes and diagram blocks pass through as literal text rather than being drawn. If you need to hand-escape angle brackets or ampersands so they show as characters instead of being read as tags, the [HTML entities](/tools/html-entities/) converter is the companion for that.
+

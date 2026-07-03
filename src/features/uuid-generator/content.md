@@ -68,4 +68,33 @@ faqs:
       common for compact database columns. Just confirm the consuming system
       parses the variant you choose.
 ---
-<!-- content-pending: Phase C -->
+
+## How to use
+
+1. Choose a version with the two buttons above the slider: **v4 — random** for an identifier with no internal structure, or **v7 — time-ordered** when you want IDs that sort by creation time.
+2. Drag the **How many** slider to set the batch size, anywhere from 1 to 100. The list regenerates the moment you move it.
+3. Tick **Uppercase** or **Remove hyphens** if the system consuming the IDs expects that form — both reformat the batch already on screen rather than drawing new values.
+4. Press **Generate new UUIDs** for a fresh batch (one appears automatically on load, and every version or count change also refreshes it).
+5. Use **Copy all** to grab the whole list, or **Download .txt** to save it one per line.
+
+## How it works
+
+A UUID is 128 bits — sixteen bytes — printed as 32 hexadecimal digits in an 8-4-4-4-12 grouping. This page fills those bytes from `crypto.getRandomValues()`, the browser's cryptographically secure random source, then stamps two fixed fields: a 4-bit version (the 13th hex digit) and a 2-bit variant (the top bits of the 17th). Everything outside those fields is what separates the two versions.
+
+A **v4** value is random across all 122 remaining bits, so it carries no timestamp, counter, or machine identifier. A **v7** value spends its first 48 bits on the current Unix time in milliseconds, then fills the leftover 74 bits randomly — which is why a column of v7 IDs sorts chronologically.
+
+Worked example, v7. Suppose the generator fires at 2026-07-04 02:43:00.123 UTC. That instant is 1,783,132,980,123 milliseconds since the epoch, which in 48-bit hex is `019f2b02039b` — those twelve digits become the first two groups. Next comes the version nibble `7`, padded out with random bits to `73c1`; the variant nibble `8` opens the fourth group, and the rest is pure randomness:
+
+`019f2b02-039b-73c1-8f42-d90e6b2a77c4`
+
+Read the leading `019f2b02039b` back as an integer and you recover the exact creation instant — useful for sorting, and a giveaway if you meant the ID to be private.
+
+## Use cases & limitations
+
+Two systems often need to agree on an identifier without a central authority handing out numbers: primary keys minted on the client before an insert, idempotency keys on an API request, correlation IDs threaded through logs, or upload filenames that must never collide. v7 is the stronger default for database keys because time-ordered values keep B-tree inserts local instead of scattering them across index pages; v4 is right when the identifier must give nothing away about when it was made.
+
+The honest limitation is length and legibility: 36 characters is bulky in a URL and hopeless to read down a phone line. When a person has to retype the value, a short [PIN](/tools/pin-generator/) suits far better, and for filler records while testing a schema, a [lorem ipsum generator](/tools/lorem-ipsum-generator/) beats a wall of hex.
+
+## Privacy note
+
+Every UUID here is built in your browser from `crypto.getRandomValues()`; no batch is transmitted, logged, or stored, and the .txt download is assembled locally from what is already on the page. A v4 UUID's 122 random bits make it usable as an unguessable token — but when a value's entire job is to stay secret, a dedicated [key generator](/tools/key-generator/) states that intent more plainly, and you should never use v7 for the purpose, since it publishes its own creation time and holds only 74 random bits.

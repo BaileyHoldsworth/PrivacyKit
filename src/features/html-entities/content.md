@@ -78,4 +78,63 @@ faqs:
       that library file, and it is downloaded before your text is processed,
       not because of it.
 ---
-<!-- content-pending: Phase C -->
+Paste a line of user-typed text straight into a page and the first stray `<`
+swallows the rest of your paragraph into a broken tag; a lone `&` can mangle the
+character that follows it. Escaping rewrites those characters as references the
+browser draws as literal symbols, so the text shows up exactly as written
+instead of being parsed as markup.
+
+## How to use
+
+1. Leave **Direction** on *Encode* to turn text into entities, or switch it to
+   *Decode* to read entities back as plain characters.
+2. Under **Characters to encode**, keep *Special characters only* for ordinary
+   page text, or pick *Everything non-ASCII too* when the result has to be pure
+   ASCII (accents, dashes and emoji become references as well).
+3. Tick or clear **Prefer named references** to choose between readable names
+   like `&eacute;` and numeric forms like `&#233;`.
+4. Type or paste into the input box — the output updates as you type. **Swap ⇅**
+   moves the result into the input and flips the direction in one press.
+5. **Copy** the output, or **Download** it as a `.txt` file. When decoding, the
+   scope and named-reference controls switch off, since decoding accepts every
+   form at once.
+
+## How it works
+
+The five characters HTML treats specially — `&`, `<`, `>`, `"` and `'` — never
+need the full entity tables, so encoding them runs off a small built-in lookup:
+each match is swapped for its named reference (`&amp;`, `&lt;`, and so on) or its
+decimal reference (`&#38;`, `&#60;`) depending on the checkbox. The heavier work
+— encoding every non-ASCII character, and all decoding — is handed to the `he`
+library, whose reference tables load once on first use rather than with the page.
+Very large pastes are processed in 256k-character slices so a big block never
+freezes the tab.
+
+Take `Beyoncé & Jay — 2 < 3`. In *special characters only* mode the output is
+`Beyoncé &amp; Jay — 2 &lt; 3` — only the ampersand and the less-than sign are
+touched; the accent and em dash stay as raw characters, which is correct on any
+UTF-8 page. Switch to *everything non-ASCII too* with named references on and it
+becomes `Beyonc&eacute; &amp; Jay &mdash; 2 &lt; 3`, now valid plain ASCII. Turn
+named references off and the same input yields `Beyonc&#233; &#38; Jay &#8212; 2
+&#60; 3`. Decoding any of those three reverses cleanly to the original line.
+
+## Use cases & limitations
+
+You reach for encoding when you are building HTML by hand — a templating layer
+without automatic escaping, an email body, an RSS or Atom feed, or a value going
+into a CMS field that renders raw. The *everything non-ASCII* mode earns its keep
+for content that a legacy system might re-encode as Latin-1, where a bare `é`
+could break but `&eacute;` never will. Decoding is the everyday companion: pasting
+a log line, an API response, or scraped markup and wanting to read what it
+actually says.
+
+The honest limit is that this escapes for two contexts only — text between tags
+and values inside quoted attributes. It is not a general sanitiser: a
+`javascript:` URL in an `href`, an unquoted attribute, or anything inside a
+`<script>` block needs context-specific handling that entity encoding does not
+provide. For encoding data destined for a query string or path segment, the
+[URL encoder / decoder](/tools/url-encoder-decoder/) is the right tool instead,
+and if you are round-tripping text through binary-safe transport, the
+[Base64 encoder / decoder](/tools/base64-encoder-decoder/) covers that. To see
+how encoded snippets render, drop them into the
+[Markdown preview](/tools/markdown-preview/).

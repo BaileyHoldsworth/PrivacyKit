@@ -64,4 +64,26 @@ faqs:
       loaded everything works offline.
 ---
 
-<!-- content-pending: Phase C -->
+## How to use
+
+1. Enter the moment you care about in **Date and time**, or press **Set to now** to drop in the current time down to the minute.
+2. Choose which zone that reading belongs to under **In timezone**. It defaults to your own, detected from your browser, but you can pick any zone as the source.
+3. Type a city or region into **Add a timezone to compare** — suggestions appear as you type — then press **Add zone**. Repeat for each zone you want to see, up to twenty.
+4. Read the results below. A **+1d** or **−1d** badge marks any zone that has rolled over to a different calendar date than your source.
+5. Copy one row with its **Copy** button, or take the whole comparison with **Copy all**. The ✕ beside a row drops that zone.
+
+## How it works
+
+No timezone table ships with this page. Every offset is read from the IANA database your browser already carries, reached through the `Intl.DateTimeFormat` API. That API is built to turn an instant into a wall-clock reading for a given zone — but a converter needs the opposite: you type a wall-clock time and it has to find the underlying instant. The tool inverts `Intl` by reading the zone's offset at roughly the right moment, subtracting it, then running a second refinement pass so daylight-saving boundaries land on the correct side.
+
+Take 6:00 pm on 21 November 2026, entered as `Australia/Adelaide`. Adelaide observes daylight saving that month, so its offset is UTC+10:30. The converter subtracts it — 18:00 minus 10 h 30 m — to recover 07:30 UTC as the real instant. From there every target is a plain addition. `Asia/Tokyo` runs UTC+9 year-round, so it reads 4:30 pm the same day, no badge. `America/Los_Angeles`, where clocks fell back to UTC−8 on 1 November, reads 11:30 pm — but on 20 November, a day behind the source, so its row shows a **−1d** badge. Change the source date to July and the same cities shift, because the browser applies each zone's offset *as it stood on that date*, not a fixed number.
+
+## Use cases & limitations
+
+The everyday reach for this is scheduling: fixing a call time that lands sanely for a team split across three continents, or working out what "end of business Friday" in one office means for another. It is equally handy when a log line or ticket quotes a time in an unfamiliar zone and you want it in yours — pair it with the [Unix timestamp converter](/tools/unix-timestamp-converter/) when the source is an epoch number rather than a written date, or with the [cron parser](/tools/cron-parser/) when you are reasoning about when a scheduled job actually fires.
+
+The honest limit is that accuracy is only as fresh as your browser. DST rules are politics, not physics — governments change them, sometimes at short notice — and the offsets here come from whatever IANA data your browser was last updated with. A years-out-of-date browser can be wrong about a newly legislated transition. Two edge cases are resolved automatically: a time that never happens on a spring-forward night lands on the instant the clock actually reaches, and a time that happens twice on a fall-back night uses the first occurrence.
+
+## Privacy note
+
+Conversion runs entirely in the page and makes no network requests — the timezone data is already inside your browser, so it works offline once loaded. The list of zones you add is saved in this browser's localStorage under a single key, on this device only; it is never uploaded, and clearing your site data removes it.

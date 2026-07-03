@@ -74,4 +74,35 @@ faqs:
       TLSv1.3 is the current version.
 ---
 
-<!-- content-pending: Phase C -->
+## How to use
+
+1. Load the page. The check starts on its own, so both panes read "Checking…" for a moment before the addresses appear (JavaScript has to be enabled).
+2. Read the two results: your public IPv4 address in the top pane, your public IPv6 address below it. If a family isn't routed on your connection, that pane says so rather than showing a value.
+3. Use the **Copy** button above either pane to put that address on your clipboard — handy when you're pasting it into a support ticket or a firewall rule.
+4. Glance at **Connection details** for the TLS version your browser negotiated, whether Cloudflare **WARP** is carrying your traffic, and which service **answered** the check.
+5. Press **Check again** after switching your VPN on or off, or restarting your router, to confirm the address actually changed.
+
+## How it works
+
+Every packet your browser sends already carries a source address, because the reply has to find its way home. This page just asks a server to read that address back to you. The primary source is Cloudflare's trace endpoint at `one.one.one.one/cdn-cgi/trace`, which returns plain `key=value` lines. The page splits each line on its first `=` and keeps the pairs it recognises.
+
+Say the trace comes back like this:
+
+```
+ip=198.51.100.73
+ts=1751587200.482
+tls=TLSv1.3
+warp=off
+```
+
+The `ip` value `198.51.100.73` is tested first as IPv4: split on dots gives four parts, each a number from 0 to 255, so it qualifies and lands in the IPv4 pane. `tls` and `warp` fill the connection details for free — they arrived in the same response, so displaying them costs no extra request. Because the trace reached Cloudflare over IPv4, no IPv6 was echoed, so the page then queries ipify's dual-stack endpoint (`api64.ipify.org`). If that answers with something containing a colon and passing the IPv6 shape check — say `2001:db8:1f0a:2c::9e4` — it fills the IPv6 pane; if it merely repeats the IPv4, the page reports no IPv6 detected. A separate IPv4-only ipify endpoint backfills the top pane whenever Cloudflare is unreachable, and the "Answered by" line records which combination did the work.
+
+## Use cases & limitations
+
+The everyday reasons to check are practical: whitelisting your address for a remote database, confirming a VPN is routing your traffic through a different exit, or grabbing the IPv6 you need to set up a firewall rule. It also settles the common confusion between the `192.168.x.x` address in your settings and the address the internet actually sees.
+
+The honest limit is that this tells you *which* address you present, not *where* it points or what else it belongs to. To resolve a hostname to an address or read its records, use the [DNS lookup](/tools/dns-lookup/); to work out the network and host portions of an IP block, the [subnet calculator](/tools/subnet-calculator/) does the bitmasking. And your IP is only one of many signals a site can join together — the [browser fingerprint](/tools/browser-fingerprint/) tool shows the rest, which is why a VPN alone doesn't make you anonymous.
+
+## Privacy note
+
+Reading your own IP is impossible without a round trip, so this page makes one: a request to Cloudflare's trace endpoint, with ipify as a fallback. Those requests necessarily leave your browser — that's how any site sees your address. Nothing beyond the bare request is sent: no identifiers, no query parameters about you, and no results are stored or logged by this page. No geolocation lookup happens here either; the city-level mapping a site could do from your address is something this tool deliberately doesn't perform.

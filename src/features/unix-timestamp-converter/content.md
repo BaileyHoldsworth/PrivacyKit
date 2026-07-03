@@ -51,7 +51,7 @@ faqs:
       when a value falls outside that range.
   - q: Can I convert dates before 1970?
     a: >-
-      Yes — timestamps before the epoch are simply negative. `-86400` is
+      Yes — timestamps before the epoch are negative. `-86400` is
       00:00:00 UTC on 31 December 1969, exactly one day before the epoch.
       Type a negative number into the timestamp field, or pick any pre-1970
       date in the date picker, and the conversion works the same way in both
@@ -66,4 +66,22 @@ faqs:
       milliseconds; most Unix APIs and databases use seconds.
 ---
 
-<!-- content-pending: Phase C -->
+## How to use
+
+1. Type or paste a number into the **Unix timestamp** field. The local, UTC, ISO 8601 and relative rows update on every keystroke — no button to press. If you just want the current instant, hit **Use current time** instead.
+2. Leave **Unit** on Auto-detect for almost everything. Switch it to Seconds, Milliseconds or Microseconds only to override a value the tool would otherwise misread — a small millisecond value from early 1970, say.
+3. Read the four output rows and copy whichever you need with its **Copy** button; each is independent.
+4. To go the other way, drop into the **Date → timestamp** pane, choose a date and time (read in your browser's local zone) or press **Set to now**, and read back the epoch in seconds and milliseconds.
+5. The **Current Unix time** panel at the top ticks once a second — a live seconds and milliseconds clock you can copy from directly.
+
+## How it works
+
+A Unix timestamp is a single integer, so converting it is arithmetic followed by formatting. The input first passes a numeric check — digits, an optional leading minus, an optional decimal point — and anything past 32 characters is rejected before the regex runs, so a stray paste can't stall the page. The value is then scaled to milliseconds according to the chosen unit: seconds multiply by 1,000, milliseconds pass through, microseconds divide by 1,000. That figure is handed to JavaScript's `Date`, and four `Intl` formatters render it — a local formatter keyed to your browser's IANA zone, a fixed-UTC formatter, `toISOString()` for the ISO 8601 row, and `RelativeTimeFormat` for the "3 years ago" style label, which re-renders each second.
+
+Take `1699999999`. Auto-detect sees ten integer digits, below the 100-billion threshold, and reads it as seconds. Multiplying gives `1699999999000` milliseconds; `new Date()` of that lands on **2023-11-14T22:13:19.000Z**, which is what the ISO 8601 row shows verbatim. The UTC row states the same instant as `Tue, 14 Nov 2023 22:13:19 UTC`, and the local row shifts it by your machine's current offset — the underlying moment never moves, only its wall-clock rendering does.
+
+## Use cases & limitations
+
+Epoch numbers turn up wherever a machine records *when*: server logs, database `created_at` columns, API responses, the `iat` and `exp` claims inside a token. This converter is the quick bridge from that raw integer to something a human can read, and back again when you need to hand-craft a value for a query or a test fixture. If your timestamp came out of a JSON Web Token, the [JWT decoder](/tools/jwt-decoder/) pulls those claims apart for you; for schedule expressions rather than instants, the [cron parser](/tools/cron-parser/) does the equivalent job.
+
+The honest limitation is timezone reach. The local row always uses *your* browser's zone and clock, so it answers "what was this for me" — not "what was this for a user in Berlin". To read one instant across several zones at once, reach for the [timezone converter](/tools/timezone-converter/). The reverse pane shares that constraint: the date you enter is interpreted in your local zone only, with no field for typing a UTC wall-clock time directly. And like Unix time itself, the tool ignores leap seconds — it counts elapsed seconds since the epoch, not astronomical time.

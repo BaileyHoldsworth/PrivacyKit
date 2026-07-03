@@ -66,4 +66,32 @@ faqs:
       leave the page. That cuts both ways: we cannot recover a key for you, so
       copy it somewhere safe before closing the tab.
 ---
-<!-- content-pending: Phase C -->
+## How to use
+
+1. Choose a key size — 128, 192, 256 or 512 bits — or pick **Custom…** and type a byte count from 1 to 1024 in the field beside it.
+2. Set **Format** to whatever your library reads: hex, Base64, Base64url or alphanumeric.
+3. Drag **Keys per batch** (1 to 10) if you want several at once — useful when you are rotating a set of credentials together.
+4. Press **Generate keys**. A batch also appears the moment the page loads and refreshes whenever you change an option.
+5. Click a key, its **Copy** button, or **Copy all** to lift the whole batch at once (one key per line).
+
+## How it works
+
+The bytes come straight from `crypto.getRandomValues()`, which draws on the operating system's cryptographically secure random source. The chosen key size fixes how many bytes are requested — 256 bits means 32 bytes — and the format only decides how those bytes are written down. Nothing here derives a key from a timestamp, a mouse path, or `Math.random()`.
+
+Say you ask for a 128-bit key. The generator requests 16 random bytes and gets, for one draw:
+
+`b3 07 5e f1 2a 9c 44 e8 01 7d bb 60 f5 3c 8a d9`
+
+Hex writes each byte as two lowercase digits, so those 16 bytes become `b3075ef12a9c44e8017dbb60f53c8ad9` — always exactly twice the byte count. Base64 packs the bytes three at a time into four characters from a 64-symbol alphabet; 16 is not a multiple of three, so the final stray byte yields two characters plus `==` padding: `swde8SqcROgBfbtg9TyK2Q==`. Base64url uses the same packing but swaps `+` and `/` for `-` and `_` and drops the padding, giving `swde8SqcROgBfbtg9TyK2Q`.
+
+Alphanumeric skips encoding entirely and instead picks each character directly from a 62-symbol pool, rounding the length up so you never receive fewer bits than requested — a 128-bit request lands on 22 characters. Whatever the format, the entropy figure is just the byte count times eight, because the strength lives in the random bytes, not the alphabet they are dressed in.
+
+## Use cases & limitations
+
+Generate a key here when something other than a person needs the secret: a symmetric cipher key for AES-GCM or ChaCha20, a signing key to pair with the [HMAC generator](/tools/hmac-generator/), an API token, a webhook secret, or a seed value a script will consume. The batch option exists for the boring-but-real job of rotating several keys in one sitting and pasting them into a secrets manager.
+
+Two limits worth stating plainly. First, this produces *symmetric* keys and random tokens — flat sequences of bytes. It does not build asymmetric keypairs; if you need an RSA or Ed25519 private-and-public pair, `ssh-keygen` or `openssl` is the right tool. Second, a raw key is deliberately unmemorable and unsuited to anything a human types by hand — for a login or a master secret, generate a [password](/tools/password-generator/) instead. And if you only need a unique identifier rather than a secret, a [UUID](/tools/uuid-generator/) is the correct shape; a key is overkill and invites people to treat it as sensitive when it isn't.
+
+## Privacy note
+
+Every key is built in page JavaScript on your own device. No network request is made during generation — keep the network tab open while a batch is created and you will see it stay silent — and nothing is written to localStorage, cookies, or a server. The flip side of that guarantee: once you leave the page the keys are gone and cannot be recovered, so copy anything you mean to keep into a secrets manager before you close the tab.

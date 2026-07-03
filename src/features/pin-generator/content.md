@@ -77,4 +77,30 @@ faqs:
       reuse the same digits somewhere that lacks that protection.
 ---
 
-<!-- content-pending: Phase C -->
+A new phone, a fresh SIM, a door keypad at the office — the moment something asks you to "choose a PIN," most people reach for a birthday or a keypad shape. This tool draws the digits for you instead, so the code carries no story an attacker can guess.
+
+## How to use
+
+1. Pick a length: tap **4**, **6** or **8** digits, or choose **Custom** and type any whole number from 4 to 12. Six is selected to start with.
+2. Drag **How many PINs** if you want a batch — the slider goes up to ten codes in one draw.
+3. Keep **Avoid repeated digits** and **Avoid sequences** ticked to throw out patterns like `7777` or `1234`; untick either one to widen the pool.
+4. Check the **Entropy per PIN** and **Possible PINs** stats to see the exact price of those filters before you commit.
+5. Press **Generate new PINs**, then copy a single code with its **Copy** button, or grab the entire batch at once with **Copy all**. A PIN also appears the moment the page opens, and it redraws each time you adjust a setting.
+
+## How it works
+
+Each digit comes from `crypto.getRandomValues()`, the browser's cryptographically secure generator, sampled with rejection so all ten digits are exactly equally likely rather than skewed by a modulo shortcut. When a filter rejects a candidate, the whole PIN is redrawn — not patched — which keeps every surviving code equally probable.
+
+The stats are the honest arithmetic of the *filtered* keyspace, not the raw `10ⁿ`. A dynamic program counts how many codes of your chosen length actually survive both filters, then reports log₂ of that count.
+
+Say you ask for one 6-digit PIN with both filters on. The generator draws `188802`, spots that `8` repeats three times in a row, and discards it. It draws `345612`, catches the ascending run `3456`, and discards that too. Its third draw, `407295`, has no triple and no four-in-a-row run, so it is accepted. Behind the scenes the counter finds 959,158 valid 6-digit codes out of the plain 1,000,000 — the filters exclude 4.1% of the space — giving log₂(959,158) ≈ **19.9 bits** of entropy. Turn both filters off and you get the full 1,000,000 codes at 19.93 bits: a difference of six hundredths of a bit, in exchange for never handing an attacker the patterns they try first.
+
+## Use cases & limitations
+
+The everyday jobs are setting a phone or SIM unlock code, a bank card, a smart-lock keypad, or a voicemail box — anywhere a short numeric secret is all the field accepts. The batch mode helps when you are provisioning several devices or handing temporary codes to a team and want them all drawn independently.
+
+The honest limitation is that a random PIN is still only about 20 bits of entropy, and no filter changes that. That is fine where hardware enforces a lockout — a wrong-guess counter that blocks or wipes after a handful of tries — and dangerously weak anywhere a code can be attacked offline at speed. If you need a secret that must withstand offline guessing, generate a full [password](/tools/password-generator/) instead, or a memorable [passphrase](/tools/passphrase-generator/) for something you have to recall. For a random identifier rather than a login secret, a [UUID](/tools/uuid-generator/) is the better shape.
+
+## Privacy note
+
+Every digit is generated on your own device. The page makes no network request while drawing PINs, nothing is written to a server, and no code you produce is logged or recoverable by anyone — including us. If you would rather check than trust, open your browser's developer tools, keep an eye on the network tab, and generate as many PINs as you like: it stays silent.

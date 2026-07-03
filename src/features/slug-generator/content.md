@@ -71,4 +71,26 @@ faqs:
       alive with a 301 redirect to the new slug. For pages that are not yet
       published, pick the slug once and leave it alone.
 ---
-<!-- content-pending: Phase C -->
+A CMS wants a URL fragment for every post you publish, and typing one by hand for a title full of accents, ampersands and stray punctuation is where inconsistency creeps in. This tool takes the human-readable title and returns the machine-readable address — one line in, one slug out, or a whole column of them at once.
+
+## How to use
+
+1. Choose a **Separator** — hyphen for public web URLs (the default), or underscore for systems that demand it.
+2. Optionally set a **Max length** in characters; leave it blank for no limit. Truncation lands on a word boundary, so a slug is never cut through the middle of a word.
+3. Paste your titles into the text box, **one per line**. Each line is converted as you type.
+4. Read the **before → after** list underneath — the running count shows how many lines produced a slug.
+5. Grab a single result with its **Copy** button, or use **Copy all slugs** to put the whole list on your clipboard, one slug per line.
+
+## How it works
+
+Conversion runs as a fixed pipeline on each line. First the text is normalised with Unicode NFKD, which decomposes accented and composed characters into a base letter plus separate combining marks; those marks are then deleted. The result is lowercased, every `&` is expanded to the word `and`, and every remaining run of characters outside `a–z` and `0–9` is collapsed into a single separator. Leading and trailing separators are trimmed.
+
+Take the title `Naïve Bayes & k-NN: A 2025 Comparison`. NFKD turns `ï` into `i` plus a combining diaeresis, which is stripped, giving `Naive Bayes & k-NN: A 2025 Comparison`. Lowercasing and the ampersand rule produce `naive bayes and k-nn: a 2025 comparison`, and collapsing the spaces, colon and hyphens leaves the slug `naive-bayes-and-k-nn-a-2025-comparison`.
+
+Add a **Max length** of 25 and the truncation step takes over. The first 25 characters are `naive-bayes-and-k-nn-a-20`, but that cut falls inside `2025`, so the tool steps back to the last separator and drops the partial word, yielding `naive-bayes-and-k-nn-a`. A word longer than the limit on its own is the one case that gets hard-cut, because there is no earlier boundary to retreat to.
+
+## Use cases & limitations
+
+Static-site authors, bloggers and anyone importing a spreadsheet of titles into a CMS are the main users here — paste the whole title column, copy every slug back, and the permalinks stay consistent instead of being improvised post by post. If you also need to strip tracking parameters or tidy an existing address, the [URL cleaner](/tools/url-cleaner/) and [URL encoder/decoder](/tools/url-encoder-decoder/) handle those jobs; the [case converter](/tools/case-converter/) is what to reach for when you want a title in kebab-case for something other than a URL.
+
+Two things to check before publishing. An apostrophe is treated as punctuation, not elided, so `Rossi's Kitchen` becomes `rossi-s-kitchen` rather than `rossis-kitchen`. And the tool makes no promise of uniqueness: distinct titles can collapse onto the same slug — `Node.js!` and `Node JS` both produce `node-js` — so dedupe the output against the URLs you already have.

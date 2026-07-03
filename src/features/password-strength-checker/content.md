@@ -80,4 +80,28 @@ faqs:
       your browser.
 ---
 
-<!-- content-pending: Phase C -->
+A password can satisfy every composition rule a signup form throws at it and still fall in milliseconds. This checker rates what you type by how *guessable* it is rather than by how many character types it contains — the same distinction the software an attacker runs actually makes.
+
+## How to use
+
+1. Type or paste into the **Password to test** field. Analysis starts on your first keystroke, after the zxcvbn dictionaries (~800 KB) finish loading — they are fetched once, then cached.
+2. Read the segmented meter and the label beside it, which runs from *Very weak* through to *Strong*.
+3. Compare the three stats below: guesses needed, the online-attack estimate (100 tries an hour), and the offline-attack estimate (10 billion tries a second).
+4. Work through the warning and suggestions pane — it names the specific pattern pulling the score down.
+5. Press **Show** to reveal the characters when you are checking a paste. Very long inputs are truncated to their first 72 characters before analysis, and a note tells you when that happens.
+
+## How it works
+
+zxcvbn does not count character sets. It tries to *rebuild* your password from the cheapest sequence of recognisable pieces — entries from about 236,000 dictionary words, names and leaked passwords, plus keyboard walks, dates, repeats, sequences and l33t substitutions. Each piece gets a guess count (roughly its rank in the relevant list), the counts multiply across the sequence, and small multipliers are added for tricks like capitalising the first letter or reversing a word. The cheapest decomposition wins, and its total guess count maps to a 0–4 score and to the two crack-time figures.
+
+Take `dragonfly1qaz`. Counting characters, that is thirteen mixed-case-and-digit symbols and looks respectable. zxcvbn instead splits it into two pieces: `dragonfly`, an English dictionary word sitting a few thousand entries deep, worth roughly 7 × 10³ guesses; and `1qaz`, a diagonal walk down the left edge of a QWERTY keyboard, which its spatial matcher scores at around 10⁴ guesses. Multiply the pieces — 7 × 10³ × 10⁴ — and the whole password lands near 10⁸ guesses. The online stat still reads centuries, because 100 tries an hour is glacial; the offline stat clears 10⁸ in well under a second, which is why the meter refuses to glow green.
+
+## Use cases & limitations
+
+Reach for this when you want an honest read on a password you already have — one you invented and memorised, one a form is about to accept, or one you are teaching someone why to abandon. It is also a fast way to *see* why four random words beat a capitalised word with a digit stapled on.
+
+Two limitations worth stating. The dictionaries are English-first: a word from another language may score higher here than its real-world resistance deserves, because zxcvbn does not hold that wordlist. And strength is not exposure — a password can be genuinely hard to guess yet already sit in a breach dump because it was reused. This tool knows nothing about that; check it with the [password leak checker](/tools/password-leak-checker/). If the verdict here is grim, the fastest fix is not a cleverer substitution but real randomness from the [password generator](/tools/password-generator/), or a memorable [passphrase](/tools/passphrase-generator/) for the few secrets you must keep in your head.
+
+## Privacy note
+
+The analysis runs entirely on your device. The zxcvbn library is bundled with the site and loaded into your browser; from your first keystroke onward, no network request carries what you type. Nothing is stored and there is no history — reload the page and the field is empty. If you would rather verify than trust, open the network tab inside your browser's developer tools and type a throwaway password: it stays silent.
