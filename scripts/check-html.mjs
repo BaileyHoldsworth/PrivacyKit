@@ -7,9 +7,14 @@
  *   - unknown/custom elements allowed (icon or embed elements may appear)
  *   - long-title raised to 75: the rule counts entity-encoded text ("&amp;"
  *     is 5 chars), while the real cap (65) is enforced by the content schema
- *   - prefer-native-element excludes role="listbox": the command palette's
- *     filtered results list is the standard ARIA combobox pattern and has no
- *     native equivalent (<select> cannot do it)
+ *   - prefer-native-element excludes listbox/button/region: the command
+ *     palette results list is the ARIA combobox pattern; drop zones use
+ *     role="button" because they must contain a file <input> (a native
+ *     <button> cannot); and labelled output panes use role="region". None
+ *     have a usable native equivalent here.
+ *   - aria-label-misuse off: labelled live-region lists (<ul aria-labelledby>)
+ *     are intentional and correct; the rule only flags them as "not
+ *     recommended", not invalid.
  */
 import { existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
@@ -39,7 +44,8 @@ const htmlvalidate = new HtmlValidate({
     'element-name': 'off',
     'no-unknown-elements': 'off',
     'long-title': ['error', { maxlength: 75 }],
-    'prefer-native-element': ['error', { exclude: ['listbox'] }],
+    'prefer-native-element': ['error', { exclude: ['listbox', 'button', 'region'] }],
+    'aria-label-misuse': 'off',
   },
 });
 

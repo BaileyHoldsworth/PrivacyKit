@@ -41,7 +41,13 @@ const total = lines.reduce((sum, l) => sum + l.qty, 0);
 \`\`\`
 `;
 
-const sampleHtml = marked.parse(sample, { gfm: true, async: false });
+// marked emits deprecated `align` on aligned table cells and value-ful boolean
+// attributes on GFM task-list checkboxes; normalise both so the build-time
+// sample is valid HTML5. (Client-side previews aren't validated, but this
+// static sample is.)
+const sampleHtml = (marked.parse(sample, { gfm: true, async: false }))
+  .replace(/ align="(left|right|center)"/g, ' style="text-align:$1"')
+  .replace(/ (checked|disabled)=""/g, ' $1');
 ---
 
 <div class="tool" data-tool="markdown-preview">
