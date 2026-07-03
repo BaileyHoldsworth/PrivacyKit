@@ -13,11 +13,15 @@ interface IndexedTool {
 
 const MAX_RESULTS = 10;
 
-const dialog = document.querySelector<HTMLDialogElement>('dialog.palette');
-const input = dialog?.querySelector<HTMLInputElement>('.palette-input');
-const list = dialog?.querySelector<HTMLUListElement>('.palette-results');
+const dialogEl = document.querySelector<HTMLDialogElement>('dialog.palette');
+const inputEl = dialogEl?.querySelector<HTMLInputElement>('.palette-input');
+const listEl = dialogEl?.querySelector<HTMLUListElement>('.palette-results');
 
-if (dialog && input && list) {
+if (dialogEl && inputEl && listEl) {
+  // Non-null bindings so the nested closures below keep the narrowed type.
+  const dialog: HTMLDialogElement = dialogEl;
+  const input: HTMLInputElement = inputEl;
+  const list: HTMLUListElement = listEl;
   let tools: IndexedTool[] | null = null;
   let fetching: Promise<void> | null = null;
   let shown: IndexedTool[] = [];

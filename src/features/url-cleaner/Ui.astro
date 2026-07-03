@@ -1,0 +1,82 @@
+<div class="tool" data-tool="url-cleaner">
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <label class="pane-label" for="ucl-input">URLs — one per line</label>
+      <div class="pane-actions">
+        <span id="ucl-count" class="field-hint" aria-live="polite">0 URLs</span>
+        <button id="ucl-clear" class="btn btn-ghost btn-sm" type="button">Clear</button>
+      </div>
+    </div>
+    <textarea
+      id="ucl-input"
+      class="pane pane-mono"
+      rows="5"
+      placeholder="https://example.com/article?utm_source=newsletter&utm_medium=email&id=42"
+      autocomplete="off"
+      spellcheck="false"></textarea>
+  </div>
+
+  <p id="ucl-error" class="field-error" role="alert" aria-live="polite"></p>
+
+  <div class="stat-row" aria-live="polite">
+    <div class="stat">
+      <div class="stat-label">Links cleaned</div>
+      <div class="stat-value" id="ucl-stat-urls">0</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Tracking params removed</div>
+      <div class="stat-value" id="ucl-stat-removed">0</div>
+    </div>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <label class="pane-label" for="ucl-output">Cleaned URLs</label>
+      <div class="pane-actions">
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#ucl-output">Copy all</button>
+        <button id="ucl-download" class="btn btn-ghost btn-sm" type="button">Download</button>
+      </div>
+    </div>
+    <textarea
+      id="ucl-output"
+      class="pane pane-mono"
+      rows="5"
+      readonly
+      aria-label="Cleaned URLs"
+      placeholder="Cleaned links appear here as you type"></textarea>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label" id="ucl-list-label">What was removed</span>
+    </div>
+    <ul class="result-list" id="ucl-list" aria-labelledby="ucl-list-label" aria-live="polite"></ul>
+    <p class="field-hint" id="ucl-list-hint">Paste a link above to see which parameters get stripped and who set them.</p>
+  </div>
+</div>
+
+<style>
+  [data-tool='url-cleaner'] .ucl-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--s-2);
+  }
+  [data-tool='url-cleaner'] .ucl-item-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-3);
+  }
+  [data-tool='url-cleaner'] .ucl-url {
+    flex: 1;
+    overflow-wrap: anywhere;
+  }
+  [data-tool='url-cleaner'] .ucl-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-1);
+    font-family: var(--font-ui);
+  }
+</style>
+
+<script src="./client.ts"></script>

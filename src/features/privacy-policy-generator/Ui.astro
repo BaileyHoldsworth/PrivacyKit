@@ -1,0 +1,119 @@
+<div class="tool" data-tool="privacy-policy-generator">
+  <p class="ppg-disclaimer" role="note">
+    <strong>Not legal advice.</strong> This tool builds a plain-English template to
+    start from. Privacy laws — the GDPR, CCPA, the Australian Privacy Act and
+    others — vary by country and by what your site actually does. Have a qualified
+    professional review your policy before you publish it.
+  </p>
+
+  <div class="field-row">
+    <div class="field" style="flex:1 1 15rem">
+      <label for="ppg-name">Site or business name</label>
+      <input id="ppg-name" class="pane" type="text" placeholder="e.g. Riverside Plumbing" autocomplete="off" />
+    </div>
+    <div class="field" style="flex:1 1 15rem">
+      <label for="ppg-url">Website URL <span class="field-hint">(optional)</span></label>
+      <input id="ppg-url" class="pane" type="url" placeholder="https://example.com" autocomplete="off" spellcheck="false" />
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div class="field" style="flex:1 1 15rem">
+      <label for="ppg-email">Contact email</label>
+      <input id="ppg-email" class="pane" type="email" placeholder="privacy@example.com" autocomplete="off" spellcheck="false" />
+    </div>
+    <div class="field" style="flex:1 1 15rem">
+      <label for="ppg-country">Primary jurisdiction</label>
+      <select id="ppg-country" class="select">
+        <option value="au">Australia (Privacy Act 1988)</option>
+        <option value="eu">European Union (GDPR)</option>
+        <option value="uk">United Kingdom (UK GDPR)</option>
+        <option value="us">United States (CCPA / state laws)</option>
+        <option value="ca">Canada (PIPEDA)</option>
+        <option value="other">Other / not sure</option>
+      </select>
+    </div>
+  </div>
+
+  <fieldset class="field" style="border:none;padding:0;margin:0">
+    <legend class="field-hint" style="padding:0 0 var(--s-1)">What does your site do? Tick everything that applies.</legend>
+    <div class="field-row">
+      <label class="checkbox-row"><input type="checkbox" id="ppg-logs" checked /> Keeps server logs</label>
+      <label class="checkbox-row"><input type="checkbox" id="ppg-cookies" checked /> Uses cookies</label>
+      <label class="checkbox-row"><input type="checkbox" id="ppg-analytics" checked /> Uses analytics</label>
+      <label class="checkbox-row"><input type="checkbox" id="ppg-contact" checked /> Has contact / enquiry forms</label>
+      <label class="checkbox-row"><input type="checkbox" id="ppg-accounts" /> Has user accounts / logins</label>
+      <label class="checkbox-row"><input type="checkbox" id="ppg-newsletter" /> Sends a newsletter</label>
+      <label class="checkbox-row"><input type="checkbox" id="ppg-payments" /> Takes payments</label>
+      <label class="checkbox-row"><input type="checkbox" id="ppg-ads" /> Shows advertising</label>
+    </div>
+  </fieldset>
+
+  <div class="field" style="max-width:24rem">
+    <label for="ppg-analytics-provider">Analytics provider (if used)</label>
+    <select id="ppg-analytics-provider" class="select">
+      <option value="google">Google Analytics</option>
+      <option value="plausible">Plausible (cookieless)</option>
+      <option value="fathom">Fathom (cookieless)</option>
+      <option value="matomo">Matomo</option>
+      <option value="other">Other</option>
+    </select>
+  </div>
+
+  <p id="ppg-error" class="field-error" role="alert"></p>
+
+  <div class="action-row">
+    <button id="ppg-generate" class="btn btn-primary" type="button">Generate policy</button>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label" id="ppg-preview-label">Your privacy policy</span>
+      <div class="pane-actions">
+        <button id="ppg-copy-md" class="btn btn-ghost btn-sm" type="button" disabled>Copy Markdown</button>
+        <button id="ppg-copy-html" class="btn btn-ghost btn-sm" type="button" disabled>Copy HTML</button>
+        <button id="ppg-copy-text" class="btn btn-ghost btn-sm" type="button" disabled>Copy text</button>
+        <button id="ppg-download" class="btn btn-ghost btn-sm" type="button" disabled>Download .md</button>
+      </div>
+    </div>
+    <div
+      id="ppg-preview"
+      class="pane prose ppg-preview"
+      role="region"
+      aria-labelledby="ppg-preview-label"
+      aria-live="polite"
+      tabindex="0"
+    >
+      <p class="field-hint">Enter your site name above and tick what applies — your draft policy appears here and updates as you change the options.</p>
+    </div>
+  </div>
+</div>
+
+{/* Scoped layout + a prominent legal disclaimer callout — tokens only. There
+    is no shared "callout" class, and a sober disclaimer above the output is a
+    hard requirement for this YMYL-adjacent tool. */}
+<style>
+  .ppg-disclaimer {
+    background: var(--warn-subtle);
+    color: var(--warn);
+    border-radius: var(--r-m);
+    padding: var(--s-3);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .ppg-disclaimer strong {
+    color: var(--warn);
+  }
+
+  .pane.ppg-preview {
+    margin-top: 0;
+    max-width: none;
+    min-height: 12rem;
+    max-height: 40rem;
+    overflow-y: auto;
+    overflow-wrap: anywhere;
+  }
+</style>
+
+<script src="./client.ts"></script>

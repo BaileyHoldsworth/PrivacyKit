@@ -1,0 +1,105 @@
+<div class="tool" data-tool="color-converter">
+  <div class="field">
+    <label for="col-input">CSS colour</label>
+    <div class="field-row">
+      <input
+        id="col-input"
+        class="pane pane-mono"
+        type="text"
+        value="#7c3aed"
+        aria-label="CSS colour value"
+        placeholder="#7c3aed, rgb(124 58 237), hsl(262 83% 58%), rebeccapurple…"
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false"
+      />
+      <input id="col-picker" type="color" value="#7c3aed" aria-label="Pick a colour" />
+    </div>
+  </div>
+
+  <p id="col-error" class="field-error" role="alert"></p>
+
+  <div class="col-swatch-wrap">
+    <div id="col-swatch" class="col-swatch" style="background:#7c3aed"></div>
+  </div>
+
+  <ul class="result-list" aria-live="polite">
+    <li>
+      <span class="col-row-main"><span class="col-key">HEX</span><code id="col-hex" class="col-val">#7C3AED</code></span>
+      <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#col-hex">Copy</button>
+    </li>
+    <li>
+      <span class="col-row-main"><span class="col-key">RGB</span><code id="col-rgb" class="col-val">rgb(124, 58, 237)</code></span>
+      <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#col-rgb">Copy</button>
+    </li>
+    <li>
+      <span class="col-row-main"><span class="col-key">HSL</span><code id="col-hsl" class="col-val">hsl(262.1, 83.3%, 57.8%)</code></span>
+      <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#col-hsl">Copy</button>
+    </li>
+    <li>
+      <span class="col-row-main"><span class="col-key">OKLCH</span><code id="col-oklch" class="col-val">oklch(54.1% 0.2466 293.01)</code></span>
+      <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#col-oklch">Copy</button>
+    </li>
+  </ul>
+
+  <div class="stat-row" aria-live="polite">
+    <div class="stat">
+      <div class="stat-label">Contrast on white</div>
+      <div class="stat-value"><span id="col-cw">5.70</span>:1 <span id="col-cw-badge" class="badge badge-ok">AA</span></div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Contrast on black</div>
+      <div class="stat-value"><span id="col-cb">3.69</span>:1 <span id="col-cb-badge" class="badge badge-danger">Fail</span></div>
+    </div>
+  </div>
+
+  <style>
+    [data-tool="color-converter"] #col-input {
+      flex: 1 1 16rem;
+    }
+    [data-tool="color-converter"] #col-picker {
+      width: 3rem;
+      height: 2.75rem;
+      padding: 0;
+      border: 1px solid var(--border);
+      border-radius: var(--r-s);
+      background: var(--bg-inset);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    [data-tool="color-converter"] .col-swatch-wrap {
+      border: 1px solid var(--border);
+      border-radius: var(--r-m);
+      overflow: hidden;
+      /* Checkerboard shows through any alpha in the swatch above it. */
+      background-image:
+        repeating-conic-gradient(var(--bg-inset) 0% 25%, var(--border) 0% 50%);
+      background-size: 20px 20px;
+    }
+    [data-tool="color-converter"] .col-swatch {
+      height: 6.5rem;
+      width: 100%;
+    }
+    [data-tool="color-converter"] .col-row-main {
+      display: flex;
+      align-items: center;
+      gap: var(--s-3);
+      min-width: 0;
+    }
+    [data-tool="color-converter"] .col-key {
+      font-family: var(--font-ui);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-faint);
+      width: 3.75rem;
+      flex-shrink: 0;
+    }
+    [data-tool="color-converter"] .col-val {
+      overflow-wrap: anywhere;
+    }
+  </style>
+</div>
+
+<script src="./client.ts"></script>

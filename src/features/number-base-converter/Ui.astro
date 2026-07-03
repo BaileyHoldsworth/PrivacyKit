@@ -1,0 +1,102 @@
+<div class="tool" data-tool="number-base-converter">
+  <div class="field">
+    <label for="nb-bin">Binary (base 2)</label>
+    <div class="pane-group">
+      <div class="pane-toolbar">
+        <span class="pane-label">Binary</span>
+        <div class="pane-actions">
+          <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#nb-bin">Copy</button>
+        </div>
+      </div>
+      <input id="nb-bin" class="pane pane-mono" type="text" inputmode="text"
+        autocomplete="off" autocapitalize="off" spellcheck="false"
+        placeholder="e.g. 11111101010" aria-describedby="nb-bin-err" />
+      <p id="nb-bin-err" class="field-error" role="alert"></p>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="nb-oct">Octal (base 8)</label>
+    <div class="pane-group">
+      <div class="pane-toolbar">
+        <span class="pane-label">Octal</span>
+        <div class="pane-actions">
+          <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#nb-oct">Copy</button>
+        </div>
+      </div>
+      <input id="nb-oct" class="pane pane-mono" type="text" inputmode="text"
+        autocomplete="off" autocapitalize="off" spellcheck="false"
+        placeholder="e.g. 3752" aria-describedby="nb-oct-err" />
+      <p id="nb-oct-err" class="field-error" role="alert"></p>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="nb-dec">Decimal (base 10)</label>
+    <div class="pane-group">
+      <div class="pane-toolbar">
+        <span class="pane-label">Decimal</span>
+        <div class="pane-actions">
+          <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#nb-dec">Copy</button>
+        </div>
+      </div>
+      <input id="nb-dec" class="pane pane-mono" type="text" inputmode="numeric"
+        autocomplete="off" autocapitalize="off" spellcheck="false"
+        placeholder="e.g. 2026" aria-describedby="nb-dec-err" />
+      <p id="nb-dec-err" class="field-error" role="alert"></p>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="nb-hex">Hexadecimal (base 16)</label>
+    <div class="pane-group">
+      <div class="pane-toolbar">
+        <span class="pane-label">Hex</span>
+        <div class="pane-actions">
+          <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#nb-hex">Copy</button>
+        </div>
+      </div>
+      <input id="nb-hex" class="pane pane-mono" type="text" inputmode="text"
+        autocomplete="off" autocapitalize="off" spellcheck="false"
+        placeholder="e.g. 7ea" aria-describedby="nb-hex-err" />
+      <p id="nb-hex-err" class="field-error" role="alert"></p>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="nb-custom">Custom base</label>
+    <div class="field-row">
+      <div class="range-row">
+        <label class="field-hint" for="nb-base">Base</label>
+        <input id="nb-base" class="select" type="number" min="2" max="36" value="36"
+          style="width:5rem" aria-label="Custom base (2 to 36)" />
+      </div>
+    </div>
+    <div class="pane-group">
+      <div class="pane-toolbar">
+        <span class="pane-label">Base <span id="nb-base-label">36</span></span>
+        <div class="pane-actions">
+          <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#nb-custom">Copy</button>
+        </div>
+      </div>
+      <input id="nb-custom" class="pane pane-mono" type="text" inputmode="text"
+        autocomplete="off" autocapitalize="off" spellcheck="false"
+        placeholder="e.g. 1ka" aria-describedby="nb-custom-err" />
+      <p id="nb-custom-err" class="field-error" role="alert"></p>
+    </div>
+  </div>
+
+  <fieldset class="field" style="border:none;padding:0">
+    <legend class="field-hint" style="padding:0 0 var(--s-1)">Display</legend>
+    <div class="field-row">
+      <label class="checkbox-row"><input type="checkbox" id="nb-group" /> Group digits</label>
+      <label class="checkbox-row"><input type="checkbox" id="nb-prefix" /> Show base prefixes (0x / 0o / 0b)</label>
+    </div>
+  </fieldset>
+
+  <div class="action-row">
+    <button id="nb-clear" class="btn btn-ghost" type="button">Clear</button>
+  </div>
+</div>
+
+<script src="./client.ts"></script>

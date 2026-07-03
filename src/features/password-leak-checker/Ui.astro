@@ -1,0 +1,48 @@
+<div class="tool" data-tool="password-leak-checker">
+  <div class="field">
+    <label for="plc-password">Your password</label>
+    <div class="field-row" style="align-items:stretch;flex-wrap:nowrap">
+      <input
+        id="plc-password"
+        class="pane pane-mono"
+        type="password"
+        style="flex:1;min-width:0"
+        placeholder="Type the password you want to check"
+        autocomplete="off"
+        autocapitalize="off"
+        autocorrect="off"
+        spellcheck="false"
+        enterkeyhint="search"
+      />
+      <button id="plc-toggle" class="btn btn-ghost" type="button" aria-pressed="false" aria-label="Show password">
+        Show
+      </button>
+    </div>
+    <p class="field-hint">
+      Only the first 5 characters of this password's SHA-1 hash are sent to the Have I Been Pwned
+      range API. The password itself never leaves your browser, and nothing is sent until you press
+      Check. This checks <strong>your own</strong> password against known breaches.
+    </p>
+  </div>
+
+  <p id="plc-error" class="field-error" role="alert"></p>
+
+  <div class="action-row">
+    <button id="plc-check" class="btn btn-primary" type="button" disabled>Check this password</button>
+    <span id="plc-status" class="field-hint" aria-live="polite"></span>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Result</span>
+    </div>
+    <div id="plc-result" aria-live="polite">
+      <p class="field-hint">
+        Enter a password and press Check. Only a 5-character hash prefix is ever transmitted; the
+        match against your full hash happens here in your browser.
+      </p>
+    </div>
+  </div>
+</div>
+
+<script src="./client.ts"></script>

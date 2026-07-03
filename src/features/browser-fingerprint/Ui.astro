@@ -1,0 +1,121 @@
+---
+type Power = 'low' | 'medium' | 'high';
+interface Row {
+  id: string;
+  label: string;
+  power: Power;
+}
+const GROUPS: { label: string; rows: Row[] }[] = [
+  {
+    label: 'Software & locale',
+    rows: [
+      { id: 'ua', label: 'User agent', power: 'high' },
+      { id: 'lang', label: 'Languages', power: 'medium' },
+      { id: 'platform', label: 'Platform', power: 'low' },
+      { id: 'dnt', label: 'Do Not Track', power: 'low' },
+      { id: 'cookies', label: 'Cookies enabled', power: 'low' },
+    ],
+  },
+  {
+    label: 'Display',
+    rows: [
+      { id: 'screen', label: 'Screen resolution', power: 'medium' },
+      { id: 'dpr', label: 'Device pixel ratio', power: 'low' },
+      { id: 'depth', label: 'Colour depth', power: 'low' },
+      { id: 'scheme', label: 'Colour scheme', power: 'low' },
+      { id: 'motion', label: 'Reduced motion', power: 'low' },
+    ],
+  },
+  {
+    label: 'Hardware',
+    rows: [
+      { id: 'cores', label: 'CPU cores', power: 'medium' },
+      { id: 'memory', label: 'Device memory', power: 'low' },
+      { id: 'touch', label: 'Touch points', power: 'low' },
+    ],
+  },
+  {
+    label: 'Rendering & time',
+    rows: [
+      { id: 'tz', label: 'Timezone', power: 'medium' },
+      { id: 'canvas', label: 'Canvas hash', power: 'high' },
+      { id: 'webgl', label: 'WebGL renderer', power: 'high' },
+    ],
+  },
+];
+const POWER: Record<Power, { cls: string; text: string }> = {
+  low: { cls: 'badge-ok', text: 'Low' },
+  medium: { cls: 'badge-warn', text: 'Medium' },
+  high: { cls: 'badge-danger', text: 'High' },
+};
+---
+
+<div class="tool" data-tool="browser-fingerprint">
+  <div class="stat-row" aria-live="polite">
+    <div class="stat">
+      <div class="stat-label">Combined fingerprint (SHA-256, first 16 hex)</div>
+      <div class="stat-value" id="bfp-combined">–</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Canvas hash</div>
+      <div class="stat-value" id="bfp-canvas-summary">–</div>
+    </div>
+  </div>
+
+  <div class="action-row">
+    <button id="bfp-run" class="btn btn-primary" type="button" disabled>Show my fingerprint</button>
+    <button id="bfp-copy" class="btn btn-ghost" type="button" disabled>Copy report</button>
+    <button id="bfp-clear" class="btn btn-ghost" type="button" disabled>Clear</button>
+  </div>
+
+  <p id="bfp-error" class="field-error" role="alert"></p>
+
+  <p class="field-hint">
+    Nothing here is transmitted or stored. Each value is read from your browser
+    and hashed locally on this page; the button below runs only when you press
+    it, never automatically. The badge on each row rates its
+    <strong>identifying power</strong> — how much that one signal narrows you
+    down: <span class="badge badge-ok">Low</span>
+    <span class="badge badge-warn">Medium</span>
+    <span class="badge badge-danger">High</span>.
+  </p>
+
+  <div aria-live="polite">
+    {
+      GROUPS.map((group) => (
+        <div class="pane-group">
+          <div class="pane-toolbar">
+            <span class="pane-label">{group.label}</span>
+          </div>
+          <ul class="result-list">
+            {group.rows.map((row) => (
+              <li>
+                <span>{row.label}</span>
+                <code class="bfp-val" id={`bfp-val-${row.id}`}>–</code>
+                <span class={`badge ${POWER[row.power].cls}`} title={`Identifying power: ${row.power}`}>
+                  {POWER[row.power].text}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  /* No shared class positions a value between a label and a trailing badge;
+     tokens only, scoped to this tool. */
+  [data-tool='browser-fingerprint'] .bfp-val {
+    flex: 1;
+    text-align: right;
+    overflow-wrap: anywhere;
+    color: var(--text);
+  }
+  [data-tool='browser-fingerprint'] .field-hint .badge {
+    vertical-align: middle;
+  }
+</style>
+
+<script src="./client.ts"></script>
