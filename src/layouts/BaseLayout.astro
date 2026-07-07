@@ -88,6 +88,15 @@ const canonical = `${SITE.url}${path}`;
     {jsonLd.map((obj) => (
       <script type="application/ld+json" set:html={JSON.stringify(obj)} />
     ))}
+
+    {SITE.analyticsToken && (
+      <script
+        is:inline
+        defer
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon={`{"token": "${SITE.analyticsToken}"}`}
+      />
+    )}
   </head>
   <body>
     <Header />

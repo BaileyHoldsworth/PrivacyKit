@@ -7,6 +7,16 @@ interface Props {
 const { group } = Astro.props;
 // Only offers with a configured tracking URL render; max two per box.
 const offers = AFFILIATES[group].filter((o) => o.url !== '').slice(0, 2);
+
+// Per-page sub-ID: identifies which page a click came from so the affiliate
+// network's dashboard reports earnings per page (no cookies, no first-party
+// tracking code). e.g. "/tools/password-generator/" -> "tools-password-generator".
+const subId = Astro.url.pathname.replace(/^\/|\/$/g, '').replace(/\//g, '-') || 'home';
+
+function withSubId(url: string, param = 'u1'): string {
+  const sep = url.includes('?') ? '&' : '?';
+  return `${url}${sep}${param}=${encodeURIComponent(subId)}`;
+}
 ---
 
 {offers.length > 0 && (
@@ -18,7 +28,12 @@ const offers = AFFILIATES[group].filter((o) => o.url !== '').slice(0, 2);
           <strong>{o.name}</strong>
           <p>{o.blurb}</p>
         </div>
-        <a class="btn btn-primary" href={o.url} rel="sponsored noopener" target="_blank">{o.cta}</a>
+        <a
+          class="btn btn-primary"
+          href={withSubId(o.url, o.subIdParam)}
+          rel="sponsored noopener"
+          target="_blank"
+        >{o.cta}</a>
       </div>
     ))}
     <p class="affiliate-disclosure">

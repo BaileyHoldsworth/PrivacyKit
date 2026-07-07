@@ -16,6 +16,12 @@ export interface AffiliateOffer {
   /** One honest sentence. No superlatives, no "world's best". */
   blurb: string;
   cta: string;
+  /**
+   * Query parameter the affiliate network uses for a per-click sub-ID, so the
+   * network's own dashboard reports which page the click came from. Impact
+   * (Proton) uses 'u1'; CJ uses 'sid'; Awin uses 'clickref'. Defaults to 'u1'.
+   */
+  subIdParam?: string;
 }
 
 // Program status (2026-07-07):

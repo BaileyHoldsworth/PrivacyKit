@@ -31,4 +31,13 @@ export const SITE = {
 
   /** Ko-fi profile URL. Empty string → the footer link is not rendered. */
   koFiUrl: 'https://ko-fi.com/privacykit',
+
+  /**
+   * Cloudflare Web Analytics beacon token. Cookieless, no consent banner
+   * needed. Empty → no beacon rendered (and the privacy policy must not claim
+   * analytics). Fill from the Cloudflare Web Analytics dashboard to activate.
+   * Alternative: enable Web Analytics on the Pages project for auto-injection,
+   * in which case leave this empty.
+   */
+  analyticsToken: '',
 } as const;

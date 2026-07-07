@@ -39,6 +39,19 @@ const newest = [...tools]
   </section>
 
   <main class="container home-main">
+    {/* Personalised rows, hydrated from localStorage on the client (hidden until filled). */}
+    <section id="fav-section" class="home-section" hidden>
+      <div class="section-head">
+        <h2>Your favorites</h2>
+        <a href="/tools/">All tools →</a>
+      </div>
+      <ul class="tool-grid"></ul>
+    </section>
+    <section id="recent-section" class="home-section" hidden>
+      <div class="section-head"><h2>Recently used</h2></div>
+      <ul class="tool-grid"></ul>
+    </section>
+
     <section class="home-section">
       <div class="section-head">
         <h2>Popular tools</h2>
@@ -86,4 +99,9 @@ const newest = [...tools]
       </p>
     </section>
   </main>
+
+  <script>
+    import { hydrateHomeSections } from '../lib/favorites';
+    hydrateHomeSections();
+  </script>
 </BaseLayout>

@@ -859,3 +859,48 @@ kbd {
   margin-top: var(--s-3);
   font-weight: 550;
 }
+
+/* ---------- Favorites ---------- */
+
+.tool-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s-4);
+}
+
+.fav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  flex-shrink: 0;
+  margin-top: var(--s-2);
+  background: var(--bg-raised);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-s);
+  padding: var(--s-1) var(--s-3);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 550;
+  cursor: pointer;
+  transition: color 120ms ease, border-color 120ms ease, background 120ms ease;
+}
+
+.fav-btn:hover {
+  color: var(--text);
+  border-color: var(--text-faint);
+}
+
+.fav-btn .fav-star {
+  transition: fill 120ms ease;
+}
+
+.fav-btn.is-fav {
+  color: var(--accent);
+  border-color: var(--accent-border);
+  background: var(--accent-subtle);
+}
+
+.fav-btn.is-fav .fav-star {
+  fill: var(--accent);
+}
