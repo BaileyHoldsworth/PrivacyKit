@@ -19,10 +19,8 @@ export interface AffiliateOffer {
 }
 
 // Program status (2026-07-07):
-//   Proton     — APPROVED. aff_id=18914. Link format:
-//                https://go.getproton.me/aff_c?offer_id={OFFER}&aff_id=18914
-//                Known offer_id: Lumo=68. STILL NEED Pass + VPN offer_ids
-//                (Offers → All Offers in the Proton partner dashboard).
+//   Proton     — APPROVED & LIVE. aff_id=18914. offer_ids: Pass=38, VPN=26
+//                (Lumo=68). Format: .../aff_c?offer_id={OFFER}&aff_id=18914
 //                (Owner: add a payout method + tax form before payouts work.)
 //   1Password  — PENDING review via CJ. No link yet.
 //   NordPass / NordVPN — signed up (NordPass B2C); check the Nord partner
@@ -33,9 +31,7 @@ export const AFFILIATES: Record<'passwords' | 'vpn' | 'dev', AffiliateOffer[]> =
   passwords: [
     {
       name: 'Proton Pass',
-      // TODO(owner): paste Proton Pass link — offer_id from the dashboard:
-      // https://go.getproton.me/aff_c?offer_id={PASS_OFFER}&aff_id=18914
-      url: '',
+      url: 'https://go.getproton.me/aff_c?offer_id=38&aff_id=18914',
       blurb:
         'Open-source password manager from the Proton (Switzerland) team, with end-to-end encryption and a solid free tier.',
       cta: 'Try Proton Pass',
@@ -58,9 +54,7 @@ export const AFFILIATES: Record<'passwords' | 'vpn' | 'dev', AffiliateOffer[]> =
   vpn: [
     {
       name: 'Proton VPN',
-      // TODO(owner): paste Proton VPN link — offer_id from the dashboard:
-      // https://go.getproton.me/aff_c?offer_id={VPN_OFFER}&aff_id=18914
-      url: '',
+      url: 'https://go.getproton.me/aff_c?offer_id=26&aff_id=18914',
       blurb:
         'VPN from the Proton team with a genuinely free tier, open-source apps and independently audited no-logs policy.',
       cta: 'Try Proton VPN',
