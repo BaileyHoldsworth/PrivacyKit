@@ -1,0 +1,104 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { COLOR_PRESETS } from '../../data/color-presets';
+import {
+  hexToRgb, rgbToHex, rgbToCss, rgbToHsl, rgbToOklch, contrastRatios, shade,
+} from '../../lib/color-math';
+import { softwareApplicationLd, breadcrumbLd } from '../../lib/jsonld';
+
+export function getStaticPaths() {
+  return COLOR_PRESETS.map((c) => ({ params: { slug: c.slug }, props: { color: c } }));
+}
+
+const { color } = Astro.props;
+const rgb = hexToRgb(color.hex);
+const formats = [
+  { label: 'HEX', value: rgbToHex(rgb) },
+  { label: 'RGB', value: rgbToCss(rgb) },
+  { label: 'HSL', value: rgbToHsl(rgb) },
+  { label: 'OKLCH', value: rgbToOklch(rgb) },
+];
+const { white, black } = contrastRatios(rgb);
+const shades = [-0.6, -0.3, 0, 0.3, 0.6].map((amt) => rgbToHex(shade(rgb, amt)));
+const path = `/colors/${color.slug}/`;
+const title = `${color.name} Color — ${rgbToHex(rgb)} in HEX, RGB, HSL, OKLCH`;
+const description = `${color.name} is ${rgbToHex(rgb)} — ${rgbToCss(rgb)}, ${rgbToHsl(rgb)}. Copy the HEX, RGB, HSL and OKLCH values, with shades and contrast ratios.`;
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Color Converter', path: '/tools/color-converter/' },
+  { name: color.name, path },
+];
+---
+
+<BaseLayout
+  title={title.length > 60 ? `${color.name} Color — ${rgbToHex(rgb)} | PrivacyKit` : `${title} | PrivacyKit`}
+  description={description.slice(0, 160)}
+  path={path}
+  jsonLd={[
+    softwareApplicationLd({ name: `${color.name} color`, description: description.slice(0, 160), slug: `colors/${color.slug}`, jsonLdCategory: 'DeveloperApplication' }),
+    breadcrumbLd(crumbs),
+  ]}
+>
+  <main class="container tool-page">
+    <Breadcrumbs crumbs={crumbs} />
+    <h1>{color.name} — {rgbToHex(rgb)}</h1>
+    <p class="tool-lede">{description}</p>
+
+    <div class="tool">
+      <div class="color-swatch-lg" style={`background:${rgbToHex(rgb)}`}></div>
+      <ul class="result-list">
+        {formats.map((f) => (
+          <li>
+            <span>{f.label}: {f.value}</span>
+            <button class="btn btn-ghost btn-sm" type="button" data-copy-target={`#c-${f.label}`}>Copy</button>
+            <span id={`c-${f.label}`} hidden>{f.value}</span>
+          </li>
+        ))}
+      </ul>
+      <div class="shade-row">
+        {shades.map((s) => <span class="shade" style={`background:${s}`} title={s}></span>)}
+      </div>
+      <div class="stat-row">
+        <div class="stat"><div class="stat-label">Contrast vs white</div><div class="stat-value">{white}:1</div></div>
+        <div class="stat"><div class="stat-label">Contrast vs black</div><div class="stat-value">{black}:1</div></div>
+      </div>
+    </div>
+
+    <article class="prose tool-content">
+      <h2>About {color.name.toLowerCase()}</h2>
+      <p>{color.note}</p>
+      <p>
+        The values above are computed from the sRGB hex <code>{rgbToHex(rgb)}</code>. The OKLCH
+        form (<code>{rgbToOklch(rgb)}</code>) is worth noting: unlike HSL, its lightness matches
+        how bright the colour actually looks, which makes building consistent shade scales far
+        easier. To tweak this colour or convert one of your own, open the full
+        <a href="/tools/color-converter/"> colour converter</a>, and check readable text pairings
+        with the contrast figures shown above.
+      </p>
+      <p>
+        Accessibility note: text needs a contrast ratio of at least 4.5:1 for normal body copy
+        under WCAG AA. Against white this colour scores {white}:1 and against black {black}:1 —
+        use whichever clears the bar for the text you place on it.
+      </p>
+    </article>
+  </main>
+</BaseLayout>
+
+<style>
+  .color-swatch-lg {
+    height: 8rem;
+    border-radius: var(--r-m);
+    border: 1px solid var(--border);
+  }
+  .shade-row {
+    display: flex;
+    gap: var(--s-2);
+  }
+  .shade {
+    flex: 1;
+    height: 2.5rem;
+    border-radius: var(--r-s);
+    border: 1px solid var(--border);
+  }
+</style>

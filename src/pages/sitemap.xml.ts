@@ -4,6 +4,8 @@ import { SITE } from '../config/site';
 import { CATEGORIES } from '../config/categories';
 import { CRON_PRESETS } from '../data/cron-presets';
 import { PASSWORD_PRESETS } from '../data/password-presets';
+import { COLOR_PRESETS } from '../data/color-presets';
+import { BASE_PRESETS } from '../data/base-presets';
 
 /**
  * Hand-rolled sitemap so <lastmod> only ever comes from truthful per-entry
@@ -59,6 +61,8 @@ export const GET: APIRoute = async () => {
     })),
     ...CRON_PRESETS.map((p) => ({ path: `/cron/${p.slug}/` })),
     ...PASSWORD_PRESETS.map((p) => ({ path: `/password-generator/${p.slug}/` })),
+    ...COLOR_PRESETS.map((p) => ({ path: `/colors/${p.slug}/` })),
+    ...BASE_PRESETS.map((p) => ({ path: `/convert/${p.slug}/` })),
   ];
 
   const urls = entries

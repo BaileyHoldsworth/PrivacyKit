@@ -59,7 +59,7 @@ const relatedGuideEntries = (g.relatedGuides ?? [])
     </article>
 
     {toolEntries.length > 0 && (
-      <aside class="try-tool">
+      <aside class="try-tool" aria-label="Try the tool">
         <h2>Try the {toolEntries.length > 1 ? 'tools' : 'tool'}</h2>
         <ul class="related-grid">
           {toolEntries.map((t) => (

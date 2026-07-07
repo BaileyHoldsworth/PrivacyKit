@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { BASE_PRESETS } from '../../data/base-presets';
+import { softwareApplicationLd, breadcrumbLd } from '../../lib/jsonld';
+
+export function getStaticPaths() {
+  return BASE_PRESETS.map((p) => ({ params: { slug: p.slug }, props: { preset: p } }));
+}
+
+const { preset } = Astro.props;
+const n = BigInt(parseInt(preset.value, preset.fromBase)); // safe: presets are small
+const baseNames: Record<number, string> = { 2: 'binary', 8: 'octal', 10: 'decimal', 16: 'hexadecimal' };
+const rows = [
+  { label: 'Binary (base 2)', value: n.toString(2) },
+  { label: 'Octal (base 8)', value: n.toString(8) },
+  { label: 'Decimal (base 10)', value: n.toString(10) },
+  { label: 'Hexadecimal (base 16)', value: n.toString(16).toUpperCase() },
+];
+const heading = preset.slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+const path = `/convert/${preset.slug}/`;
+const fromName = baseNames[preset.fromBase];
+const targetName = preset.slug.split('-in-')[1] ?? 'binary';
+const targetValue =
+  targetName === 'binary' ? n.toString(2)
+  : targetName === 'hex' ? n.toString(16).toUpperCase()
+  : targetName === 'octal' ? n.toString(8)
+  : n.toString(10);
+const title = `${preset.value} in ${targetName} — Number Base Converter`;
+const description = `${preset.value} in ${targetName} is ${targetValue}. Full conversion of ${preset.value} (${fromName}) to binary ${n.toString(2)}, decimal ${n.toString(10)} and hex ${n.toString(16).toUpperCase()}.`;
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Number Base Converter', path: '/tools/number-base-converter/' },
+  { name: heading, path },
+];
+---
+
+<BaseLayout
+  title={title.length > 60 ? `${heading} | PrivacyKit` : `${title} | PrivacyKit`}
+  description={description.slice(0, 160)}
+  path={path}
+  jsonLd={[
+    softwareApplicationLd({ name: heading, description: description.slice(0, 160), slug: `convert/${preset.slug}`, jsonLdCategory: 'DeveloperApplication' }),
+    breadcrumbLd(crumbs),
+  ]}
+>
+  <main class="container tool-page">
+    <Breadcrumbs crumbs={crumbs} />
+    <h1>{heading}</h1>
+    <p class="tool-lede">{description}</p>
+
+    <div class="tool">
+      <ul class="result-list">
+        {rows.map((r, i) => (
+          <li>
+            <span>{r.label}: {r.value}</span>
+            <button class="btn btn-ghost btn-sm" type="button" data-copy-target={`#b-${i}`}>Copy</button>
+            <span id={`b-${i}`} hidden>{r.value}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <article class="prose tool-content">
+      <h2>How this conversion works</h2>
+      <p>{preset.note}</p>
+      <p>
+        Each base just uses a different set of digits for the same quantity. Reading
+        <code>{preset.value}</code> as a {fromName} number gives the decimal value
+        <strong>{n.toString(10)}</strong>; expressing that same value in base two, eight or sixteen
+        produces the rows above. To convert any number between bases — including custom bases from 2
+        to 36 — use the <a href="/tools/number-base-converter/">number base converter</a>.
+      </p>
+    </article>
+  </main>
+</BaseLayout>
