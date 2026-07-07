@@ -30,5 +30,5 @@ export const SITE = {
   },
 
   /** Ko-fi profile URL. Empty string → the footer link is not rendered. */
-  koFiUrl: '',
+  koFiUrl: 'https://ko-fi.com/privacykit',
 } as const;
