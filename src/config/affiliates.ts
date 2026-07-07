@@ -18,10 +18,23 @@ export interface AffiliateOffer {
   cta: string;
 }
 
+// Program status (2026-07-07):
+//   Proton     — APPROVED. aff_id=18914. Link format:
+//                https://go.getproton.me/aff_c?offer_id={OFFER}&aff_id=18914
+//                Known offer_id: Lumo=68. STILL NEED Pass + VPN offer_ids
+//                (Offers → All Offers in the Proton partner dashboard).
+//                (Owner: add a payout method + tax form before payouts work.)
+//   1Password  — PENDING review via CJ. No link yet.
+//   NordPass / NordVPN — signed up (NordPass B2C); check the Nord partner
+//                dashboard for the tracking link once approved.
+//   Namecheap  — DECLINED on manual review. Can reapply later.
+//   DigitalOcean — needs a separate Awin account; not started.
 export const AFFILIATES: Record<'passwords' | 'vpn' | 'dev', AffiliateOffer[]> = {
   passwords: [
     {
       name: 'Proton Pass',
+      // TODO(owner): paste Proton Pass link — offer_id from the dashboard:
+      // https://go.getproton.me/aff_c?offer_id={PASS_OFFER}&aff_id=18914
       url: '',
       blurb:
         'Open-source password manager from the Proton (Switzerland) team, with end-to-end encryption and a solid free tier.',
@@ -45,6 +58,8 @@ export const AFFILIATES: Record<'passwords' | 'vpn' | 'dev', AffiliateOffer[]> =
   vpn: [
     {
       name: 'Proton VPN',
+      // TODO(owner): paste Proton VPN link — offer_id from the dashboard:
+      // https://go.getproton.me/aff_c?offer_id={VPN_OFFER}&aff_id=18914
       url: '',
       blurb:
         'VPN from the Proton team with a genuinely free tier, open-source apps and independently audited no-logs policy.',
