@@ -1,0 +1,67 @@
+<div class="tool" data-tool="image-converter">
+  <div
+    id="imc2-dropzone"
+    class="dropzone"
+    tabindex="0"
+    role="button"
+    aria-label="Choose images to convert. Press Enter to browse, or drag and drop PNG, JPG or WebP files onto this area."
+  >
+    <strong>Drop images here or click to browse</strong><br />
+    <span class="field-hint">PNG, JPG, WebP, GIF, BMP or AVIF in · up to 30 files, 40 MB each · converted on this device, never uploaded</span>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label for="imc2-format">Convert to</label>
+      <select id="imc2-format" class="select">
+        <option value="image/jpeg" selected>JPG (.jpg)</option>
+        <option value="image/png">PNG (.png)</option>
+        <option value="image/webp">WebP (.webp)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="imc2-quality">Quality: <span id="imc2-quality-value" class="range-value">0.85</span></label>
+      <div class="range-row">
+        <input id="imc2-quality" type="range" min="0.4" max="1" step="0.05" value="0.85" aria-describedby="imc2-quality-hint" />
+      </div>
+    </div>
+  </div>
+
+  <label class="checkbox-row">
+    <input type="checkbox" id="imc2-white-bg" checked />
+    Fill transparency with white (JPEG only)
+  </label>
+
+  <span id="imc2-quality-hint" class="field-hint">
+    Quality applies to JPG and WebP — PNG is lossless and ignores it. JPEG has no
+    transparency, so transparent areas are flattened to black unless you fill them
+    with white. Converting also re-encodes the pixels, which strips EXIF and GPS metadata.
+  </span>
+
+  <p id="imc2-error" class="field-error" role="alert"></p>
+
+  <div class="action-row">
+    <button id="imc2-reconvert" class="btn btn-primary" type="button" disabled>Reconvert with current settings</button>
+    <button id="imc2-download-all" class="btn" type="button" disabled>Download all</button>
+    <button id="imc2-clear" class="btn btn-ghost" type="button" disabled>Clear</button>
+  </div>
+
+  <div class="stat-row" aria-live="polite">
+    <div class="stat">
+      <div class="stat-label">Converted</div>
+      <div class="stat-value" id="imc2-stat-count">–</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Total in</div>
+      <div class="stat-value" id="imc2-stat-before">–</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Total out</div>
+      <div class="stat-value" id="imc2-stat-after">–</div>
+    </div>
+  </div>
+
+  <ul id="imc2-results" class="result-list" aria-live="polite"></ul>
+</div>
+
+<script src="./client.ts"></script>

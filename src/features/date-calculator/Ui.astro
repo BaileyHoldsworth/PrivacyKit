@@ -1,0 +1,155 @@
+<div class="tool" data-tool="date-calculator">
+  <div class="action-row" role="group" aria-label="Calculation mode">
+    <button id="dc-tab-diff" class="btn btn-primary btn-sm" type="button" aria-pressed="true">Difference</button>
+    <button id="dc-tab-add" class="btn btn-sm" type="button" aria-pressed="false">Add / subtract</button>
+    <button id="dc-tab-age" class="btn btn-sm" type="button" aria-pressed="false">Age</button>
+  </div>
+
+  <!-- ---------- Difference between two dates ---------- -->
+  <div id="dc-panel-diff">
+    <div class="field-row">
+      <div class="field" style="flex:1 1 12rem">
+        <label for="dc-diff-from">From date</label>
+        <input id="dc-diff-from" class="pane" type="date" />
+      </div>
+      <div class="field" style="flex:1 1 12rem">
+        <label for="dc-diff-to">To date</label>
+        <input id="dc-diff-to" class="pane" type="date" />
+      </div>
+    </div>
+    <p id="dc-diff-error" class="field-error" role="alert"></p>
+    <p id="dc-diff-note" class="field-hint" aria-live="polite"></p>
+
+    <div class="pane-group">
+      <div class="pane-toolbar">
+        <span class="pane-label">Result</span>
+      </div>
+      <ul class="result-list" aria-live="polite">
+        <li>
+          <span class="badge">Duration</span>
+          <code id="dc-diff-duration" style="flex:1">–</code>
+          <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#dc-diff-duration" aria-label="Copy duration">Copy</button>
+        </li>
+        <li>
+          <span class="badge">Total days</span>
+          <code id="dc-diff-days" style="flex:1">–</code>
+          <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#dc-diff-days" aria-label="Copy total days">Copy</button>
+        </li>
+        <li>
+          <span class="badge">Weeks</span>
+          <code id="dc-diff-weeks" style="flex:1">–</code>
+          <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#dc-diff-weeks" aria-label="Copy weeks">Copy</button>
+        </li>
+        <li>
+          <span class="badge">Weekdays</span>
+          <code id="dc-diff-weekdays" style="flex:1">–</code>
+          <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#dc-diff-weekdays" aria-label="Copy weekday count">Copy</button>
+        </li>
+        <li>
+          <span class="badge">Total hours</span>
+          <code id="dc-diff-hours" style="flex:1">–</code>
+          <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#dc-diff-hours" aria-label="Copy total hours">Copy</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ---------- Add / subtract a duration ---------- -->
+  <div id="dc-panel-add" hidden>
+    <div class="field-row">
+      <div class="field" style="flex:1 1 12rem">
+        <label for="dc-add-start">Start date</label>
+        <input id="dc-add-start" class="pane" type="date" />
+      </div>
+      <div class="field" style="flex:0 1 10rem">
+        <label for="dc-add-op">Operation</label>
+        <select id="dc-add-op" class="select">
+          <option value="add" selected>Add</option>
+          <option value="sub">Subtract</option>
+        </select>
+      </div>
+    </div>
+
+    <fieldset class="field" style="border:none;padding:0;margin:0">
+      <legend class="field-hint" style="padding:0 0 var(--s-1)">Duration</legend>
+      <div class="field-row">
+        <div class="field" style="flex:1 1 6rem">
+          <label for="dc-add-years">Years</label>
+          <input id="dc-add-years" class="pane pane-mono" type="number" inputmode="numeric" min="0" step="1" value="0" />
+        </div>
+        <div class="field" style="flex:1 1 6rem">
+          <label for="dc-add-months">Months</label>
+          <input id="dc-add-months" class="pane pane-mono" type="number" inputmode="numeric" min="0" step="1" value="0" />
+        </div>
+        <div class="field" style="flex:1 1 6rem">
+          <label for="dc-add-weeks">Weeks</label>
+          <input id="dc-add-weeks" class="pane pane-mono" type="number" inputmode="numeric" min="0" step="1" value="0" />
+        </div>
+        <div class="field" style="flex:1 1 6rem">
+          <label for="dc-add-days">Days</label>
+          <input id="dc-add-days" class="pane pane-mono" type="number" inputmode="numeric" min="0" step="1" value="0" />
+        </div>
+      </div>
+    </fieldset>
+    <p id="dc-add-error" class="field-error" role="alert"></p>
+
+    <div class="pane-group">
+      <div class="pane-toolbar">
+        <span class="pane-label">Result</span>
+      </div>
+      <ul class="result-list" aria-live="polite">
+        <li>
+          <span class="badge">Result date</span>
+          <code id="dc-add-result" style="flex:1">–</code>
+          <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#dc-add-result" aria-label="Copy result date">Copy</button>
+        </li>
+        <li>
+          <span class="badge">ISO 8601</span>
+          <code id="dc-add-iso" style="flex:1">–</code>
+          <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#dc-add-iso" aria-label="Copy ISO date">Copy</button>
+        </li>
+        <li>
+          <span class="badge">Day of week</span>
+          <code id="dc-add-dow" style="flex:1">–</code>
+          <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#dc-add-dow" aria-label="Copy day of week">Copy</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ---------- Age from a birth date ---------- -->
+  <div id="dc-panel-age" hidden>
+    <div class="field-row">
+      <div class="field" style="flex:1 1 12rem">
+        <label for="dc-age-birth">Date of birth</label>
+        <input id="dc-age-birth" class="pane" type="date" />
+      </div>
+    </div>
+    <p id="dc-age-error" class="field-error" role="alert"></p>
+
+    <div class="pane-group">
+      <div class="pane-toolbar">
+        <span class="pane-label">Result</span>
+      </div>
+      <ul class="result-list" aria-live="polite">
+        <li>
+          <span class="badge">Age</span>
+          <code id="dc-age-age" style="flex:1">–</code>
+          <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#dc-age-age" aria-label="Copy age">Copy</button>
+        </li>
+        <li>
+          <span class="badge">Days lived</span>
+          <code id="dc-age-days" style="flex:1">–</code>
+          <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#dc-age-days" aria-label="Copy days lived">Copy</button>
+        </li>
+        <li>
+          <span class="badge">Next birthday</span>
+          <code id="dc-age-next" style="flex:1">–</code>
+          <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#dc-age-next" aria-label="Copy next birthday">Copy</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script src="./client.ts"></script>

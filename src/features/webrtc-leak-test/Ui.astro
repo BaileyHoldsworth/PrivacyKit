@@ -1,0 +1,59 @@
+<div class="tool" data-tool="webrtc-leak-test">
+  <p class="field-hint">
+    WebRTC negotiates peer-to-peer connections by collecting the IP addresses
+    your browser could use — including, on some setups, the real address a VPN
+    is meant to hide. Nothing runs until you press the button: the test then
+    opens one connection to a public STUN server to see which addresses come
+    back.
+  </p>
+
+  <div class="action-row">
+    <button id="rtc-run" class="btn btn-primary" type="button" disabled>Run the test</button>
+    <button id="rtc-copy" class="btn btn-ghost" type="button" data-copy-target="#rtc-report" disabled>
+      Copy results
+    </button>
+  </div>
+
+  <p id="rtc-error" class="field-error" role="alert"></p>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Verdict</span>
+    </div>
+    <div id="rtc-verdict" class="pane" aria-live="polite">
+      Press <strong>Run the test</strong> to check what WebRTC reveals about your
+      connection. JavaScript has to be enabled, and nothing leaves your device
+      until you start the test.
+    </div>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Public / externally-visible addresses</span>
+    </div>
+    <ul id="rtc-public" class="result-list" aria-live="polite">
+      <li><span>Not tested yet</span></li>
+    </ul>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Local network addresses</span>
+    </div>
+    <ul id="rtc-local" class="result-list" aria-live="polite">
+      <li><span>Not tested yet</span></li>
+    </ul>
+  </div>
+
+  <p class="field-hint">
+    The one network request this page makes is the STUN connection to
+    <code>stun.l.google.com:19302</code> named in the badge above. To confirm
+    your normal public address for comparison, open the
+    <a href="/tools/what-is-my-ip/">what is my IP</a> tool in another tab.
+  </p>
+
+  <!-- Plain-text report for the Copy results button (read live by clipboard.ts). -->
+  <div id="rtc-report" hidden></div>
+</div>
+
+<script src="./client.ts"></script>

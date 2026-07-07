@@ -1,0 +1,66 @@
+<div class="tool" data-tool="qr-code-reader">
+  <div class="action-row">
+    <button id="qrr-camera-btn" class="btn btn-primary" type="button">Scan with camera</button>
+    <button id="qrr-stop-btn" class="btn btn-ghost" type="button" hidden>Stop camera</button>
+  </div>
+
+  <div id="qrr-camera-wrap" class="pane" hidden>
+    <video id="qrr-video" playsinline muted aria-label="Live camera preview — point a QR code at the camera"></video>
+    <p class="field-hint">Point a QR code at the camera. It stops automatically once a code is read.</p>
+  </div>
+
+  <div
+    id="qrr-dropzone"
+    class="dropzone"
+    tabindex="0"
+    role="button"
+    aria-label="Choose a QR code image to read. Press Enter to browse, or drag and drop an image file onto this area."
+  >
+    <strong>Drop a QR image here or click to browse</strong><br />
+    <span class="field-hint">PNG, JPEG, WebP, GIF or BMP — read on this page, never uploaded</span>
+  </div>
+
+  <p id="qrr-error" class="field-error" role="alert"></p>
+  <p id="qrr-status" class="field-hint" aria-live="polite">Upload a QR image or start the camera to read a code.</p>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Decoded content</span>
+      <div class="pane-actions">
+        <span id="qrr-type-badge" class="badge" hidden></span>
+        <button id="qrr-copy" class="btn btn-ghost btn-sm" type="button" data-copy-target="#qrr-output" disabled>Copy</button>
+      </div>
+    </div>
+    <textarea
+      id="qrr-output"
+      class="pane pane-mono"
+      rows="3"
+      readonly
+      aria-label="Decoded text from the QR code"
+      placeholder="The text stored in the QR code appears here"
+      spellcheck="false"></textarea>
+    <p id="qrr-url-note" class="field-hint" role="status" hidden></p>
+  </div>
+</div>
+
+<style>
+  /* No shared class covers a live-video/preview element; tokens only. */
+  #qrr-camera-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--s-2);
+    padding: var(--s-3);
+  }
+  #qrr-video {
+    width: 100%;
+    max-width: 24rem;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    background: #000;
+    border-radius: var(--r-m);
+    border: 1px solid var(--border);
+  }
+</style>
+
+<script src="./client.ts"></script>

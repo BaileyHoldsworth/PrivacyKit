@@ -1,0 +1,95 @@
+---
+// Prefilled so the tool shows a real conversion the moment it hydrates.
+// Kept in a script variable because Astro would read a literal `{` in the
+// markup as an expression.
+const sample = `[
+  { "sku": "TB-118", "name": "Claw hammer", "price": 24.9, "inStock": true },
+  { "sku": "TB-204", "name": "Tape measure 8m", "price": 15.5, "inStock": false }
+]`;
+---
+
+<div class="tool" data-tool="json-to-csv">
+  <div class="field-row">
+    <div class="field">
+      <span class="field-hint">Direction</span>
+      <div class="action-row">
+        <span id="j2c-direction" class="badge" aria-live="polite">JSON → CSV</span>
+        <button id="j2c-swap" class="btn btn-sm" type="button">Swap direction</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="j2c-delimiter">CSV delimiter</label>
+      <select id="j2c-delimiter" class="select">
+        <option value="comma" selected>Comma ( , )</option>
+        <option value="semicolon">Semicolon ( ; )</option>
+        <option value="tab">Tab</option>
+      </select>
+    </div>
+
+    <label class="checkbox-row">
+      <input type="checkbox" id="j2c-header" checked />
+      <span id="j2c-header-label">Include header row</span>
+    </label>
+
+    <label class="checkbox-row">
+      <input type="checkbox" id="j2c-types" checked />
+      Parse numbers and booleans
+    </label>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <label class="pane-label" id="j2c-input-label" for="j2c-input">JSON input</label>
+      <div class="pane-actions">
+        <span id="j2c-input-count" class="field-hint" aria-live="polite"></span>
+        <button id="j2c-clear" class="btn btn-ghost btn-sm" type="button">Clear</button>
+      </div>
+    </div>
+    <textarea
+      id="j2c-input"
+      class="pane pane-mono"
+      rows="8"
+      spellcheck="false"
+      autocomplete="off"
+      autocapitalize="off"
+      aria-label="JSON or CSV input">{sample}</textarea>
+  </div>
+
+  <p id="j2c-error" class="field-error" role="alert" aria-live="polite"></p>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <label class="pane-label" id="j2c-output-label" for="j2c-output">CSV output</label>
+      <div class="pane-actions">
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#j2c-output">Copy</button>
+        <button id="j2c-download" class="btn btn-ghost btn-sm" type="button">Download</button>
+      </div>
+    </div>
+    <textarea
+      id="j2c-output"
+      class="pane pane-mono"
+      rows="8"
+      readonly
+      spellcheck="false"
+      placeholder="Converted output appears here"
+      aria-label="Converted output"></textarea>
+  </div>
+
+  <div class="stat-row" aria-live="polite">
+    <div class="stat">
+      <div class="stat-label">Rows</div>
+      <div class="stat-value" id="j2c-stat-rows">–</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Columns</div>
+      <div class="stat-value" id="j2c-stat-cols">–</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Output size</div>
+      <div class="stat-value" id="j2c-stat-size">–</div>
+    </div>
+  </div>
+</div>
+
+<script src="./client.ts"></script>

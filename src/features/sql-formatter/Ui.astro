@@ -1,0 +1,88 @@
+<div class="tool" data-tool="sql-formatter">
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <label class="pane-label" for="sql-input">SQL input</label>
+      <div class="pane-actions">
+        <button id="sql-clear" class="btn btn-ghost btn-sm" type="button">Clear</button>
+      </div>
+    </div>
+    <textarea
+      id="sql-input"
+      class="pane pane-mono"
+      rows="10"
+      placeholder="Paste SQL — e.g. select id,name from users where active=1 order by created_at desc"
+      spellcheck="false"
+      autocomplete="off"
+      autocapitalize="off"
+    ></textarea>
+    <p class="field-hint" id="sql-input-count">0 characters</p>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label for="sql-dialect">Dialect</label>
+      <select id="sql-dialect" class="select">
+        <option value="sql" selected>Standard SQL</option>
+        <option value="postgresql">PostgreSQL</option>
+        <option value="mysql">MySQL</option>
+        <option value="mariadb">MariaDB</option>
+        <option value="sqlite">SQLite</option>
+        <option value="transactsql">SQL Server (T-SQL)</option>
+        <option value="plsql">Oracle (PL/SQL)</option>
+        <option value="bigquery">BigQuery</option>
+        <option value="snowflake">Snowflake</option>
+        <option value="redshift">Redshift</option>
+        <option value="spark">Spark SQL</option>
+        <option value="db2">Db2</option>
+        <option value="trino">Trino / Presto</option>
+        <option value="duckdb">DuckDB</option>
+        <option value="hive">Hive</option>
+        <option value="clickhouse">ClickHouse</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="sql-keyword-case">Keyword case</label>
+      <select id="sql-keyword-case" class="select">
+        <option value="upper" selected>UPPERCASE</option>
+        <option value="lower">lowercase</option>
+        <option value="preserve">Preserve</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="sql-indent">Indent</label>
+      <select id="sql-indent" class="select">
+        <option value="2" selected>2 spaces</option>
+        <option value="4">4 spaces</option>
+        <option value="tab">Tabs</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="action-row">
+    <button id="sql-format" class="btn btn-primary" type="button">Format</button>
+    <span id="sql-status" class="badge badge-ok" hidden aria-live="polite"></span>
+  </div>
+
+  <p id="sql-error" class="field-error" role="alert" aria-live="polite"></p>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <label class="pane-label" for="sql-output">Formatted SQL</label>
+      <div class="pane-actions">
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#sql-output">Copy</button>
+        <button id="sql-download" class="btn btn-ghost btn-sm" type="button">Download</button>
+      </div>
+    </div>
+    <textarea
+      id="sql-output"
+      class="pane pane-mono"
+      rows="12"
+      readonly
+      placeholder="Formatted SQL appears here"
+      spellcheck="false"
+      aria-live="polite"
+    ></textarea>
+  </div>
+</div>
+
+<script src="./client.ts"></script>

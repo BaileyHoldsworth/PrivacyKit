@@ -1,0 +1,127 @@
+{
+  "$comment": "Round 2: 12 new tools. Same contract as docs/tool-plan.json + docs/tool-module-contract.md. Slugs FINAL. Icons verified to exist in @tabler/icons outline. Libs already installed + pinned. related[] slugs must resolve to an existing tool (the 38 already live OR another slug in THIS file).",
+  "tools": [
+    {
+      "slug": "totp-generator", "prefix": "totp",
+      "name": "TOTP Code Generator", "category": "passwords", "icon": "device-mobile-code",
+      "title": "TOTP Generator — 2FA Authenticator Codes | PrivacyKit",
+      "privacy": "local", "affiliateGroup": "passwords", "popular": true,
+      "jsonLdCategory": "SecurityApplication",
+      "related": ["password-generator", "qr-code-generator", "hmac-generator", "key-generator", "password-leak-checker"],
+      "keywords": ["totp", "2fa", "authenticator", "otp", "two factor code", "google authenticator"],
+      "implementation": "Use the 'otpauth' package (MIT). Inputs: a Base32 secret (or paste an otpauth:// URI to auto-fill issuer/account/secret/params) + optional issuer/account labels; params: digits (6/8), period (30 default), algorithm (SHA1 default, SHA256/512). Show the CURRENT code big + a live countdown to the next rotation (setInterval, clear on teardown), auto-refresh the code when the period rolls. Copy button on the code. Also: a 'generate random secret' button (otpauth.Secret) and render the otpauth:// URI + a scannable QR (dynamic import the 'qrcode' package) so the user can add it to their authenticator app. Validate Base32 input → inline error. Content + Privacy note: the secret and codes are computed entirely in your browser; nothing is sent or stored. Frame as setting up / testing 2FA for your own accounts."
+    },
+    {
+      "slug": "json-to-csv", "prefix": "j2c",
+      "name": "JSON to CSV Converter", "category": "text", "icon": "table",
+      "title": "JSON to CSV Converter (and CSV to JSON) | PrivacyKit",
+      "privacy": "local", "popular": true,
+      "jsonLdCategory": "DeveloperApplication",
+      "related": ["json-formatter", "json-to-yaml", "case-converter", "word-counter"],
+      "keywords": ["json to csv", "csv to json", "json csv converter", "convert json to csv", "csv converter"],
+      "implementation": "Use 'papaparse' (MIT). Two textareas + a swap-direction button, live (debounce 200ms). JSON→CSV: JSON.parse (expects an array of objects; if it's a single object wrap it; if nested values, JSON-stringify the cell and note the flattening limitation in the content) → Papa.unparse. CSV→JSON: Papa.parse with header:true → pretty JSON. Options: delimiter (comma/semicolon/tab), include-header toggle. Invalid JSON or ragged CSV → inline .field-error. Copy + download (lib/download) the output."
+    },
+    {
+      "slug": "json-to-yaml", "prefix": "j2y",
+      "name": "JSON to YAML Converter", "category": "text", "icon": "file-code",
+      "title": "JSON to YAML Converter (and YAML to JSON) | PrivacyKit",
+      "privacy": "local", "popular": false,
+      "jsonLdCategory": "DeveloperApplication",
+      "related": ["json-formatter", "json-to-csv", "markdown-preview", "url-encoder-decoder"],
+      "keywords": ["json to yaml", "yaml to json", "yaml converter", "convert yaml", "yaml formatter"],
+      "implementation": "Use 'js-yaml' (v4, MIT). Two textareas + swap button, live (debounce 200ms). JSON→YAML: JSON.parse → yaml.dump (indent option 2/4). YAML→JSON: yaml.load → JSON.stringify (2-space, or minify toggle). Catch parse errors from both and show inline with the library's message. Copy + download."
+    },
+    {
+      "slug": "bcrypt-generator", "prefix": "bcr",
+      "name": "Bcrypt Generator & Verifier", "category": "crypto", "icon": "lock",
+      "title": "Bcrypt Generator & Verifier — Hash & Check | PrivacyKit",
+      "privacy": "local", "affiliateGroup": "passwords", "popular": false,
+      "jsonLdCategory": "SecurityApplication",
+      "related": ["hash-generator", "hmac-generator", "password-strength-checker", "password-generator"],
+      "keywords": ["bcrypt", "bcrypt generator", "bcrypt hash", "bcrypt verify", "password hash"],
+      "implementation": "Use 'bcryptjs' (BSD-3, ships its own types). Two modes (tabs): (1) Hash — input a string + cost/rounds slider (4-15, default 10) → bcrypt.hash (async, so the UI doesn't block at high cost; show a working state) → output hash + copy. (2) Verify — a string + a bcrypt hash → bcrypt.compare → clear match/no-match badge (badge-ok/badge-danger). Note in the content + a Privacy note: hashing runs in your browser; this is for learning/testing, real password hashing belongs on your server. Higher cost = slower = stronger; explain the work factor with a concrete timing."
+    },
+    {
+      "slug": "qr-code-reader", "prefix": "qrr",
+      "name": "QR Code Reader", "category": "images", "icon": "scan",
+      "title": "QR Code Reader — Scan or Upload a QR Code | PrivacyKit",
+      "privacy": "local", "popular": false,
+      "jsonLdCategory": "UtilitiesApplication",
+      "related": ["qr-code-generator", "url-cleaner", "exif-viewer", "base64-file"],
+      "keywords": ["qr code reader", "qr scanner", "scan qr code", "read qr code", "qr decoder"],
+      "implementation": "Use 'jsQR' (Apache-2.0, ships types). Two ways to read: (1) Upload/drop an image → draw to canvas → jsQR(imageData) → show decoded text. (2) Camera scan: a 'Use camera' button calls getUserMedia({video:{facingMode:'environment'}}), draws frames to a canvas on a rAF loop, runs jsQR each frame until a code is found, then stops the stream. Guard camera errors (denied/no camera) with a clear inline message and always keep the upload path working. When the decoded text is a URL, show it as text with a note to check before opening (do NOT auto-navigate). Copy button. NOTE FOR INTEGRATION: this tool needs camera access — the orchestrator will relax Permissions-Policy to camera=(self) in public/_headers; write the tool assuming that's allowed but degrading gracefully if not."
+    },
+    {
+      "slug": "image-resizer", "prefix": "imr",
+      "name": "Image Resizer", "category": "images", "icon": "photo-edit",
+      "title": "Image Resizer — Resize Photos in Your Browser | PrivacyKit",
+      "privacy": "local", "popular": true,
+      "jsonLdCategory": "UtilitiesApplication",
+      "related": ["image-compressor", "image-converter", "exif-remover", "favicon-generator"],
+      "keywords": ["image resizer", "resize image", "resize photo", "change image size", "scale image"],
+      "implementation": "Use 'pica' (MIT) for high-quality resampling. Dropzone (lib/dom wireDropzone). Controls: target width + height with a lock-aspect-ratio toggle (editing one updates the other), OR a percentage scale; output format keep-original/JPEG/PNG/WebP + quality for lossy. Resize via pica (new Pica().resize(sourceCanvas, destCanvas)) then toBlob → download (lib/download). Show original vs new dimensions + file sizes (lib/bytes). Handle multiple files sequentially. Big images: pica uses workers, keep UI responsive."
+    },
+    {
+      "slug": "image-converter", "prefix": "imc2",
+      "name": "Image Converter", "category": "images", "icon": "transform",
+      "title": "Image Converter — PNG, JPG & WebP | PrivacyKit",
+      "privacy": "local", "popular": true,
+      "jsonLdCategory": "UtilitiesApplication",
+      "related": ["image-resizer", "image-compressor", "exif-remover", "base64-file"],
+      "keywords": ["image converter", "png to jpg", "jpg to webp", "convert image", "webp converter"],
+      "implementation": "Pure canvas (no lib). Dropzone (multiple). Decode via createImageBitmap → draw to canvas → canvas.toBlob(type, quality). Output format select: PNG / JPEG / WebP; quality slider for JPEG/WebP; optional white background when converting transparent PNG→JPEG (explain why). Per-file result row (name, from→to format, size delta, download). NO HEIC input (libheif is LGPL — say so if a .heic is dropped). Converting also strips metadata; cross-link exif-remover."
+    },
+    {
+      "slug": "favicon-generator", "prefix": "fav",
+      "name": "Favicon Generator", "category": "images", "icon": "browser",
+      "title": "Favicon Generator — Make a Favicon from an Image | PrivacyKit",
+      "privacy": "local", "affiliateGroup": "dev", "popular": false,
+      "jsonLdCategory": "UtilitiesApplication",
+      "related": ["image-resizer", "image-converter", "qr-code-generator", "color-converter"],
+      "keywords": ["favicon generator", "favicon", "ico generator", "make favicon", "favicon from image"],
+      "implementation": "Pure canvas. Upload an image (ideally square; if not, center-crop to square with a note). Generate PNGs at 16, 32, 48, 180 (apple-touch), 192 and 512 via canvas draw + toBlob. Build a multi-size favicon.ico by embedding the 16/32/48 PNGs in the ICO container format (write the ICONDIR + ICONDIRENTRY headers manually; PNG-in-ICO is supported by modern browsers) — keep this in a small helper in client.ts and verify the byte layout with a node sanity-check in your report. Offer each file as a download (lib/download downloadBlob) and show the ready-to-paste HTML <link> snippet (icon + apple-touch-icon). All in-browser."
+    },
+    {
+      "slug": "sql-formatter", "prefix": "sql",
+      "name": "SQL Formatter", "category": "text", "icon": "database",
+      "title": "SQL Formatter — Beautify & Format SQL Queries | PrivacyKit",
+      "privacy": "local", "popular": false,
+      "jsonLdCategory": "DeveloperApplication",
+      "related": ["json-formatter", "regex-tester", "case-converter", "text-diff"],
+      "keywords": ["sql formatter", "format sql", "sql beautifier", "pretty sql", "sql pretty print"],
+      "implementation": "Use 'sql-formatter' (MIT, ships types). Input textarea → formatted output (live, debounce 200ms). Options: dialect select (sql, postgresql, mysql, mariadb, sqlite, bigquery, etc. — the lib's supported languages), keyword case (upper/lower/preserve), indent width (2/4/tab). Wrap the format() call in try/catch → inline error on invalid SQL. Copy + download."
+    },
+    {
+      "slug": "date-calculator", "prefix": "dc",
+      "name": "Date Calculator", "category": "datetime", "icon": "calendar-stats",
+      "title": "Date Calculator — Days Between Dates & Age | PrivacyKit",
+      "privacy": "local", "popular": true,
+      "jsonLdCategory": "UtilitiesApplication",
+      "related": ["unix-timestamp-converter", "timezone-converter", "cron-parser"],
+      "keywords": ["date calculator", "days between dates", "age calculator", "date difference", "add days to date"],
+      "implementation": "Pure JS/Intl (no lib). Three tabs: (1) Difference — two date inputs → years/months/days breakdown + total days, weeks, weekdays, hours; (2) Add/Subtract — a start date + a signed duration (years/months/weeks/days) → resulting date (handle month-length edge cases correctly); (3) Age — a birth date → exact age (y/m/d), total days lived, and days until next birthday. Use local date inputs; compute with care around DST (operate on calendar dates for day counts). Copy results."
+    },
+    {
+      "slug": "cron-builder", "prefix": "cb",
+      "name": "Cron Expression Builder", "category": "datetime", "icon": "calendar-time",
+      "title": "Cron Expression Builder — Build a Crontab Line | PrivacyKit",
+      "privacy": "local", "popular": false,
+      "jsonLdCategory": "DeveloperApplication",
+      "related": ["cron-parser", "unix-timestamp-converter", "timezone-converter"],
+      "keywords": ["cron builder", "cron expression builder", "build cron", "cron maker", "cron generator"],
+      "implementation": "Build a 5-field cron expression from friendly controls (no lib beyond the two already used). A frequency select (every minute / every N minutes / hourly / daily at HH:MM / weekly on days at HH:MM / monthly on day N at HH:MM / custom per-field) drives the five fields; show the live expression in a copy box. Explain it with cronstrue (already a dep) and show the next 5 run times with cron-parser (already a dep, local tz). Link to /tools/cron-parser/ and the /cron/ preset pages. Keep it accessible (labelled selects)."
+    },
+    {
+      "slug": "webrtc-leak-test", "prefix": "rtc",
+      "name": "WebRTC Leak Test", "category": "privacy", "icon": "shield-x",
+      "title": "WebRTC Leak Test — Is Your VPN Leaking Your IP? | PrivacyKit",
+      "privacy": "external-api",
+      "apiNote": "This test opens a WebRTC connection to a public STUN server (Google's) to discover the IP addresses your browser would reveal. That connection leaves your device; nothing is stored.",
+      "affiliateGroup": "vpn", "popular": false, "ads": false,
+      "jsonLdCategory": "SecurityApplication",
+      "related": ["what-is-my-ip", "browser-fingerprint", "dns-lookup", "url-cleaner"],
+      "keywords": ["webrtc leak test", "webrtc leak", "ip leak test", "vpn leak test", "webrtc ip"],
+      "implementation": "On an explicit 'Run the test' click (not on load): create an RTCPeerConnection with a public STUN server (stun:stun.l.google.com:19302), createDataChannel, createOffer/setLocalDescription, and collect icecandidate events. Parse candidate strings for host (local/mDNS) and srflx (public) IP addresses; classify and display which IPs leaked, with a plain-English verdict (e.g. if a public IP appears that differs from a VPN endpoint, that's a leak). Explain what WebRTC leaks are and that a VPN or disabling WebRTC mitigates them (affiliate context: Proton VPN). ads:false. Close the peer connection when done. Handle browsers where WebRTC is disabled (clear message)."
+    }
+  ]
+}

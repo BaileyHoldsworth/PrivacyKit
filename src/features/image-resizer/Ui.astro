@@ -1,0 +1,92 @@
+<div class="tool" data-tool="image-resizer">
+  <div
+    id="imr-dropzone"
+    class="dropzone"
+    tabindex="0"
+    role="button"
+    aria-label="Choose images to resize. Press Enter to browse, or drag and drop JPEG, PNG or WebP files onto this area."
+  >
+    <strong>Drop images here or click to browse</strong><br />
+    <span class="field-hint">JPEG, PNG, WebP, GIF or BMP · up to 20 files, 30 MB each · resized on this device, never uploaded</span>
+  </div>
+
+  <div class="field">
+    <label for="imr-mode">Resize by</label>
+    <select id="imr-mode" class="select">
+      <option value="percent" selected>Percentage of original</option>
+      <option value="dimensions">Width &amp; height</option>
+    </select>
+  </div>
+
+  <div class="field" id="imr-percent-group">
+    <label for="imr-percent">Scale: <span id="imr-percent-value" class="range-value">50%</span></label>
+    <div class="range-row">
+      <input id="imr-percent" type="range" min="1" max="200" step="1" value="50" aria-describedby="imr-percent-hint" />
+    </div>
+    <span id="imr-percent-hint" class="field-hint">50% halves each side (a quarter of the pixels). Above 100% enlarges — which adds no new detail.</span>
+  </div>
+
+  <div id="imr-dim-group" hidden>
+    <div class="field-row">
+      <div class="field">
+        <label for="imr-width">Width (px)</label>
+        <input id="imr-width" class="pane" type="number" min="1" step="1" value="800" inputmode="numeric" autocomplete="off" />
+      </div>
+      <div class="field">
+        <label for="imr-height">Height (px)</label>
+        <input id="imr-height" class="pane" type="number" min="1" step="1" value="600" inputmode="numeric" autocomplete="off" />
+      </div>
+      <label class="checkbox-row"><input type="checkbox" id="imr-lock" checked /> Lock aspect ratio</label>
+    </div>
+    <span class="field-hint">
+      With the ratio locked, width and height are a box each image is fitted inside, keeping its own shape.
+      Unlock to stretch every image to the exact size, which can distort it.
+    </span>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label for="imr-format">Output format</label>
+      <select id="imr-format" class="select">
+        <option value="keep" selected>Keep original format</option>
+        <option value="image/jpeg">JPEG</option>
+        <option value="image/png">PNG</option>
+        <option value="image/webp">WebP</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="imr-quality">Quality: <span id="imr-quality-value" class="range-value">0.85</span></label>
+      <div class="range-row">
+        <input id="imr-quality" type="range" min="0.4" max="1" step="0.05" value="0.85" aria-describedby="imr-quality-hint" />
+      </div>
+      <span id="imr-quality-hint" class="field-hint">Applies to JPEG and WebP output only — PNG is lossless.</span>
+    </div>
+  </div>
+
+  <p id="imr-error" class="field-error" role="alert"></p>
+
+  <div class="action-row">
+    <button id="imr-resize" class="btn btn-primary" type="button" disabled>Resize with current settings</button>
+    <button id="imr-download-all" class="btn" type="button" disabled>Download all</button>
+    <button id="imr-clear" class="btn btn-ghost" type="button" disabled>Clear</button>
+  </div>
+
+  <div class="stat-row" aria-live="polite">
+    <div class="stat">
+      <div class="stat-label">Total before</div>
+      <div class="stat-value" id="imr-total-before">–</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Total after</div>
+      <div class="stat-value" id="imr-total-after">–</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Saved</div>
+      <div class="stat-value" id="imr-total-saved">–</div>
+    </div>
+  </div>
+
+  <ul id="imr-results" class="result-list" aria-live="polite"></ul>
+</div>
+
+<script src="./client.ts"></script>

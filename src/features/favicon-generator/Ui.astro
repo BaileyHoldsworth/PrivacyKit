@@ -1,0 +1,61 @@
+<div class="tool" data-tool="favicon-generator">
+  <div
+    id="fav-dropzone"
+    class="dropzone"
+    tabindex="0"
+    role="button"
+    aria-label="Choose an image to turn into a favicon. Press Enter to browse, or drag and drop a PNG, JPEG, WebP, GIF or SVG file onto this area."
+  >
+    <strong>Drop an image here or click to browse</strong><br />
+    <span class="field-hint">PNG, JPEG, WebP, GIF or SVG · a square image works best · everything is processed on this device, never uploaded</span>
+  </div>
+
+  <div class="field-row">
+    <label class="checkbox-row">
+      <input type="checkbox" id="fav-bg-enable" />
+      Fill transparent areas with a background
+    </label>
+    <div class="field">
+      <label for="fav-bg-color">Background colour</label>
+      <input id="fav-bg-color" type="color" value="#ffffff" disabled />
+    </div>
+  </div>
+  <span class="field-hint">
+    iOS ignores transparency on the Apple touch icon and paints it on black — pick a background if your source is transparent.
+  </span>
+
+  <p id="fav-error" class="field-error" role="alert"></p>
+
+  <p id="fav-source" class="field-hint" aria-live="polite"></p>
+
+  <div class="action-row">
+    <button id="fav-download-all" class="btn btn-primary" type="button" disabled>Download all</button>
+    <button id="fav-clear" class="btn btn-ghost" type="button" disabled>Clear</button>
+  </div>
+
+  <ul id="fav-results" class="result-list" aria-live="polite"></ul>
+  <p id="fav-empty" class="field-hint">Your favicon.ico and PNG icons will appear here once you add an image.</p>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">HTML to paste in &lt;head&gt;</span>
+      <div class="pane-actions">
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#fav-snippet">Copy</button>
+      </div>
+    </div>
+    <textarea
+      id="fav-snippet"
+      class="pane pane-mono"
+      readonly
+      rows="4"
+      aria-label="HTML link tags for the favicon"
+      spellcheck="false"
+>&lt;link rel="icon" href="/favicon.ico" sizes="any"&gt;
+&lt;link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"&gt;
+&lt;link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"&gt;
+&lt;link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"&gt;</textarea>
+    <span class="field-hint">Place the files in your site root next to index.html; adjust the paths if they live in a subfolder.</span>
+  </div>
+</div>
+
+<script src="./client.ts"></script>

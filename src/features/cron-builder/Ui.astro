@@ -1,0 +1,130 @@
+<div class="tool" data-tool="cron-builder">
+  <div class="field">
+    <label for="cb-frequency">How often should it run?</label>
+    <select id="cb-frequency" class="select">
+      <option value="every-minute">Every minute</option>
+      <option value="every-n-minutes">Every N minutes</option>
+      <option value="hourly">Every hour (at a chosen minute)</option>
+      <option value="daily" selected>Every day (at a time)</option>
+      <option value="weekly">Weekly (on chosen days)</option>
+      <option value="monthly">Monthly (on a day of the month)</option>
+      <option value="custom">Custom (edit each field)</option>
+    </select>
+  </div>
+
+  <!-- Every N minutes -->
+  <div class="field" id="cb-grp-interval" hidden>
+    <label for="cb-interval">Interval (minutes)</label>
+    <input id="cb-interval" class="pane pane-mono" type="number" inputmode="numeric" min="2" max="59" step="1" value="5" style="max-width:10rem" />
+    <p class="field-hint">Intervals that do not divide 60 reset at the top of the hour, leaving an uneven final gap.</p>
+  </div>
+
+  <!-- Hourly at minute -->
+  <div class="field" id="cb-grp-hourly" hidden>
+    <label for="cb-hourly-minute">Minute past the hour</label>
+    <input id="cb-hourly-minute" class="pane pane-mono" type="number" inputmode="numeric" min="0" max="59" step="1" value="0" style="max-width:10rem" />
+  </div>
+
+  <!-- Time of day (daily / weekly / monthly) -->
+  <div class="field" id="cb-grp-time">
+    <label for="cb-time">Time of day</label>
+    <input id="cb-time" class="pane pane-mono" type="time" value="09:00" style="max-width:12rem" />
+  </div>
+
+  <!-- Weekdays (weekly) -->
+  <fieldset class="field" id="cb-grp-weekdays" style="border:none;padding:0;margin:0" hidden>
+    <legend class="field-hint" style="padding:0 0 var(--s-1)">Days of the week</legend>
+    <div class="field-row">
+      <label class="checkbox-row"><input type="checkbox" class="cb-dow" data-dow="1" checked /> Mon</label>
+      <label class="checkbox-row"><input type="checkbox" class="cb-dow" data-dow="2" checked /> Tue</label>
+      <label class="checkbox-row"><input type="checkbox" class="cb-dow" data-dow="3" checked /> Wed</label>
+      <label class="checkbox-row"><input type="checkbox" class="cb-dow" data-dow="4" checked /> Thu</label>
+      <label class="checkbox-row"><input type="checkbox" class="cb-dow" data-dow="5" checked /> Fri</label>
+      <label class="checkbox-row"><input type="checkbox" class="cb-dow" data-dow="6" /> Sat</label>
+      <label class="checkbox-row"><input type="checkbox" class="cb-dow" data-dow="0" /> Sun</label>
+    </div>
+  </fieldset>
+
+  <!-- Day of month (monthly) -->
+  <div class="field" id="cb-grp-monthly" hidden>
+    <label for="cb-monthly-day">Day of the month</label>
+    <input id="cb-monthly-day" class="pane pane-mono" type="number" inputmode="numeric" min="1" max="31" step="1" value="1" style="max-width:10rem" />
+  </div>
+
+  <!-- Custom per-field -->
+  <fieldset class="field" id="cb-grp-custom" style="border:none;padding:0;margin:0" hidden>
+    <legend class="field-hint" style="padding:0 0 var(--s-1)">Five fields — minute, hour, day of month, month, day of week</legend>
+    <div class="field-row">
+      <div class="field" style="flex:1 1 6rem">
+        <label for="cb-c-min">Minute</label>
+        <input id="cb-c-min" class="pane pane-mono" type="text" value="*" autocomplete="off" autocapitalize="off" spellcheck="false" />
+      </div>
+      <div class="field" style="flex:1 1 6rem">
+        <label for="cb-c-hour">Hour</label>
+        <input id="cb-c-hour" class="pane pane-mono" type="text" value="*" autocomplete="off" autocapitalize="off" spellcheck="false" />
+      </div>
+      <div class="field" style="flex:1 1 6rem">
+        <label for="cb-c-dom">Day of month</label>
+        <input id="cb-c-dom" class="pane pane-mono" type="text" value="*" autocomplete="off" autocapitalize="off" spellcheck="false" />
+      </div>
+      <div class="field" style="flex:1 1 6rem">
+        <label for="cb-c-mon">Month</label>
+        <input id="cb-c-mon" class="pane pane-mono" type="text" value="*" autocomplete="off" autocapitalize="off" spellcheck="false" />
+      </div>
+      <div class="field" style="flex:1 1 6rem">
+        <label for="cb-c-dow">Day of week</label>
+        <input id="cb-c-dow" class="pane pane-mono" type="text" value="*" autocomplete="off" autocapitalize="off" spellcheck="false" />
+      </div>
+    </div>
+  </fieldset>
+
+  <p id="cb-error" class="field-error" role="alert" aria-live="polite"></p>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <label class="pane-label" for="cb-output">Cron expression</label>
+      <div class="pane-actions">
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#cb-output">Copy</button>
+      </div>
+    </div>
+    <input
+      id="cb-output"
+      class="pane pane-mono"
+      type="text"
+      readonly
+      value="0 9 * * *"
+      aria-label="Generated cron expression"
+      autocomplete="off"
+      spellcheck="false"
+    />
+    <p class="field-hint">
+      Reading an expression instead of writing one?
+      <a id="cb-open-parser" href="/tools/cron-parser/">Open it in the cron parser →</a>
+    </p>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">In plain English</span>
+      <div class="pane-actions">
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#cb-english" aria-label="Copy plain-English explanation">Copy</button>
+      </div>
+    </div>
+    <p id="cb-english" class="pane" aria-live="polite">At 09:00 AM, every day.</p>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Next 5 runs</span>
+      <div class="pane-actions">
+        <button id="cb-copy-runs" class="btn btn-ghost btn-sm" type="button" aria-label="Copy the list of run times">Copy</button>
+      </div>
+    </div>
+    <ul id="cb-runs" class="result-list" aria-live="polite">
+      <li><span class="field-hint" style="flex:1">Upcoming run times appear here once the expression is built.</span></li>
+    </ul>
+    <p id="cb-tz" class="field-hint" aria-live="polite"></p>
+  </div>
+</div>
+
+<script src="./client.ts"></script>

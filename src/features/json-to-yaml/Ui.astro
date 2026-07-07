@@ -1,0 +1,72 @@
+<div class="tool" data-tool="json-to-yaml">
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <label class="pane-label" id="j2y-input-label" for="j2y-input">JSON input</label>
+      <div class="pane-actions">
+        <button id="j2y-sample" class="btn btn-ghost btn-sm" type="button">Sample</button>
+        <button id="j2y-clear" class="btn btn-ghost btn-sm" type="button">Clear</button>
+      </div>
+    </div>
+    <textarea
+      id="j2y-input"
+      class="pane pane-mono"
+      rows="10"
+      placeholder={'Paste JSON — e.g. {"service": "api", "replicas": 3}'}
+      spellcheck="false"
+      autocomplete="off"
+      autocapitalize="off"
+    ></textarea>
+    <p class="field-hint" id="j2y-input-count">0 characters</p>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label for="j2y-indent">Indentation</label>
+      <select id="j2y-indent" class="select">
+        <option value="2" selected>2 spaces</option>
+        <option value="4">4 spaces</option>
+      </select>
+    </div>
+    <label class="checkbox-row">
+      <input type="checkbox" id="j2y-minify" /> Minify JSON output
+    </label>
+  </div>
+
+  <div class="action-row">
+    <button id="j2y-swap" class="btn btn-primary" type="button">⇄ Swap to YAML → JSON</button>
+    <span id="j2y-direction" class="badge" aria-live="polite">JSON → YAML</span>
+  </div>
+
+  <p id="j2y-error" class="field-error" role="alert" aria-live="polite"></p>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <label class="pane-label" id="j2y-output-label" for="j2y-output">YAML output</label>
+      <div class="pane-actions">
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#j2y-output">Copy</button>
+        <button id="j2y-download" class="btn btn-ghost btn-sm" type="button">Download</button>
+      </div>
+    </div>
+    <textarea
+      id="j2y-output"
+      class="pane pane-mono"
+      rows="10"
+      readonly
+      placeholder="YAML appears here as you type"
+      spellcheck="false"
+    ></textarea>
+  </div>
+
+  <div class="stat-row" aria-live="polite">
+    <div class="stat">
+      <div class="stat-label">Output lines</div>
+      <div class="stat-value" id="j2y-stat-lines">–</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Output size</div>
+      <div class="stat-value" id="j2y-stat-size">–</div>
+    </div>
+  </div>
+</div>
+
+<script src="./client.ts"></script>

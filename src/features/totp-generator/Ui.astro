@@ -1,0 +1,152 @@
+<div class="tool" data-tool="totp-generator">
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Secret key or otpauth:// link</span>
+      <div class="pane-actions">
+        <button id="totp-gen-secret" class="btn btn-ghost btn-sm" type="button">Random secret</button>
+      </div>
+    </div>
+    <input
+      id="totp-secret"
+      class="pane pane-mono"
+      type="text"
+      autocomplete="off"
+      autocapitalize="off"
+      autocorrect="off"
+      spellcheck="false"
+      aria-label="Base32 secret key or otpauth URI"
+      placeholder="JBSWY3DPEHPK3PXP  —  or paste otpauth://totp/…"
+    />
+    <p class="field-hint">Paste the Base32 key your provider lists under “can’t scan the QR?”, or the whole otpauth:// link to fill in every field below.</p>
+  </div>
+
+  <div class="field-row">
+    <div class="field" style="flex:1 1 12rem">
+      <label for="totp-issuer">Issuer (optional)</label>
+      <input id="totp-issuer" class="pane" type="text" autocomplete="off" placeholder="GitHub" />
+    </div>
+    <div class="field" style="flex:1 1 12rem">
+      <label for="totp-account">Account (optional)</label>
+      <input id="totp-account" class="pane" type="text" autocomplete="off" placeholder="you@example.org" />
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label for="totp-digits">Digits</label>
+      <select id="totp-digits" class="select">
+        <option value="6" selected>6</option>
+        <option value="8">8</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="totp-period">Period (seconds)</label>
+      <input id="totp-period" class="pane pane-mono" type="number" min="1" max="3600" step="1" value="30" style="width:7rem" />
+    </div>
+    <div class="field">
+      <label for="totp-algo">Algorithm</label>
+      <select id="totp-algo" class="select">
+        <option value="SHA1" selected>SHA1</option>
+        <option value="SHA256">SHA256</option>
+        <option value="SHA512">SHA512</option>
+      </select>
+    </div>
+  </div>
+
+  <p id="totp-error" class="field-error" role="alert"></p>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Current code</span>
+      <div class="pane-actions">
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#totp-code-value">Copy</button>
+      </div>
+    </div>
+    <div class="pane" style="text-align:center;padding:var(--s-4)">
+      <div id="totp-code" class="totp-code" aria-live="polite">––– –––</div>
+      <input id="totp-code-value" type="text" hidden readonly value="" aria-hidden="true" tabindex="-1" />
+      <div class="totp-countdown" role="timer">
+        <div class="totp-bar"><div id="totp-bar-fill" class="totp-bar-fill"></div></div>
+        <span id="totp-countdown">Enter a secret to start</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">otpauth:// URI</span>
+      <div class="pane-actions">
+        <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#totp-uri">Copy</button>
+      </div>
+    </div>
+    <input
+      id="totp-uri"
+      class="pane pane-mono"
+      type="text"
+      readonly
+      aria-label="otpauth URI for this secret"
+      placeholder="otpauth://totp/… appears here once the secret is valid"
+    />
+  </div>
+
+  <div class="pane-group">
+    <div class="pane-toolbar">
+      <span class="pane-label">Scan into an authenticator app</span>
+      <div class="pane-actions">
+        <button id="totp-download-qr" class="btn btn-ghost btn-sm" type="button" disabled>Download PNG</button>
+      </div>
+    </div>
+    <div class="pane" style="display:flex;justify-content:center;padding:var(--s-4)">
+      <canvas
+        id="totp-qr"
+        width="240"
+        height="240"
+        role="img"
+        aria-label="QR code encoding the otpauth URI"
+        style="max-width:100%;height:auto"></canvas>
+    </div>
+    <p id="totp-qr-status" class="field-hint" aria-live="polite">The QR carries the secret in plain text — treat it like the password itself.</p>
+  </div>
+</div>
+
+<style>
+  .totp-code {
+    font-family: var(--font-mono);
+    font-size: clamp(2rem, 9vw, 3rem);
+    font-weight: 650;
+    letter-spacing: 0.12em;
+    line-height: 1.1;
+    color: var(--text);
+  }
+  .totp-countdown {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    margin-top: var(--s-3);
+  }
+  .totp-bar {
+    flex: 1;
+    height: 6px;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .totp-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--accent);
+    border-radius: 999px;
+    transition: width 250ms linear;
+  }
+  .totp-countdown span {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    min-width: 11ch;
+    text-align: right;
+  }
+</style>
+
+<script src="./client.ts"></script>

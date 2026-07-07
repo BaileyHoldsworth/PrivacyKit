@@ -1,0 +1,105 @@
+<div class="tool" data-tool="bcrypt-generator">
+  <div class="action-row" role="group" aria-label="Mode">
+    <button id="bcr-tab-hash" class="btn btn-primary btn-sm" type="button" aria-pressed="true">Hash</button>
+    <button id="bcr-tab-verify" class="btn btn-sm" type="button" aria-pressed="false">Verify</button>
+  </div>
+
+  <!-- ---------- Hash mode ---------- -->
+  <div id="bcr-panel-hash">
+    <div class="field">
+      <label for="bcr-hash-input">String to hash</label>
+      <input
+        id="bcr-hash-input"
+        class="pane pane-mono"
+        type="text"
+        aria-label="String to hash"
+        placeholder="Type or paste the string to hash with bcrypt"
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false"
+      />
+      <p id="bcr-hash-warn" class="field-hint" aria-live="polite"></p>
+    </div>
+
+    <div class="field">
+      <label for="bcr-cost">Cost factor: <span id="bcr-cost-value" class="range-value">10</span> (2^cost = <span id="bcr-cost-rounds">1,024</span> rounds)</label>
+      <div class="range-row">
+        <input id="bcr-cost" type="range" min="4" max="15" value="10" step="1" />
+      </div>
+    </div>
+
+    <p id="bcr-hash-error" class="field-error" role="alert"></p>
+
+    <div class="action-row">
+      <button id="bcr-hash-btn" class="btn btn-primary" type="button">Generate hash</button>
+    </div>
+
+    <div class="pane-group">
+      <div class="pane-toolbar">
+        <span class="pane-label">Bcrypt hash</span>
+        <div class="pane-actions">
+          <button class="btn btn-ghost btn-sm" type="button" data-copy-target="#bcr-hash-output">Copy</button>
+        </div>
+      </div>
+      <input
+        id="bcr-hash-output"
+        class="pane pane-mono"
+        type="text"
+        readonly
+        aria-label="Generated bcrypt hash"
+        placeholder="The 60-character bcrypt hash appears here"
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <p id="bcr-hash-status" class="field-hint" aria-live="polite"></p>
+    </div>
+  </div>
+
+  <!-- ---------- Verify mode ---------- -->
+  <div id="bcr-panel-verify" hidden>
+    <div class="field">
+      <label for="bcr-verify-input">Plaintext string</label>
+      <input
+        id="bcr-verify-input"
+        class="pane pane-mono"
+        type="text"
+        aria-label="Plaintext string to test"
+        placeholder="The string you think produced the hash"
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false"
+      />
+    </div>
+
+    <div class="field">
+      <label for="bcr-verify-hash">Bcrypt hash</label>
+      <input
+        id="bcr-verify-hash"
+        class="pane pane-mono"
+        type="text"
+        aria-label="Bcrypt hash to check against"
+        placeholder="$2b$10$..."
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false"
+      />
+    </div>
+
+    <p id="bcr-verify-error" class="field-error" role="alert"></p>
+
+    <div class="action-row">
+      <button id="bcr-verify-btn" class="btn btn-primary" type="button">Verify</button>
+    </div>
+
+    <div class="pane-group">
+      <div class="pane-toolbar">
+        <span class="pane-label">Result</span>
+      </div>
+      <div id="bcr-verify-result" class="pane" aria-live="polite">
+        <span class="field-hint">Enter a string and a bcrypt hash, then press Verify.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="./client.ts"></script>
