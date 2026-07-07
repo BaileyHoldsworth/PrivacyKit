@@ -75,4 +75,46 @@ faqs:
       confirm it stays empty.
 ---
 
-<!-- content-pending: round2 content -->
+## How to use
+
+1. Paste JSON into the input pane. Conversion starts in the **JSON → YAML** direction (shown in the badge), and the output pane fills in as you type — no button press needed.
+2. Choose 2 or 4 spaces from the **Indentation** dropdown. Two is the default and the width nearly every YAML ecosystem expects.
+3. Hit **Swap** to flip to **YAML → JSON**. Whatever sits in the output pane carries back into the input, so you can convert, edit, and send it the other way without retyping.
+4. In the YAML → JSON direction, tick **Minify JSON output** to collapse the result onto one line; the indentation setting is ignored while minify is on.
+5. **Copy** the output, or **Download** it as `converted.yaml` or `converted.json`. **Sample** loads an example to poke at, and **Clear** empties both panes.
+
+## How it works
+
+The converter never does a text find-and-replace between the two formats. It parses your input into a real in-memory value, then re-serialises that value into the target format. Going JSON → YAML, `JSON.parse` turns the text into a JavaScript object and the js-yaml library's `dump` writes it out as YAML at your chosen indent (with `lineWidth: -1`, so a long URL or token stays on a single line instead of folding). Going the other way, js-yaml's `load` reads the YAML into a value and `JSON.stringify` prints it — indented to match your setting, or as one compact line when Minify is ticked.
+
+A short example. This JSON:
+
+```json
+{"queue":"emails","workers":4,"durable":true,"routes":["signup","reset"],"limits":{"rate":100,"burst":150}}
+```
+
+converts, at 2-space indent, to:
+
+```yaml
+queue: emails
+workers: 4
+durable: true
+routes:
+  - signup
+  - reset
+limits:
+  rate: 100
+  burst: 150
+```
+
+Each array element becomes a `-` line indented beneath its key, and the nested `limits` object becomes its own indented block. Because the pipeline runs through an actual value rather than your keystrokes, it is the *structure* that survives the trip, not the exact spacing you typed.
+
+## Use cases & limitations
+
+Open this when an API hands you JSON but the file you are editing — a Kubernetes manifest, a GitHub Actions workflow, a Docker Compose service — wants YAML, or when you need the reverse. It doubles as a quick validity check: if either side refuses to parse, the input has a syntax error worth catching before you commit it. When you only need to tidy or verify JSON, the [JSON formatter](/tools/json-formatter/) is the better fit, and the [JSON to CSV converter](/tools/json-to-csv/) handles the case where the destination is a spreadsheet rather than a config file.
+
+The main limitation is schema coverage. js-yaml reads the default YAML schema, so custom tags — CloudFormation's `!Ref` and `!GetAtt`, or `!!python/...` types — are not recognised, and the parse stops with an unknown-tag error. Anchors and aliases (`&anchor` / `*anchor`) are resolved as the document loads, which means the JSON output repeats the shared value inline instead of preserving the reference. For plain configuration data neither matters; for a hand-authored template that leans on those features, it will.
+
+## Privacy note
+
+Both directions run inside your tab: js-yaml plus the browser's own `JSON.parse` and `JSON.stringify`, with no server in the loop. The library is fetched once from this site's own files the first time you convert, and it carries none of your document with it; from then on, typing, swapping, copying, and downloading reach no network at all. Configuration files routinely hold secrets — API keys, database URLs, access tokens — so it matters that nothing you paste here is transmitted, logged, or kept.

@@ -29,7 +29,7 @@ faqs:
       20-minute spacing the wording suggests.
   - q: Why does my monthly job skip some months?
     a: >-
-      A day-of-month value that a month does not have is simply never matched.
+      A day-of-month value that a month does not have is never matched.
       Set **Monthly** to day 31 and the result `0 0 31 * *` runs in January and
       March but never in February, April, June, September or November. The
       next-five-runs list makes this obvious. If you need "the last day of every
@@ -69,4 +69,24 @@ faqs:
       [cron parser](/tools/cron-parser/) instead.
 ---
 
-<!-- content-pending: round2 content -->
+## How to use
+
+1. Open the **How often should it run?** menu and pick a frequency. The controls beneath it swap to match your choice, so you only ever see the fields that frequency actually needs.
+2. Fill in the details for that frequency — an interval in minutes, a minute past the hour, a time of day, a row of weekday checkboxes, or a day of the month. Prefer to write the fields yourself? Choose **Custom** and edit minute, hour, day of month, month, and day of week directly.
+3. Read the finished line in the **Cron expression** box, with a plain-English translation printed directly below it.
+4. Scan the **Next 5 runs** list to confirm the line fires when you expect. Each entry is stamped in your browser's timezone next to a relative label such as "tomorrow" or "in 6 hours".
+5. Press **Copy** on the expression pane to grab the line, or the Copy button above the run list to lift all five timestamps at once.
+
+## How it works
+
+A cron line is five fields separated by single spaces, read left to right as minute, hour, day of month, month, and day of week. An asterisk means "every value"; a bare number pins the field; `*/n` steps in increments; a comma lists values; a hyphen spans a range. The builder never asks you to memorise that grammar — it assembles the five tokens from whichever friendly controls the chosen frequency exposes.
+
+Take a weekday backup at half past two in the morning. Select **Weekly**, set the time to 02:30, then tick Monday through Friday while leaving Saturday and Sunday clear. Behind the scenes the builder collapses the run of consecutive weekday numbers 1, 2, 3, 4, 5 into the compact range `1-5` instead of the longer list `1,2,3,4,5`, and drops your time into the minute and hour slots. The output is `30 2 * * 1-5` — minute 30, hour 2, any day of the month, any month, Monday to Friday.
+
+That finished string is then handed to two small libraries the page loads on demand. One renders it as the sentence "At 02:30 AM, Monday through Friday"; the other computes the next five firing times and formats each against your system clock. Because the preview is generated live, editing any control rebuilds both the line and its schedule in the same keystroke.
+
+## Use cases & limitations
+
+Open this when you are writing a crontab entry, a scheduled GitHub Actions workflow, or a cloud scheduler rule and want the syntax right the first time — plus a concrete list of run times to sanity-check before you commit. The opposite job, reading a line someone else wrote, belongs to the [cron parser](/tools/cron-parser/), which the expression pane links to with your current line already pre-filled.
+
+The honest limit is scope: the builder only emits portable, standard five-field cron. It will not produce a seconds field, an `@reboot`-style macro, or the `L`, `W` and `#` extensions that Quartz and some cloud schedulers add, because those break on a plain Vixie cron. Anything the friendly modes cannot express — a job that runs only during business hours on alternating weeks, say — needs Custom mode or a few separate lines working together. And the run-time preview is drawn against your browser clock: if the server that owns the crontab runs on UTC, line the zones up first with the [timezone converter](/tools/timezone-converter/), or turn a single run into an epoch value with the [unix timestamp converter](/tools/unix-timestamp-converter/).

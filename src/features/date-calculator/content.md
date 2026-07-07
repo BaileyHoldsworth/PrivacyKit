@@ -61,4 +61,22 @@ faqs:
       you need an exact working-day figure for leave or delivery estimates.
 ---
 
-<!-- content-pending: round2 content -->
+## How to use
+
+1. Choose a mode with the three buttons at the top: **Difference** measures the gap between two dates, **Add / subtract** shifts a date by a duration, and **Age** reads a birth date.
+2. In Difference, set a **From date** and a **To date** — both start on today. The result list fills in as you type, giving the span as years/months/days alongside total days, weeks, weekdays and hours.
+3. In Add / subtract, enter a **Start date**, pick **Add** or **Subtract**, then type any mix of years, months, weeks and days. Blank fields count as zero.
+4. In Age, enter a **Date of birth**; the picker refuses future dates. You get an exact age, the number of days lived, and the date of the next birthday.
+5. Use the **Copy** button beside any line to lift a single figure without selecting text by hand.
+
+## How it works
+
+Every figure comes from plain calendar arithmetic run in UTC, so each day is a clean 24 hours and no daylight-saving shift can nudge a count. The days-between total counts the steps from one date to the other, while the weekday line instead tallies the Monday-to-Friday dates in the range and includes both ends. Month spans use a clamp-to-month-end rule: the tool advances whole months from the start, and when a target month is too short for the start day, it settles on that month's final day.
+
+Adding a duration follows a fixed order — years and months first, under the same clamp, then weeks and days as a flat run of 24-hour steps. Worked example: begin on **31 August 2025**, choose **Add**, and enter **6 months** and **2 weeks**. Six months on from 31 August reaches February 2026, which holds only 28 days in this non-leap year, so the day clamps back to **28 February 2026**. The 14 days of the two weeks then roll it forward to **14 March 2026** — a Saturday, written **2026-03-14** in ISO form. Apply those days before the months and the answer would drift; fixing the order keeps it repeatable.
+
+## Use cases & limitations
+
+The everyday reasons to open this are counting down to a deadline, sizing a notice period or contract term, checking a warranty window, or reading an exact age off a birth date for a form. The weekday count suits leave requests and delivery estimates where only working days matter, and the add/subtract mode answers "what date is 90 days from now" without a wall calendar.
+
+One honest limit: it works on whole calendar dates, not clock times, so it can't report the hours and minutes between two precise moments or account for the time of day. For arithmetic on exact instants, reach for the [Unix timestamp converter](/tools/unix-timestamp-converter/); to see where a single moment falls across regions, the [timezone converter](/tools/timezone-converter/) fits better. When the question is about a repeating schedule rather than a one-off gap, the [cron parser](/tools/cron-parser/) lays out the coming run times.

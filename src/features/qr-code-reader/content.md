@@ -74,4 +74,30 @@ faqs:
       to keep it fast, which can occasionally soften a tiny code; if that
       happens, crop tightly to the code and upload again.
 ---
-<!-- content-pending: round2 content -->
+
+## How to use
+
+1. To read a code in front of you, press **Scan with camera** and accept the permission prompt; on a phone the rear camera is preferred, and scanning stops the instant a code is recognised — or whenever you press **Stop camera**.
+2. To read a code you already have as a picture, drop a PNG, JPEG, WebP, GIF or BMP file onto the dropzone, or click it to pick one from disk.
+3. Watch the **Decoded content** box: the raw text lands there and a badge names the likely type — URL, Wi-Fi, contact card, and so on.
+4. If the badge turns orange for a link, read the destination host printed beneath it before acting; the reader will not open the address for you.
+5. Press **Copy** to send the decoded text to your clipboard.
+
+## How it works
+
+Both paths converge on the same trick. Whatever the source — an uploaded file, or a single frame plucked from the live camera feed — it is painted onto an off-screen `<canvas>`, and `getImageData` hands back the raw RGBA pixels. Those pixels go to jsQR, a pure-JavaScript decoder that hunts for the three large square finder patterns that anchor every QR symbol, reconstructs the module grid, and reads it back into bytes. Big uploads are first scaled so their longest side is at most 2000 pixels (camera frames, 720) to keep each decode pass fast.
+
+Suppose you drop in a screenshot of a café's Wi-Fi sticker. jsQR locates the finder patterns, reports a version-3 symbol, and returns the string `WIFI:S:Rosella-Guest;T:WPA;P:mango-wombat-1987;;`. A small regular-expression classifier reads that text, matches the `WIFI:` prefix, and labels it **Wi-Fi network**; the status line then says "Read a Wi-Fi network (version 3)." The whole string sits in the output box, so you can copy the password `mango-wombat-1987` straight out of it. Had the same code instead begun with `https://`, it would be flagged as a link, its host extracted and shown, and the badge shifted to a caution colour.
+
+One detail worth knowing: uploads are decoded with jsQR's `attemptBoth` inversion mode, so a light-on-dark code reads just as reliably as a dark-on-light one. Camera frames skip that second attempt to keep the per-frame scan loop smooth.
+
+## Use cases & limitations
+
+The moment a QR turns up somewhere you do not fully trust — a flyer taped to a lamppost, a sticker on a parking meter, an image in an unexpected email — you want to see precisely where it leads before your phone's camera app opens it. It also earns its keep when you need the raw contents of a QR someone sent as a picture, or when you want to confirm that a code you just built with the [QR code generator](/tools/qr-code-generator/) actually encodes what you meant.
+
+The limits are worth naming. The camera path samples frames with no torch or zoom control, so in dim light or at a distance you will often do better photographing the code with your normal camera app and dropping that photo in. And because each decode is a single JavaScript pass rather than the continuous, autofocusing scan a native app performs, a small or low-contrast symbol your phone locks onto instantly may need a tighter crop before it reads here.
+
+## Privacy note
+
+Nothing you scan leaves your device. The uploaded file — or the one camera frame under examination — is drawn to an in-memory canvas and read by jsQR right there in the page; no request carries the image, its pixels, or the decoded text anywhere. The camera stream is live only while you are actively scanning and is released the moment a code is found, you press Stop, or you switch away from the tab, and the video is never recorded. The single thing that touches the network is the decoder script itself, fetched once on first use and cached thereafter. Decoded links deserve their own caution: because a fresh sticker can be pasted over a real code, the tool prints the address as plain text instead of opening it, and you can run anything doubtful through the [URL cleaner](/tools/url-cleaner/) before you visit.
+

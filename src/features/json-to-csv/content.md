@@ -63,4 +63,43 @@ faqs:
       single data row. An array of objects is the usual input, but you don't
       have to wrap a single record yourself.
 ---
-<!-- content-pending: round2 content -->
+## How to use
+
+1. Paste or type your data into the input pane. The tool opens in **JSON → CSV** mode and converts as you type, so the CSV lands in the lower pane straight away.
+2. Choose comma, semicolon or tab from the **CSV delimiter** dropdown to set the output separator.
+3. Leave **Include header row** ticked to write the column names as the first line, or untick it to emit data rows only.
+4. To go the other way, press **Swap direction**. The current output is fed back into the input so you can round-trip a result, and **Parse numbers and booleans** becomes active for the CSV → JSON pass.
+5. Take the result with **Copy**, or **Download** it as `data.csv` or `data.json`. The **Rows**, **Columns** and **Output size** counters under the panes refresh on every change.
+
+## How it works
+
+Turning JSON into CSV is a flattening job: JSON is a tree, CSV is a rectangle. The tool runs `JSON.parse` on your input, then normalises the result into a list of rows — an array of objects is taken as-is, and a single object becomes a one-row table. It walks the rows once to collect the columns (every distinct key, kept in the order it first shows up), then hands the grid to Papa Parse's `unparse`, which writes each field with your chosen delimiter and wraps any value that contains that delimiter, a double quote or a line break in quotes.
+
+Take this input:
+
+```json
+[
+  {"suburb":"Fitzroy","median":1150000,"note":"terrace, north-facing"},
+  {"suburb":"Coburg","median":890000,"note":"unit"}
+]
+```
+
+With the comma delimiter and a header row, the output is:
+
+```
+suburb,median,note
+Fitzroy,1150000,"terrace, north-facing"
+Coburg,890000,unit
+```
+
+The `note` for Fitzroy holds a comma, so it is wrapped in quotes to keep it inside one column; `unit`, with no comma, is left bare. Swap the direction and Papa Parse reads that grid back the other way — the first line becomes the object keys, and with **Parse numbers and booleans** on, `1150000` is decoded as the number `1150000` rather than the string `"1150000"`.
+
+## Use cases & limitations
+
+The everyday case is shifting data between a program and a spreadsheet: a REST endpoint hands you JSON and you want it in Excel or Google Sheets, or a colleague sends a CSV export that your script needs as JSON. It also earns its keep for eyeballing an API response as a table, or reshaping a small dataset without writing a throwaway parser.
+
+The real limit is size. Both directions parse on the browser's main thread, so input is capped at 5 MB — beyond that a big file can freeze the tab while it grinds, and you're better off splitting it and converting the parts. If your JSON won't parse, tidy it in the [JSON formatter](/tools/json-formatter/) first, which pinpoints the line of a syntax error. And when the destination wants YAML instead of a grid, the [JSON to YAML converter](/tools/json-to-yaml/) preserves the nesting that CSV has to collapse.
+
+## Privacy note
+
+The conversion runs entirely in your browser. Your JSON or CSV is never uploaded — the Papa Parse library that does the parsing is bundled with the page and loaded from the same origin on first use, so after the page has loaded the tool needs no network at all. Nothing you paste is stored or sent anywhere, which matters when these files carry customer records, financial exports and other data you would not want handed to a server.

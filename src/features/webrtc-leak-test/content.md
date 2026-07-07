@@ -73,4 +73,31 @@ faqs:
       be masked — by a VPN, proxy or Tor — and your real one surfaces anyway.
       With no tunnel in place, there is nothing for it to bypass.
 ---
-<!-- content-pending: round2 content -->
+## How to use
+
+1. If you're checking a VPN, proxy or Tor, switch it on first — the test only reflects the network path exactly as it stands the moment you run it.
+2. Press **Run the test**. Nothing is gathered until you click: the page then opens a single WebRTC connection and waits up to six seconds for addresses to arrive.
+3. Read the **Verdict** badge at the top. Green means nothing leaked, amber flags a publicly-visible address, red marks a raw local address or both exposed at once.
+4. Look at the two lists beneath it — **Public / externally-visible addresses** and **Local network addresses** — for the actual values and how each one was classified.
+5. To compare against the address the rest of the web already sees, open the [what is my IP](/tools/what-is-my-ip/) tool in a second tab; on a working VPN the two should match.
+6. Press **Copy results** for a plain-text summary you can paste into a bug report or a support thread.
+
+## How it works
+
+The test builds an `RTCPeerConnection` aimed at one STUN server, `stun.l.google.com:19302`, opens a throwaway data channel to force ICE gathering, and creates an SDP offer. As the browser works out how a peer could reach you, it emits *candidates* — one line per address it might use. A single line looks like this:
+
+```
+candidate:842163049 1 udp 1677729535 198.51.100.23 54993 typ srflx
+```
+
+The parser splits the line on spaces, finds the `typ` keyword, and reads the connection address from two tokens before it (`198.51.100.23`) and the candidate kind from the token straight after (`srflx`). It then sorts that address by range. `198.51.100.23` sits outside every private block — 10/8, 172.16/12, 192.168/16, 169.254/16, 127/8 and 100.64/10 — so it is tagged **PUBLIC**, and because it is a *server-reflexive* (`srflx`) candidate it lands in the externally-visible list. That value is what a site reads as "your" address. A host candidate carrying `192.168.1.42` would instead be reported as a local-network leak, whereas a browser that rewrote that host address to a random `.local` mDNS name is scored **HIDDEN**. From this mix — one public reflexive address plus a masked local one — the tool writes the verdict "Public IP visible via WebRTC".
+
+## Use cases & limitations
+
+Most people reach for this straight after enabling a VPN, wanting proof the tunnel actually covers browser peer-to-peer traffic and not just ordinary page loads — a genuine failure mode with split-tunnel configs and IPv6 routing. It is equally useful for auditing a hardened browser profile or a privacy extension: run it before and after a change to see whether the address a site would read has moved.
+
+The honest limits. The result describes one browser, on one network, at one instant. A different profile, an incognito window with other extensions, or a change of Wi-Fi can each produce a different answer, so a clean pass here is not a standing guarantee. The check also depends on reaching that single STUN server over UDP; if a firewall filters the path, no reflexive candidate returns and the tool marks the public part as inconclusive rather than "safe". Finally, it only measures the leak — closing one is a browser or VPN setting, not something this page changes. Your IP is one signal among many a site can read, so for the wider picture the [browser fingerprint](/tools/browser-fingerprint/) tool covers what else is on show.
+
+## Privacy note
+
+One packet leaves your device: the STUN binding request to `stun.l.google.com:19302`, which is the mechanism that surfaces a reflexive address at all. Google's server sees the source address that packet arrived from and reflects it back to you; it receives no other payload. Everything afterwards — splitting candidate lines, matching IP ranges, choosing badges, writing the verdict and the copyable report — runs inside your browser. No address or result is uploaded, logged or retained by this page.

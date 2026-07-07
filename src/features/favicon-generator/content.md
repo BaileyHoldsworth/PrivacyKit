@@ -80,4 +80,30 @@ faqs:
       the network tab and watching it stay silent while you generate.
 ---
 
-<!-- content-pending: round2 content -->
+## How to use
+
+1. Drop an image onto the upload area, or click it to pick one from your device. PNG, JPEG, WebP, GIF and SVG are all accepted, and a square source needs the least trimming.
+2. If the artwork has transparent regions and you want them filled, tick **Fill transparent areas with a background** and choose a colour with the picker beside it. Leave it unticked to carry the transparency through.
+3. Watch the list populate — every size renders as soon as the file loads, each with a live thumbnail and its byte size. Change the background and the whole set redraws on the spot.
+4. Click **Download all** to save the `favicon.ico` and all six PNGs together, or use a row's own **Download** button for a single file.
+5. Copy the `<link>` markup shown under the previews and paste it inside your page's `<head>`.
+
+## How it works
+
+All six icons come from a single decoded copy of your source. The image is read with `createImageBitmap`, centre-cropped to a square on its shorter side, then scaled down to each target — 16, 32, 48, 180, 192 and 512 px — and encoded as PNG through `canvas.toBlob()`.
+
+The downscale is the part that decides whether a 16 px icon is crisp or mushy. Rather than jumping straight from full size to the target, the tool halves the image repeatedly until one more halving would undershoot, then does the final resize, applying high-quality smoothing at each step.
+
+Work it through with a 640×480 wordmark. The shorter side is 480, so 80 pixels are trimmed from the left and 80 from the right, leaving the centre 480×480 square. To reach the 32 px icon the canvas steps 480 → 240 → 120 → 60, then draws that 60 px image down to 32 — halving stops at 60 because the next half, 30, would land below the target. Each halving folds a 2×2 block of source pixels into one, so thin strokes fade gently instead of breaking into jagged stair-steps.
+
+The three smallest PNGs, 16, 32 and 48 px, are then packed into a single `favicon.ico`, so one classic `/favicon.ico` request serves three resolutions while the standalone PNGs cover what modern browsers and mobile home screens ask for by name.
+
+## Use cases & limitations
+
+You reach for this at the end of a build, when a site or web app is nearly ready and needs its whole icon set — the legacy `.ico`, the sharp PNGs, the 180 px Apple touch icon and the 192/512 px manifest sizes — without opening a design tool or wiring up a build step. It suits a fresh project, a rebrand, or an internal dashboard that has run on a browser's blank default icon for far too long.
+
+Two limitations are worth knowing. It creates the icon files and the `<head>` markup, but not the `site.webmanifest` JSON that points a mobile browser at `icon-192.png` and `icon-512.png` — you still add that small file yourself, and it does no safe-zone padding for Android maskable icons. And because the `.ico` stores PNG-compressed images, every current browser reads it, though a genuinely ancient one expecting old-style BMP data (Internet Explorer 6, say) will not. If your source is the wrong shape or format for a clean crop, prepare it first with the [image resizer](/tools/image-resizer/) or [image converter](/tools/image-converter/); to pin down the exact hex for a background fill, the [colour converter](/tools/color-converter/) will translate whatever value you already have.
+
+## Privacy note
+
+Everything runs against a `<canvas>` inside this tab. Your file is decoded, cropped and resized locally, each icon comes out of `canvas.toBlob()`, and the `favicon.ico` is assembled byte by byte from those PNGs in a typed array held in memory — none of it is sent anywhere, and no request reaches the network at any point in the process. The 30 MB size cap is a guard against exhausting your browser's memory, not a server limit. Close or clear the tab and every trace is gone; there is nothing on our side to delete.
